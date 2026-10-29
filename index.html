@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Country extremes</title>
+<meta name="description" content="Highest and lowest points of every country: an interactive dashboard and two games.">
+<style>
+:root{--bg1:#0c1722;--bg2:#13283a;--card:rgba(255,255,255,.06);--ink:#f1f5f8;--mute:#9fb2c2;--line:rgba(255,255,255,.14);--accent:#ffb347;--accent2:#ff6f61}
+*{box-sizing:border-box}
+html{background:var(--bg1)}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,var(--bg2),var(--bg1) 70%) fixed}
+main{max-width:760px;margin:0 auto;padding:48px 16px 32px}
+h1{font-size:clamp(28px,6vw,42px);margin:0 0 8px;line-height:1.15}
+h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mute);margin:0 0 28px}
+.grid{display:grid;gap:14px}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;transition:transform .15s,border-color .15s}
+a.card:hover,a.card:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}
+.tag{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.card h2{margin:4px 0 4px;font-size:21px}
+.card p{margin:0;color:var(--mute)}
+footer{color:var(--mute);font-size:13px;margin-top:32px}
+footer a{color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<h1>Country <span>extremes</span></h1>
+<p class="sub">The highest and lowest point of every country and territory, as a map dashboard and two games.</p>
+<div class="grid">
+  <a class="card" href="dashboard/country-extremes-dashboard-2026-10-29.html">
+    <div class="tag">Dashboard</div>
+    <h2>Highest and lowest points</h2>
+    <p>Explore the map, tables and charts for 249 countries and territories, with a data status tag on every figure.</p>
+  </a>
+  <a class="card" href="game/country-extremes-game-2026-10-29.html">
+    <div class="tag">Game</div>
+    <h2>Higher or lower</h2>
+    <p>Which point is higher, or deeper? Pick between two places and see how they compare with sea level.</p>
+  </a>
+  <a class="card" href="game/country-extremes-guess-2026-10-29.html">
+    <div class="tag">Game</div>
+    <h2>Guess the height</h2>
+    <p>Ten rounds. Guess the height or depth of a named place; the closer you are, the more points.</p>
+  </a>
+</div>
+<footer>Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a>, fetched 29 October 2026.</footer>
+</main>
+</body>
+</html>
