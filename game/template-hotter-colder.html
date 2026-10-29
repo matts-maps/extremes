@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Climate: higher or lower</title>
+<title>Hotter or colder</title>
 <style>
 :root{
   --bg1:#0c1722;--bg2:#13283a;--card:rgba(255,255,255,.06);--card-s:#182a3a;--ink:#f1f5f8;--mute:#9fb2c2;--line:rgba(255,255,255,.14);
@@ -37,7 +37,7 @@ h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-b
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
 /* mode tiles */
-.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
 .mode{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:14px 8px 12px;font:inherit;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,background .15s}
 .mode:hover{transform:translateY(-2px);border-color:var(--mute)}
 .mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
@@ -139,10 +139,10 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
 <div class="wrap">
 <header>
   <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
-  <h1>Climate: higher <span>or lower</span></h1>
+  <h1>Hotter <span>or colder</span></h1>
   <a class="home" href="../">Home</a>
 </header>
-<p class="sub">Compare two countries on record highs and lows, average daily highs and lows, average temperature or average rainfall. Keep a streak going until you get one wrong. After each answer, every temperature figure for both countries is shown, with the extremes in the dataset.</p>
+<p class="sub">Compare two countries on record highs and lows, average daily highs and lows, or average temperature. Keep a streak going until you get one wrong. After each answer, every temperature figure for both countries is shown, with the extremes in the dataset.</p>
 
 <div class="card" id="setup">
   <div class="modes" id="mode">
@@ -151,7 +151,6 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
     <button class="mode" data-m="avghigh"><svg viewBox="0 0 44 34"><circle cx="22" cy="17" r="7" fill="#ffa24a"/><path d="M22 3v5M22 26v5M8 17h5M31 17h5M12 7l3 3M29 24l3 3M32 7l-3 3M15 24l-3 3" stroke="#ffa24a" stroke-width="2" stroke-linecap="round"/></svg><b>Average high</b><small>A typical daytime peak</small></button>
     <button class="mode" data-m="avglow"><svg viewBox="0 0 44 34"><path d="M26 4 A12 12 0 1 0 38 22 A10 10 0 0 1 26 4Z" fill="#8fb4ff"/></svg><b>Average low</b><small>A typical night</small></button>
     <button class="mode" data-m="avgmean"><svg viewBox="0 0 44 34"><rect x="19" y="3" width="6" height="20" rx="3" fill="#e4f6c4"/><rect x="20.5" y="13" width="3" height="10" fill="#b4e36b"/><circle cx="22" cy="26" r="6" fill="#b4e36b"/></svg><b>Average temperature</b><small>The yearly mean</small></button>
-    <button class="mode" data-m="wettest"><svg viewBox="0 0 44 34"><path d="M22 3 C28 12 32 17 32 22 A10 10 0 0 1 12 22 C12 17 16 12 22 3Z" fill="#35c2c9"/></svg><b>Average rainfall</b><small>Millimetres a year</small></button>
     <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><circle cx="12" cy="12" r="7" fill="#ffb347"/><path d="M26 6 l4 6 h-8z M34 14 C38 20 38 26 34 28 C30 26 30 20 34 14Z" fill="#7fd4ff"/></svg><b>Mixed</b><small>Everything, at random</small></button>
   </div>
   <div class="row" style="margin-top:14px">
@@ -185,15 +184,14 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
 <script>
 const POOL = /*DATA*/;
 const MAPS = /*MAPDATA*/;
-const KINDS = ['hottest','coldest','avghigh','avglow','avgmean','wettest'];
+const KINDS = ['hottest','coldest','avghigh','avglow','avgmean'];
 const LINE_AVG = [['max','Highest national average'],['min','Lowest national average']];
 const CFG = {
   hottest:{unit:'°C', dec:1, minAbs:1.5, lowWins:false, pos:true, dir:1, q:'Which country has the higher record temperature?', noun:'record highs', pool:'record highs', zero:'Freezing point, 0 °C', lines:[['max','Hottest record in the dataset']], far:'hottest record'},
   coldest:{unit:'°C', dec:1, minAbs:1.5, lowWins:true, dir:-1, q:'Which country has the colder record low?', noun:'record lows', pool:'record lows', zero:'Freezing point, 0 °C', lines:[['min','Coldest record in the dataset']], far:'coldest record'},
   avghigh:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average daily high?', noun:'average daily highs', pool:'average daily highs', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'},
   avglow:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average daily low?', noun:'average daily lows', pool:'average daily lows', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'},
-  avgmean:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average temperature?', noun:'average temperatures', pool:'average temperatures', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'},
-  wettest:{unit:'mm', dec:0, minAbs:50, minRel:.05, lowWins:false, rain:true, q:'Which country has the higher average rainfall?', noun:'average annual rainfall figures', pool:'average rainfall figures', zero:'0 mm', lines:[['max','Wettest national average']]}
+  avgmean:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average temperature?', noun:'average temperatures', pool:'average temperatures', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'}
 };
 // every temperature figure held for a country, and which one each question asks for
 const ASK = {hottest:'rh', coldest:'rl', avghigh:'ah', avglow:'al', avgmean:'am'};
@@ -205,8 +203,8 @@ const state = {mode:'hottest', region:'', streak:0, best:{}, cur:null, used:{}, 
 KINDS.forEach(k=>state.used[k]=new Set());
 
 [...new Set(KINDS.flatMap(k=>POOL[k].map(r=>r.region)))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
-try{ state.best = JSON.parse(localStorage.getItem('country-extremes-climate-best')||'{}'); }catch(e){ state.best={}; }
-function saveBest(){ try{ localStorage.setItem('country-extremes-climate-best',JSON.stringify(state.best)); }catch(e){} }
+try{ state.best = JSON.parse(localStorage.getItem('country-extremes-hotter-best')||'{}'); }catch(e){ state.best={}; }
+function saveBest(){ try{ localStorage.setItem('country-extremes-hotter-best',JSON.stringify(state.best)); }catch(e){} }
 
 const poolFor = kind => POOL[kind].filter(r=>!state.region||r.region===state.region);
 const apart = (kind,a,b) => { const c=CFG[kind], d=Math.abs(a.v-b.v); return d>=c.minAbs && d/Math.max(Math.abs(a.v),Math.abs(b.v),1)>=(c.minRel||0); };
@@ -375,7 +373,7 @@ $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
   else if(e.key==='Enter' && !$('reveal').classList.contains('hidden') && e.target.tagName!=='BUTTON') $('next').click(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">Wikipedia, List of weather records</a> (revision 1382542755) for record highs and lows, and <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation" target="_blank" rel="noopener">Wikipedia, List of countries by average annual precipitation</a> (revision 1380108857), fetched 29 October 2026, for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list and Kosovo. Rainfall is a national average, not the wettest place in the country.`;
+$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">Wikipedia, List of weather records</a> (revision 1382542755) for record highs and lows, fetched 29 October 2026, and the <a href="https://climateknowledgeportal.worldbank.org/" target="_blank" rel="noopener">World Bank Climate Change Knowledge Portal</a>, 1991 to 2020, for average daily highs, lows and temperatures, for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list and Kosovo.`;
 $('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__game={state,makePair,validPairs,poolFor,apart,POOL,CFG,chart};
