@@ -41,12 +41,17 @@ td.n,th.n{text-align:right}
 tbody tr{cursor:pointer}tbody tr:hover{background:rgba(29,111,130,.1)}tbody tr.sel{background:rgba(29,111,130,.2)}
 .tw{max-height:460px;overflow:auto}
 footer{color:var(--mute);font-size:12px;margin-top:14px}
+.top{display:flex;align-items:center;gap:14px}
+.top h1{flex:1;min-width:0}
+.home{color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--card)}
+.home:hover,.home:focus-visible{border-color:var(--accent);outline:none}
+.credit{margin-top:6px}
 @media(max-width:820px){.main{grid-template-columns:1fr}#map{height:380px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>Country extremes: highest and lowest points</h1>
+<div class="top"><h1>Country extremes: highest and lowest points</h1><a class="home" href="../">Home</a></div>
 <p class="sub">The 249 officially assigned ISO 3166-1 codes, with highest and lowest points from the Wikipedia table, List of elevation extremes by country. Åland and Bonaire, Sint Eustatius and Saba are not in that table: their highest points come from their own Wikipedia articles and their lowest points are set to sea level. No elevation model is used. Countries made of several map pieces are drawn as one shape. Places in the table without an ISO code (Clipperton Island, Bir Tawil, Kosovo, Spratly Islands, Ashmore and Cartier Islands, Coral Sea Islands) are left out. Climate extremes are not yet included.</p>
 <div class="kpis" id="kpis"></div>
 <div class="filters">
@@ -67,7 +72,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <div class="card"><h3 id="statTitle"></h3><div class="cw"><canvas id="statChart"></canvas></div></div>
 </div>
 <div class="card"><h3>All records <span class="muted" id="tcount"></span></h3><div class="tw"><table id="tbl"><thead></thead><tbody></tbody></table></div></div>
-<footer>Sources: Wikipedia, List of elevation extremes by country (revision 1381548721, fetched 29 October 2026), for the countries and territories of the ISO 3166-1 list (Wikipedia, revision 1376647436); Åland and Bonaire, Sint Eustatius and Saba from the Wikipedia articles Geography of Åland (revision 1354505985) and Caribbean Netherlands (revision 1375847237), with their lowest points set to sea level; Wikidata coordinates for point markers; fieldmaps.io country boundaries. Status tags: clean = no issue found; unnamed = no named point; disputed = disputed territory or competing candidates; span mismatch = Wikipedia's span does not equal highest minus lowest; shared = lowest point shared with a neighbour or several coasts. Every figure is the one in the Wikipedia table; countries the table does not list are not included. Marker positions come from Wikidata and are shown only where the named point matched unambiguously.</footer>
+<footer>Sources: Wikipedia, List of elevation extremes by country (revision 1381548721, fetched 29 October 2026), for the countries and territories of the ISO 3166-1 list (Wikipedia, revision 1376647436); Åland and Bonaire, Sint Eustatius and Saba from the Wikipedia articles Geography of Åland (revision 1354505985) and Caribbean Netherlands (revision 1375847237), with their lowest points set to sea level; Wikidata coordinates for point markers; fieldmaps.io country boundaries. Status tags: clean = no issue found; unnamed = no named point; disputed = disputed territory or competing candidates; span mismatch = Wikipedia's span does not equal highest minus lowest; shared = lowest point shared with a neighbour or several coasts. Every figure is the one in the Wikipedia table; countries the table does not list are not included. Marker positions come from Wikidata and are shown only where the named point matched unambiguously.<div class="credit">Created by Fantail GIS (2026)</div></footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
