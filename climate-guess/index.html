@@ -330,10 +330,10 @@ function drawGauge(extra){
   if(extra){ const x=GX0+(GX1-GX0)*.30, yt=G.y(extra.value), yb0=GT+G.P, col='var(--b)', glass='#15293b';
     if(q.kind==='wettest'){ const hw=22;
       s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-4}" rx="8" fill="${glass}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="${Math.max(0,yb0-2-yt)}" fill="${col}" opacity=".85"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="3" fill="#fff" opacity=".55"/>`;
-    } else { const hw=12, bc=yb0-17;
-      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-6}" rx="${hw}" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="${x}" cy="${bc}" r="17" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`;
-      s+=`<rect x="${x-hw+1}" y="${GT+3}" width="${hw*2-2}" height="${G.P-8}" rx="${hw-1}" fill="${glass}"/><circle cx="${x}" cy="${bc}" r="16" fill="${glass}"/>`;
-      s+=`<rect x="${x-5}" y="${Math.min(yt,bc)}" width="10" height="${Math.max(0,bc-Math.min(yt,bc))}" rx="5" fill="${col}"/><circle cx="${x}" cy="${bc}" r="12" fill="${col}"/>`; }
+    } else { const hw=12, yt2=Math.min(yt,yb), hh=Math.abs(yt-yb);
+      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-4}" rx="${hw}" fill="${glass}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`;
+      if(hh>0.5) s+=`<rect x="${x-5}" y="${yt2}" width="10" height="${hh}" rx="5" fill="${col}"/>`;
+      s+=`<line x1="${x-hw-5}" x2="${x+hw+5}" y1="${yb}" y2="${yb}" stroke="#fff" stroke-width="2" opacity=".7"/>`; }
   }
   s+=`</g>`;
   ticks.forEach(([v,lab])=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-yb)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
@@ -417,7 +417,7 @@ function lock(){
   // fill to your guess, pause for a second, then carry on to the true figure
   const t0=performance.now(), A=reduce?.01:1.1, PA=reduce?0:1.0, B=reduce?.01:1.2, easeO=x=>1-Math.pow(1-x,3);
   const frame=now=>{ const t=(now-t0)/1000; let level, e=0;
-    if(t<A) level=C.lo+(g.v-C.lo)*easeO(t/A); else if(t<A+PA) level=g.v; else { e=easeO(Math.min(1,(t-A-PA)/B)); level=g.v+(truth-g.v)*e; }
+    if(t<A) level=baseOf(C)+(g.v-baseOf(C))*easeO(t/A); else if(t<A+PA) level=g.v; else { e=easeO(Math.min(1,(t-A-PA)/B)); level=g.v+(truth-g.v)*e; }
     drawGauge({value:level, showGap:false}); $('pts').innerHTML=`${fmtI(pts*e)}<small>points</small>`;
     if(t<A+PA+B) g.anim=requestAnimationFrame(frame); else { g.anim=0; drawGauge({value:truth,showGap:true}); $('pts').innerHTML=`${fmtI(pts)}<small>points</small>`; } };
   g.anim=requestAnimationFrame(frame);

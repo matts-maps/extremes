@@ -318,7 +318,7 @@ function wrap2(name,max){
 }
 
 function chart(q, t){
-  const kind=q.kind, C=CFG[kind], E=POOL.ext[kind], rain=!!C.rain, W=560, H=396, top=52, L=240, bot=top+L, xs=[190,400];
+  const kind=q.kind, C=CFG[kind], E=POOL.ext[kind], rain=!!C.rain, W=560, H=360, top=52, L=240, bot=top+L, xs=[190,400];
   const y=v=>top+(C.hi-Math.max(C.lo,Math.min(C.hi,v)))/(C.hi-C.lo)*L;
   const ticks=niceTicksK(kind,C.lo,C.hi,7);
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${rain?'Rain gauges':'Thermometers'} filling to each country's figure">`;
@@ -328,7 +328,7 @@ function chart(q, t){
   if(!rain && C.lo<0 && C.hi>0) s+=`<line x1="24" x2="${W-24}" y1="${y(0)}" y2="${y(0)}" stroke="var(--sea)" stroke-width="2" opacity=".7"/><text x="${W-26}" y="${y(0)-5}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:11px">${IMP?'Freezing point, 32 °F':C.zero}</text>`;
   q.pair.forEach((r,i)=>{
     const x=xs[i], win=i===q.win, start=win?T_START+T_FILL+T_PAUSE:T_START, p=easeOut(clamp01((t-start)/T_FILL));
-    const v=C.lo+(r.v-C.lo)*p, yv=y(v), col=`var(--${i?'b':'a'})`, stroke=(win&&p>=1)?'#fff':'rgba(255,255,255,.4)', glass='#15293b';
+    const base=rain?C.lo:Math.max(C.lo,Math.min(C.hi,0)), v=base+(r.v-base)*p, yv=y(v), col=`var(--${i?'b':'a'})`, stroke=(win&&p>=1)?'#fff':'rgba(255,255,255,.4)', glass='#15293b';
     let hw;
     if(rain){
       // cylinder with a funnel rim; the water rises from the bottom
@@ -338,11 +338,12 @@ function chart(q, t){
       if(p>0) s+=`<g clip-path="url(#cp${i})"><rect x="${x-hw}" y="${yv}" width="${hw*2}" height="${bot+10-yv}" fill="${col}" opacity=".85"/><rect x="${x-hw}" y="${yv}" width="${hw*2}" height="3" fill="#fff" opacity=".55"/></g>`;
       s+=`<path d="M${x-hw-14} ${top-26} L${x+hw+14} ${top-26} L${x+hw} ${top-6} L${x-hw} ${top-6}Z" fill="${glass}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`;
     } else {
-      // thermometer: glass tube and bulb, drawn as strokes first and fills second so the joint is clean
+      // thermometer: a glass tube; the column starts at the freezing line and goes up for heat, down for cold
       hw=13;
-      s+=`<rect x="${x-hw}" y="${top-8}" width="${hw*2}" height="${L+34}" rx="${hw}" fill="none" stroke="${stroke}" stroke-width="2"/><circle cx="${x}" cy="${bot+24}" r="26" fill="none" stroke="${stroke}" stroke-width="2"/>`;
-      s+=`<rect x="${x-hw+1}" y="${top-7}" width="${hw*2-2}" height="${L+32}" rx="${hw-1}" fill="${glass}"/><circle cx="${x}" cy="${bot+24}" r="25" fill="${glass}"/>`;
-      s+=`<rect x="${x-6}" y="${yv}" width="12" height="${bot+24-yv}" rx="6" fill="${col}"/><circle cx="${x}" cy="${bot+24}" r="19" fill="${col}"/>`;
+      s+=`<rect x="${x-hw}" y="${top-8}" width="${hw*2}" height="${L+16}" rx="${hw}" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`;
+      const yb=y(base), yt=Math.min(yv,yb), hh=Math.abs(yv-yb);
+      if(hh>0.5) s+=`<rect x="${x-6}" y="${yt}" width="12" height="${hh}" rx="6" fill="${col}"/>`;
+      s+=`<line x1="${x-hw-5}" x2="${x+hw+5}" y1="${yb}" y2="${yb}" stroke="#fff" stroke-width="2" opacity=".7"/>`;
     }
     // scale marks on the right of each instrument
     ticks.forEach(([tv,lab])=>{ const yy=y(tv); s+=`<line x1="${x+hw+2}" x2="${x+hw+9}" y1="${yy}" y2="${yy}" stroke="var(--mute)"/><text class="m" x="${x+hw+13}" y="${yy+4}" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
