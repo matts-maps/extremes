@@ -1,0 +1,250 @@
+﻿name,alpha2,alpha3,numeric,independent,wikipedia_row,highest_point,highest_m,lowest_point,lowest_m,has_elevation_data
+Afghanistan,AF,AFG,4,Yes,Afghanistan,Noshaq,7492.0,Amu Darya,258.0,True
+Åland Islands,AX,ALA,248,No,Åland Islands,,129.1,,,True
+Albania,AL,ALB,8,Yes,Albania,Korab,2764.0,Adriatic Sea,0.0,True
+Algeria,DZ,DZA,12,Yes,Algeria,Mount Tahat,2908.0,Chott Melrhir,-40.0,True
+American Samoa,AS,ASM,16,No,American Samoa,Lata Mountain,966.0,South Pacific Ocean,0.0,True
+Andorra,AD,AND,20,Yes,Andorra,Coma Pedrosa,2943.0,Gran Valira,840.0,True
+Angola,AO,AGO,24,Yes,Angola,Mount Moco,2620.0,South Atlantic Ocean,0.0,True
+Anguilla,AI,AIA,660,No,Anguilla,Crocus Hill,73.0,Caribbean Sea,0.0,True
+Antarctica,AQ,ATA,10,No,Antarctica,Vinson Massif,4892.0,"Deep Lake, Vestfold Hills",-50.0,True
+Antigua and Barbuda,AG,ATG,28,Yes,Antigua and Barbuda,Boggy Peak on Antigua,402.0,Caribbean Sea,0.0,True
+Argentina,AR,ARG,32,Yes,Argentina,Aconcagua,6961.0,Laguna del Carbón,-105.0,True
+Armenia,AM,ARM,51,Yes,Armenia,Mount Aragats,4090.0,Aras River,375.0,True
+Aruba,AW,ABW,533,No,Aruba,Mount Jamanota,188.0,Caribbean Sea,0.0,True
+Australia,AU,AUS,36,Yes,Ashmore and Cartier Islands,Unnamed location,3.0,Indian Ocean,0.0,True
+Austria,AT,AUT,40,Yes,Austria,Grossglockner,3798.0,Lake Neusiedl,115.0,True
+Azerbaijan,AZ,AZE,31,Yes,Azerbaijan,Mount Bazardüzü,4466.0,Caspian Sea,-28.0,True
+Bahamas,BS,BHS,44,Yes,Bahamas,Mount Alvernia on Cat Island,63.0,North Atlantic Ocean,0.0,True
+Bahrain,BH,BHR,48,Yes,Bahrain,Mountain of Smoke (Jabal ad Dukhan),134.0,Persian Gulf,0.0,True
+Bangladesh,BD,BGD,50,Yes,Bangladesh,Saka Haphong,1063.0,Bay of Bengal,0.0,True
+Barbados,BB,BRB,52,Yes,Barbados,Mount Hillaby,340.0,North Atlantic Ocean,0.0,True
+Belarus,BY,BLR,112,Yes,Belarus,Dzyarzhynskaya Hara,345.0,Neman,90.0,True
+Belgium,BE,BEL,56,Yes,Belgium,Signal de Botrange,694.0,De Moeren,-4.0,True
+Belize,BZ,BLZ,84,Yes,Belize,Doyle's Delight,1124.0,Caribbean Sea,0.0,True
+Benin,BJ,BEN,204,Yes,Benin,Mont Sokbaro,658.0,Bight of Benin,0.0,True
+Bermuda,BM,BMU,60,No,Bermuda,Town Hill,79.0,North Atlantic Ocean,0.0,True
+Bhutan,BT,BTN,64,Yes,Bhutan,Gangkhar Puensum,7571.0,Drangme Chhu,97.0,True
+"Bolivia, Plurinational State of",BO,BOL,68,Yes,Bolivia,Sajama,6542.0,Paraguay River,90.0,True
+"Bonaire, Sint Eustatius and Saba",BQ,BES,535,No,"Bonaire, Sint Eustatius and Saba",Mount Scenery,870.0,,,True
+Bosnia and Herzegovina,BA,BIH,70,Yes,Bosnia and Herzegovina,Maglić,2386.0,Adriatic Sea,0.0,True
+Botswana,BW,BWA,72,Yes,Botswana,Otse Hill or Monalanong Hill,1494.0,Confluence of Limpopo River and Shashe River,513.0,True
+Bouvet Island,BV,BVT,74,No,Bouvet Island,Olavtoppen,780.0,South Atlantic Ocean,0.0,True
+Brazil,BR,BRA,76,Yes,Brazil,Pico da Neblina,2995.0,Atlantic Ocean,0.0,True
+British Indian Ocean Territory,IO,IOT,86,No,British Indian Ocean Territory,Unnamed location on Diego Garcia,15.0,Indian Ocean,0.0,True
+Brunei Darussalam,BN,BRN,96,Yes,Brunei,Bukit Pagon,1875.0,South China Sea,0.0,True
+Bulgaria,BG,BGR,100,Yes,Bulgaria,Musala,2925.0,Black Sea,0.0,True
+Burkina Faso,BF,BFA,854,Yes,Burkina Faso,Mount Tenakourou,747.0,Black Volta,200.0,True
+Burundi,BI,BDI,108,Yes,Burundi,Mount Heha,2684.0,Lake Tanganyika,772.0,True
+Cabo Verde,CV,CPV,132,Yes,Cape Verde,Pico do Fogo,2829.0,North Atlantic Ocean,0.0,True
+Cambodia,KH,KHM,116,Yes,Cambodia,Phnom Aural,1813.0,Gulf of Thailand,0.0,True
+Cameroon,CM,CMR,120,Yes,Cameroon,Mount Cameroon,4040.0,Bight of Bonny,0.0,True
+Canada,CA,CAN,124,Yes,Canada,Mount Logan,5959.0,North Atlantic Ocean / Arctic Ocean / North Pacific Ocean,0.0,True
+Cayman Islands,KY,CYM,136,No,Cayman Islands,The Bluff on Cayman Brac,43.0,Caribbean Sea,0.0,True
+Central African Republic,CF,CAF,140,Yes,Central African Republic,Mont Ngaoui,1410.0,Ubangi River,335.0,True
+Chad,TD,TCD,148,Yes,Chad,Emi Koussi,3447.0,Djourab Depression,160.0,True
+Chile,CL,CHL,152,Yes,Chile,Ojos del Salado,6893.0,South Pacific Ocean,0.0,True
+China,CN,CHN,156,Yes,China,Mount Everest,8849.0,Ayding Lake,-154.0,True
+Christmas Island,CX,CXR,162,No,Christmas Island,Murray Hill,361.0,Indian Ocean,0.0,True
+Cocos (Keeling) Islands,CC,CCK,166,No,Cocos (Keeling) Islands,South Island,9.0,Indian Ocean,0.0,True
+Colombia,CO,COL,170,Yes,Colombia,Pico Cristóbal Colón,5775.0,North Pacific Ocean / Caribbean Sea,0.0,True
+Comoros,KM,COM,174,Yes,Comoros,Mount Karthala on Grande Comore,2361.0,Indian Ocean,0.0,True
+Congo,CG,COG,178,Yes,Republic of the Congo,Mont Nabemba,1020.0,South Atlantic Ocean,0.0,True
+"Congo, Democratic Republic of the",CD,COD,180,Yes,Democratic Republic of the Congo,Mount Stanley,5109.0,South Atlantic Ocean,0.0,True
+Cook Islands,CK,COK,184,No,Cook Islands,Te Manga on Rarotonga,652.0,South Pacific Ocean,0.0,True
+Costa Rica,CR,CRI,188,Yes,Costa Rica,Cerro Chirripó,3821.0,North Pacific Ocean / Caribbean Sea,0.0,True
+Côte d'Ivoire,CI,CIV,384,Yes,Ivory Coast,Mont Nimba (Mount Richard-Molard),1752.0,Gulf of Guinea,0.0,True
+Croatia,HR,HRV,191,Yes,Croatia,Dinara,1831.0,Adriatic Sea,0.0,True
+Cuba,CU,CUB,192,Yes,Cuba,Pico Turquino,1974.0,Caribbean Sea,0.0,True
+Curaçao,CW,CUW,531,No,Curaçao,Sint Christoffelberg,372.0,Caribbean Sea,0.0,True
+Cyprus,CY,CYP,196,Yes,Cyprus,Mount Olympus,1952.0,Mediterranean Sea,0.0,True
+Czechia,CZ,CZE,203,Yes,Czech Republic,Sněžka,1603.0,Elbe,115.0,True
+Denmark,DK,DNK,208,Yes,Denmark,Møllehøj,171.0,Lammefjord,-7.0,True
+Djibouti,DJ,DJI,262,Yes,Djibouti,Mousa Ali,2021.0,Lake Assal,-155.0,True
+Dominica,DM,DMA,212,Yes,Dominica,Morne Diablotins,1447.0,Caribbean Sea,0.0,True
+Dominican Republic,DO,DOM,214,Yes,Dominican Republic,Pico Duarte,3101.0,Lake Enriquillo on Hispaniola,-45.0,True
+Ecuador,EC,ECU,218,Yes,Ecuador,Chimborazo,6263.0,Pacific Ocean,0.0,True
+Egypt,EG,EGY,818,Yes,Egypt,Mount Catherine,2629.0,Qattara Depression,-133.0,True
+El Salvador,SV,SLV,222,Yes,El Salvador,Cerro El Pital,2730.0,North Pacific Ocean,0.0,True
+Equatorial Guinea,GQ,GNQ,226,Yes,Equatorial Guinea,Pico Basilé on Bioko,3011.0,North Atlantic Ocean,0.0,True
+Eritrea,ER,ERI,232,Yes,Eritrea,Emba Soira,3018.0,Lake Kulul,-75.0,True
+Estonia,EE,EST,233,Yes,Estonia,Suur Munamägi,318.0,Baltic Sea,0.0,True
+Eswatini,SZ,SWZ,748,Yes,Eswatini,Emlembe,1862.0,Maputo River,21.0,True
+Ethiopia,ET,ETH,231,Yes,Ethiopia,Ras Dejen,4550.0,Danakil Depression,-125.0,True
+Falkland Islands (Malvinas),FK,FLK,238,No,Falkland Islands,Mount Usborne on East Falkland,705.0,South Atlantic Ocean,0.0,True
+Faroe Islands,FO,FRO,234,No,Faroe Islands,Slættaratindur on Eysturoy,880.0,North Atlantic Ocean,0.0,True
+Fiji,FJ,FJI,242,Yes,Fiji,Tomanivi on Viti Levu,1324.0,South Pacific Ocean,0.0,True
+Finland,FI,FIN,246,Yes,Finland,Halti,1324.0,Baltic Sea,0.0,True
+France,FR,FRA,250,Yes,France,Mont Blanc,4806.0,Étang de Lavalduc,-10.0,True
+French Guiana,GF,GUF,254,No,French Guiana,Bellevue de l'Inini,851.0,North Atlantic Ocean,0.0,True
+French Polynesia,PF,PYF,258,No,French Polynesia,Mont Orohena,2241.0,South Pacific Ocean,0.0,True
+French Southern Territories,TF,ATF,260,No,French Southern and Antarctic Lands,Mont Ross on Kerguelen Islands,1850.0,Indian Ocean,0.0,True
+Gabon,GA,GAB,266,Yes,Gabon,Mont Bengoué,1070.0,Atlantic Ocean,0.0,True
+Gambia,GM,GMB,270,Yes,Gambia,Sare Firasu Hill,51.0,North Atlantic Ocean,0.0,True
+Georgia,GE,GEO,268,Yes,Georgia,Shkhara,5203.0,Black Sea,0.0,True
+Germany,DE,DEU,276,Yes,Germany,Zugspitze,2962.0,Neuendorf-Sachsenbande,-4.0,True
+Ghana,GH,GHA,288,Yes,Ghana,Leklata,900.0,Gulf of Guinea,0.0,True
+Gibraltar,GI,GIB,292,No,Gibraltar,Rock of Gibraltar,426.0,Strait of Gibraltar,0.0,True
+Greece,GR,GRC,300,Yes,Greece,Mount Olympus,2918.0,Epitalio,-6.0,True
+Greenland,GL,GRL,304,No,Greenland,Gunnbjørn Fjeld,3694.0,Arctic Ocean / North Atlantic Ocean,0.0,True
+Grenada,GD,GRD,308,Yes,Grenada,Mount Saint Catherine,840.0,Caribbean Sea,0.0,True
+Guadeloupe,GP,GLP,312,No,Guadeloupe,La Grande Soufrière on Basse-Terre Island,1467.0,Caribbean Sea,0.0,True
+Guam,GU,GUM,316,No,Guam,Mount Lamlam,406.0,North Pacific Ocean,0.0,True
+Guatemala,GT,GTM,320,Yes,Guatemala,Volcán Tajumulco,4203.0,North Pacific Ocean / Caribbean Sea,0.0,True
+Guernsey,GG,GGY,831,No,Guernsey,Le Moulin,114.0,English Channel,0.0,True
+Guinea,GN,GIN,324,Yes,Guinea,Mont Nimba (Mount Richard-Molard),1752.0,North Atlantic Ocean,0.0,True
+Guinea-Bissau,GW,GNB,624,Yes,Guinea-Bissau,Dongol Rondè,266.0,North Atlantic Ocean,0.0,True
+Guyana,GY,GUY,328,Yes,Guyana,Mount Roraima,2772.0,North Atlantic Ocean,0.0,True
+Haiti,HT,HTI,332,Yes,Haiti,Pic la Selle,2680.0,Caribbean Sea,0.0,True
+Heard Island and McDonald Islands,HM,HMD,334,No,Heard Island and McDonald Islands,Big Ben (Mawson Peak),2745.0,Indian Ocean,0.0,True
+Holy See,VA,VAT,336,Yes,Vatican City,Vatican Hill,75.0,Saint Peter's Square,33.0,True
+Honduras,HN,HND,340,Yes,Honduras,Cerro Las Minas,2870.0,Caribbean Sea / North Pacific Ocean,0.0,True
+Hong Kong,HK,HKG,344,No,Hong Kong,Tai Mo Shan,957.0,South China Sea,0.0,True
+Hungary,HU,HUN,348,Yes,Hungary,Kékes,1014.0,Tisza,76.0,True
+Iceland,IS,ISL,352,Yes,Iceland,Hvannadalshnúkur,2110.0,North Atlantic Ocean,0.0,True
+India,IN,IND,356,Yes,India,Kangchenjunga,8586.0,Kuttanad,-3.0,True
+Indonesia,ID,IDN,360,Yes,Indonesia,Puncak Jaya on New Guinea,4884.0,Indian Ocean / South Pacific Ocean,0.0,True
+"Iran, Islamic Republic of",IR,IRN,364,Yes,Iran,Damavand,5609.0,Caspian Sea,-28.0,True
+Iraq,IQ,IRQ,368,Yes,Iraq,Cheekha Dar,3611.0,Persian Gulf,0.0,True
+Ireland,IE,IRL,372,Yes,Ireland,Carrauntoohil,1039.0,Irish Sea,0.0,True
+Isle of Man,IM,IMN,833,No,Isle of Man,Snaefell,621.0,Irish Sea,0.0,True
+Israel,IL,ISR,376,Yes,Israel,Mount Meron (de jure; inside the Green Line) Mount Hermon (de facto; in the Golan Heights),1204.0,Dead Sea,-440.0,True
+Italy,IT,ITA,380,Yes,Italy,Mont Blanc,4806.0,Jolanda di Savoia,-3.0,True
+Jamaica,JM,JAM,388,Yes,Jamaica,Blue Mountain Peak,2256.0,Caribbean Sea,0.0,True
+Japan,JP,JPN,392,Yes,Japan,Mount Fuji on Honshu,3776.0,Hachiro-gata on Honshu,-4.0,True
+Jersey,JE,JEY,832,No,Jersey,Les Platons,136.0,English Channel,0.0,True
+Jordan,JO,JOR,400,Yes,Jordan,Jabal Umm ad Dami,1854.0,Dead Sea,-440.0,True
+Kazakhstan,KZ,KAZ,398,Yes,Kazakhstan,Khan Tengri,7010.0,Karagiye Depression,-134.0,True
+Kenya,KE,KEN,404,Yes,Kenya,Mount Kenya,5199.0,Indian Ocean,0.0,True
+Kiribati,KI,KIR,296,Yes,Kiribati,Unnamed location on Banaba,81.0,Pacific Ocean,0.0,True
+"Korea, Democratic People's Republic of",KP,PRK,408,Yes,North Korea,Paektu-san,2744.0,Sea of Japan / Yellow Sea,0.0,True
+"Korea, Republic of",KR,KOR,410,Yes,South Korea,Halla-san on Jejudo,1947.0,Sea of Japan / Yellow Sea,0.0,True
+Kuwait,KW,KWT,414,Yes,Kuwait,Unnamed location in westernmost Kuwait,291.0,Persian Gulf,0.0,True
+Kyrgyzstan,KG,KGZ,417,Yes,Kyrgyzstan,Jengish Chokusu,7439.0,Kara Darya,435.0,True
+Lao People's Democratic Republic,LA,LAO,418,Yes,Laos,Phou Bia,2830.0,Mekong,70.0,True
+Latvia,LV,LVA,428,Yes,Latvia,Gaiziņkalns,312.0,Baltic Sea,0.0,True
+Lebanon,LB,LBN,422,Yes,Lebanon,Qurnat as Sawda',3088.0,Mediterranean Sea,0.0,True
+Lesotho,LS,LSO,426,Yes,Lesotho,Thabana Ntlenyana,3482.0,Confluence of Orange River and Makhaleng River,1400.0,True
+Liberia,LR,LBR,430,Yes,Liberia,Mount Wuteve,1447.0,North Atlantic Ocean,0.0,True
+Libya,LY,LBY,434,Yes,Libya,Bikku Bitti,2267.0,Sabkhat Ghuzayyil,-47.0,True
+Liechtenstein,LI,LIE,438,Yes,Liechtenstein,Grauspitz,2599.0,Rhine,430.0,True
+Lithuania,LT,LTU,440,Yes,Lithuania,Aukštojas Hill,294.0,Nemunas Delta,-5.0,True
+Luxembourg,LU,LUX,442,Yes,Luxembourg,Kneiff,560.0,Moselle River,133.0,True
+Macao,MO,MAC,446,No,Macau,Coloane Alto on Gau Ou Saan,172.0,South China Sea,0.0,True
+Madagascar,MG,MDG,450,Yes,Madagascar,Maromokotro,2876.0,Indian Ocean,0.0,True
+Malawi,MW,MWI,454,Yes,Malawi,Mount Mulanje,3002.0,Shire River,37.0,True
+Malaysia,MY,MYS,458,Yes,Malaysia,Gunung Kinabalu on Borneo,4095.0,South China Sea / Indian Ocean,0.0,True
+Maldives,MV,MDV,462,Yes,Maldives,Mount Villingili on Villingili,5.0,Indian Ocean,0.0,True
+Mali,ML,MLI,466,Yes,Mali,Hombori Tondo,1155.0,Senegal River,23.0,True
+Malta,MT,MLT,470,Yes,Malta,Ta'Dmejrek on Malta Island,253.0,Mediterranean Sea,0.0,True
+Marshall Islands,MH,MHL,584,Yes,Marshall Islands,Unnamed location on Likiep,10.0,North Pacific Ocean,0.0,True
+Martinique,MQ,MTQ,474,No,Martinique,Mount Pelée,1397.0,Caribbean Sea,0.0,True
+Mauritania,MR,MRT,478,Yes,Mauritania,Kediet ej Jill,915.0,Sebkha de Ndrhamcha,-5.0,True
+Mauritius,MU,MUS,480,Yes,Mauritius,Piton de la Petite Rivière Noire,828.0,Indian Ocean,0.0,True
+Mayotte,YT,MYT,175,No,Mayotte,Benara on Mahoré,660.0,Mozambique Channel,0.0,True
+Mexico,MX,MEX,484,Yes,Mexico,Volcán Citlaltépetl (Pico de Orizaba),5636.0,Laguna Salada,-10.0,True
+"Micronesia, Federated States of",FM,FSM,583,Yes,Federated States of Micronesia,Nanlaud on Pohnpei,782.0,North Pacific Ocean,0.0,True
+"Moldova, Republic of",MD,MDA,498,Yes,Moldova,Bălănești Hill,430.0,Dniester,2.0,True
+Monaco,MC,MCO,492,Yes,Monaco,along Chemin des Révoires on Mont Agel,162.0,Mediterranean Sea,0.0,True
+Mongolia,MN,MNG,496,Yes,Mongolia,Khüiten Peak,4356.0,Khökh Nuur,560.0,True
+Montenegro,ME,MNE,499,Yes,Montenegro,Zla Kolata,2534.0,Adriatic Sea,0.0,True
+Montserrat,MS,MSR,500,No,Montserrat,Chances Peak,915.0,Caribbean Sea,0.0,True
+Morocco,MA,MAR,504,Yes,Morocco,Jbel Toubkal,4167.0,Sebkha Tah,-55.0,True
+Mozambique,MZ,MOZ,508,Yes,Mozambique,Monte Binga,2440.0,Mozambique Channel,0.0,True
+Myanmar,MM,MMR,104,Yes,Myanmar,Hkakabo Razi,5881.0,Indian Ocean,0.0,True
+Namibia,NA,NAM,516,Yes,Namibia,Königstein,2573.0,South Atlantic Ocean,0.0,True
+Naoero,NR,NRU,520,Yes,Nauru,Command Ridge,65.0,South Pacific Ocean,0.0,True
+Nepal,NP,NPL,524,Yes,Nepal,Mount Everest,8849.0,Mukhiyapatti Musharniya,59.0,True
+"Netherlands, Kingdom of the",NL,NLD,528,Yes,Netherlands,Mount Scenery on Saba,870.0,"Vergeten Plek, in the Zuidplaspolder near Waddinxveen",-7.0,True
+New Caledonia,NC,NCL,540,No,New Caledonia,Mont Panié,1628.0,Coral Sea,0.0,True
+New Zealand,NZ,NZL,554,Yes,New Zealand,Aoraki / Mount Cook in the South Island,3724.0,"Unnamed location near Momona, Taieri Plains, Otago",-2.0,True
+Nicaragua,NI,NIC,558,Yes,Nicaragua,Mogotón,2085.0,North Pacific Ocean / Caribbean Sea,0.0,True
+Niger,NE,NER,562,Yes,Niger,Mont Idoukal-n-Taghès,2002.0,Niger River,200.0,True
+Nigeria,NG,NGA,566,Yes,Nigeria,Chappal Waddi,2419.0,Unnamed location on Lagos Island,-0.2,True
+Niue,NU,NIU,570,No,Niue,Unnamed location near Mutalau on Niue,68.0,South Pacific Ocean,0.0,True
+Norfolk Island,NF,NFK,574,No,Norfolk Island,Mount Bates,319.0,South Pacific Ocean,0.0,True
+North Macedonia,MK,MKD,807,Yes,North Macedonia,Golem Korab,2764.0,Vardar,50.0,True
+Northern Mariana Islands,MP,MNP,580,No,Northern Mariana Islands,Mount Agrihan on Agrihan,965.0,North Pacific Ocean,0.0,True
+Norway,NO,NOR,578,Yes,Norway,Galdhøpiggen,2469.0,Norwegian Sea,0.0,True
+Oman,OM,OMN,512,Yes,Oman,Jabal Shams,3018.0,Arabian Sea,0.0,True
+Pakistan,PK,PAK,586,Yes,Pakistan,K2,8611.0,Arabian Sea,0.0,True
+Palau,PW,PLW,585,Yes,Palau,Mount Ngerchelchuus on Babeldaob,242.0,North Pacific Ocean,0.0,True
+"Palestine, State of",PS,PSE,275,No,Palestine,Mount Nabi Yunis,1030.0,Dead Sea,-440.0,True
+Panama,PA,PAN,591,Yes,Panama,Volcán Barú,3475.0,North Pacific Ocean / Caribbean Sea,0.0,True
+Papua New Guinea,PG,PNG,598,Yes,Papua New Guinea,Mount Wilhelm,4509.0,South Pacific Ocean,0.0,True
+Paraguay,PY,PRY,600,Yes,Paraguay,Cerro Peró,842.0,Paraguay River,46.0,True
+Peru,PE,PER,604,Yes,Peru,Huascarán,6768.0,Bayóvar Depression,-34.0,True
+Philippines,PH,PHL,608,Yes,Philippines,Mount Apo on Mindanao,2954.0,Philippine Sea / South China Sea,0.0,True
+Pitcairn,PN,PCN,612,No,Pitcairn Islands,Pawala Valley Ridge,347.0,South Pacific Ocean,0.0,True
+Poland,PL,POL,616,Yes,Poland,Rysy,2500.0,Marzęcino,-2.0,True
+Portugal,PT,PRT,620,Yes,Portugal,Montanha do Pico on Pico Island,2351.0,North Atlantic Ocean,0.0,True
+Puerto Rico,PR,PRI,630,No,Puerto Rico,Cerro de Punta,1338.0,Caribbean Sea,0.0,True
+Qatar,QA,QAT,634,Yes,Qatar,Qurayn Abu al Bawl,103.0,Dukhan Sabkha,-6.0,True
+Réunion,RE,REU,638,No,Réunion,Piton des Neiges,3070.0,Indian Ocean,0.0,True
+Romania,RO,ROU,642,Yes,Romania,Moldoveanu,2545.0,Black Sea,0.0,True
+Russian Federation,RU,RUS,643,Yes,Russia,Mount Elbrus,5642.0,Caspian Sea,-28.0,True
+Rwanda,RW,RWA,646,Yes,Rwanda,Mount Karisimbi,4507.0,Ruzizi River,950.0,True
+Saint Barthélemy,BL,BLM,652,No,Saint Barthélemy,Morne de Vitet,286.0,Caribbean Sea,0.0,True
+"Saint Helena, Ascension and Tristan da Cunha",SH,SHN,654,No,"Saint Helena, Ascension and Tristan da Cunha",Queen Mary's Peak on Tristan da Cunha,2062.0,South Atlantic Ocean,0.0,True
+Saint Kitts and Nevis,KN,KNA,659,Yes,Saint Kitts and Nevis,Mount Liamuiga on Saint Kitts,1156.0,Caribbean Sea,0.0,True
+Saint Lucia,LC,LCA,662,Yes,Saint Lucia,Mount Gimie,950.0,Caribbean Sea,0.0,True
+Saint Martin (French part),MF,MAF,663,No,Saint Martin,Pic Paradis on Saint Martin,424.0,Caribbean Sea,0.0,True
+Saint Pierre and Miquelon,PM,SPM,666,No,Saint Pierre and Miquelon,Morne de la Grande Montagne on Miquelon,240.0,North Atlantic Ocean,0.0,True
+Saint Vincent and the Grenadines,VC,VCT,670,Yes,Saint Vincent and the Grenadines,La Soufrière,1235.0,Caribbean Sea,0.0,True
+Samoa,WS,WSM,882,Yes,Samoa,Mauga Silisili on Savai'i,1858.0,South Pacific Ocean,0.0,True
+San Marino,SM,SMR,674,Yes,San Marino,Monte Titano,739.0,Ausa River,55.0,True
+Sao Tome and Principe,ST,STP,678,Yes,São Tomé and Príncipe,Pico de São Tomé on São Tomé Island,2024.0,Gulf of Guinea,0.0,True
+Saudi Arabia,SA,SAU,682,Yes,Saudi Arabia,Jabal Soudah (official) or Jabal Ferwa (Asir) (most recent survey),3207.0,Sabkhat Matti,-17.0,True
+Senegal,SN,SEN,686,Yes,Senegal,Felo Barkere,638.0,North Atlantic Ocean,0.0,True
+Serbia,RS,SRB,688,Yes,Serbia,Midžor / (Velika Rudoka if Kosovo is considered part of Serbia),2169.0,Confluence of the Timok River and the Danube River,28.0,True
+Seychelles,SC,SYC,690,Yes,Seychelles,Morne Seychellois on Mahé,905.0,Indian Ocean,0.0,True
+Sierra Leone,SL,SLE,694,Yes,Sierra Leone,Mount Bintumani,1945.0,North Atlantic Ocean,0.0,True
+Singapore,SG,SGP,702,Yes,Singapore,Bukit Timah Hill,164.0,Singapore Strait,0.0,True
+Sint Maarten (Dutch part),SX,SXM,534,No,Sint Maarten,200 m SW of Flagstaff Peak (The summit is wholly in Saint Martin.),383.0,Caribbean Sea,0.0,True
+Slovakia,SK,SVK,703,Yes,Slovakia,Gerlachovský štít,2654.0,Bodrog,94.0,True
+Slovenia,SI,SVN,705,Yes,Slovenia,Triglav,2864.0,Adriatic Sea,0.0,True
+Solomon Islands,SB,SLB,90,Yes,Solomon Islands,Mount Popomanaseu on Guadalcanal,2335.0,South Pacific Ocean,0.0,True
+Somalia,SO,SOM,706,Yes,Somalia,Shimbiris,2460.0,Indian Ocean,0.0,True
+South Africa,ZA,ZAF,710,Yes,South Africa,Mafadi,3446.0,South Atlantic Ocean / Indian Ocean,0.0,True
+South Georgia and the South Sandwich Islands,GS,SGS,239,No,South Georgia and the South Sandwich Islands,Mount Paget,2935.0,South Atlantic Ocean,0.0,True
+South Sudan,SS,SSD,728,Yes,South Sudan,Kinyeti,3187.0,White Nile,350.0,True
+Spain,ES,ESP,724,Yes,Spain,Teide on Tenerife,3715.0,North Atlantic Ocean / Mediterranean Sea,0.0,True
+Sri Lanka,LK,LKA,144,Yes,Sri Lanka,Pidurutalagala on Sri Lanka,2524.0,Indian Ocean,0.0,True
+Sudan,SD,SDN,729,Yes,Sudan,Jabal Marrah (Deriba Caldera),3024.0,Red Sea,0.0,True
+Suriname,SR,SUR,740,Yes,Suriname,Juliana Top,1280.0,North Atlantic Ocean,0.0,True
+Svalbard and Jan Mayen,SJ,SJM,744,No,Svalbard and Jan Mayen,Haakon VII Toppen,2277.0,Norwegian Sea,0.0,True
+Sweden,SE,SWE,752,Yes,Sweden,Kebnekaise,2097.0,Kristianstad,-2.0,True
+Switzerland,CH,CHE,756,Yes,Switzerland,Dufourspitze / (Monte Rosa),4634.0,Lake Maggiore,193.0,True
+Syrian Arab Republic,SY,SYR,760,Yes,Syria,Jabal el-Sheikh (Mount Hermon),2814.0,Northeast shores of the Sea of Galilee in the Golan Heights (from Syrian point of view; See Israeli-occupied territories),-214.0,True
+"Taiwan, Province of China",TW,TWN,158,No,Taiwan,Yu Shan (Jade Mountain),3952.0,Philippine Sea / South China Sea / East China Sea,0.0,True
+Tajikistan,TJ,TJK,762,Yes,Tajikistan,Ismoil Somoni Peak,7495.0,Syr Darya,300.0,True
+"Tanzania, United Republic of",TZ,TZA,834,Yes,Tanzania,Kilimanjaro,5895.0,Indian Ocean,0.0,True
+Thailand,TH,THA,764,Yes,Thailand,Doi Inthanon,2565.0,Gulf of Thailand / Andaman Sea,0.0,True
+Timor-Leste,TL,TLS,626,Yes,Timor-Leste,Mount Ramelau on Timor,2963.0,Timor Sea,0.0,True
+Togo,TG,TGO,768,Yes,Togo,Mont Atilakoutse,991.0,Bight of Benin,0.0,True
+Tokelau,TK,TKL,772,No,Tokelau,Unnamed location on Nukunonu,5.0,South Pacific Ocean,0.0,True
+Tonga,TO,TON,776,Yes,Tonga,Kao,1030.0,South Pacific Ocean,0.0,True
+Trinidad and Tobago,TT,TTO,780,Yes,Trinidad and Tobago,El Cerro del Aripo on Trinidad,940.0,Caribbean Sea,0.0,True
+Tunisia,TN,TUN,788,Yes,Tunisia,Jebel ech Chambi,1544.0,Shatt al Gharsah,-17.0,True
+Türkiye,TR,TUR,792,Yes,Turkey,Mount Ararat,5137.0,Mediterranean Sea / Black Sea,0.0,True
+Turkmenistan,TM,TKM,795,Yes,Turkmenistan,Aýrybaba,3138.0,Vpadina Akchanaya,-81.0,True
+Turks and Caicos Islands,TC,TCA,796,No,Turks and Caicos Islands,Blue Hills on Providenciales,49.0,North Atlantic Ocean,0.0,True
+Tuvalu,TV,TUV,798,Yes,Tuvalu,Unnamed location on Niulakita,5.0,South Pacific Ocean,0.0,True
+Uganda,UG,UGA,800,Yes,Uganda,Mount Stanley,5109.0,Albert Nile,621.0,True
+Ukraine,UA,UKR,804,Yes,Ukraine,Hoverla,2061.0,Kuyalnik Estuary,-5.0,True
+United Arab Emirates,AE,ARE,784,Yes,United Arab Emirates,Jabal Al Jais,1892.0,Sabkhat Matti,-17.0,True
+United Kingdom of Great Britain and Northern Ireland,GB,GBR,826,Yes,United Kingdom,Ben Nevis,1345.0,Holme Fen,-3.0,True
+United States of America,US,USA,840,Yes,United States,Denali (Mount McKinley),6190.0,Badwater Basin,-85.5,True
+United States Minor Outlying Islands,UM,UMI,581,No,United States Minor Outlying Islands,Unnamed hill on Sand Island (Johnston Atoll),10.0,Pacific Ocean,0.0,True
+Uruguay,UY,URY,858,Yes,Uruguay,Cerro Catedral,514.0,South Atlantic Ocean,0.0,True
+Uzbekistan,UZ,UZB,860,Yes,Uzbekistan,Khazret Sultan,4643.0,Sariqarnish Kuli,-12.0,True
+Vanuatu,VU,VUT,548,Yes,Vanuatu,Mount Tabwemasana on Espiritu Santo,1879.0,South Pacific Ocean,0.0,True
+"Venezuela, Bolivarian Republic of",VE,VEN,862,Yes,Venezuela,Pico Bolívar,4978.0,"Lagunillas Municipality, Zulia",-12.0,True
+Viet Nam,VN,VNM,704,Yes,Vietnam,Fansipan,3147.0,South China Sea / Gulf of Thailand,0.0,True
+Virgin Islands (British),VG,VGB,92,No,British Virgin Islands,Mount Sage on Tortola,523.0,Caribbean Sea,0.0,True
+Virgin Islands (U.S.),VI,VIR,850,No,United States Virgin Islands,Crown Mountain on Saint Thomas,474.0,Caribbean Sea,0.0,True
+Wallis and Futuna,WF,WLF,876,No,Wallis and Futuna,Mont Puke on Futuna,524.0,South Pacific Ocean,0.0,True
+Western Sahara,EH,ESH,732,No,Sahrawi Republic,Western Sahara Peak 620,620.0,Sebjet Tah,-55.0,True
+Yemen,YE,YEM,887,Yes,Yemen,Jabal An-Nabi Shu'ayb,3666.0,Arabian Sea,0.0,True
+Zambia,ZM,ZMB,894,Yes,Zambia,Mafinga Central,2339.0,Zambezi,329.0,True
+Zimbabwe,ZW,ZWE,716,Yes,Zimbabwe,Mount Nyangani,2592.0,Confluence of Runde River and Save River,162.0,True

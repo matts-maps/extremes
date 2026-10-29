@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Country extremes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#1f2933;--mute:#62707d;--line:#dcd9d2;--accent:#1d6f82;
+--clean:#2f8f6b;--unnamed:#c28a1e;--disputed:#c0504d;--span:#d27a2c;--shared:#3c7fb1;--review:#8a8f98;}
+@media (prefers-color-scheme:dark){:root{--bg:#14181c;--card:#1d2328;--ink:#e6e9ec;--mute:#9aa6b1;--line:#333c44;--accent:#59b2c4;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Arial,Helvetica,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0}
+.sub{color:var(--mute);margin:2px 0 14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.kpi,.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kpi .v{font-size:22px;font-weight:700}.kpi .l{color:var(--mute);font-size:12px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+select,input[type=search]{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 8px;font:inherit}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:var(--card);color:var(--ink);border:0;padding:6px 12px;font:inherit;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+.main{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:12px}
+#map{height:520px;border-radius:8px;border:1px solid var(--line)}
+.legend{background:var(--card);color:var(--ink);padding:6px 8px;border-radius:6px;border:1px solid var(--line);font-size:12px;line-height:1.5}
+.legend i{display:inline-block;width:14px;height:10px;margin-right:6px;vertical-align:middle}
+#detail h2{font-size:17px;margin:0 0 2px}
+.chip{display:inline-block;border-radius:10px;padding:1px 8px;font-size:11px;color:#fff;margin:0 3px 3px 0;white-space:nowrap}
+.pt{border-top:1px solid var(--line);padding:8px 0}
+.pt .big{font-size:20px;font-weight:700}
+.muted{color:var(--mute);font-size:12px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:12px 0}
+.charts h3,.card h3{margin:0 0 6px;font-size:14px}
+.cw{position:relative;height:380px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:5px 6px;border-bottom:1px solid var(--line)}
+th{cursor:pointer;position:sticky;top:0;background:var(--card);white-space:nowrap}
+td.n,th.n{text-align:right}
+tbody tr{cursor:pointer}tbody tr:hover{background:rgba(29,111,130,.1)}tbody tr.sel{background:rgba(29,111,130,.2)}
+.tw{max-height:460px;overflow:auto}
+footer{color:var(--mute);font-size:12px;margin-top:14px}
+@media(max-width:820px){.main{grid-template-columns:1fr}#map{height:380px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Country extremes: highest and lowest points</h1>
+<p class="sub">The 249 officially assigned ISO 3166-1 codes, with highest and lowest points from the Wikipedia table, List of elevation extremes by country. Åland and Bonaire, Sint Eustatius and Saba are not in that table: their highest points come from their own Wikipedia articles and their lowest points are set to sea level. No elevation model is used. Countries made of several map pieces are drawn as one shape. Places in the table without an ISO code (Clipperton Island, Bir Tawil, Kosovo, Spratly Islands, Ashmore and Cartier Islands, Coral Sea Islands) are left out. Climate extremes are not yet included.</p>
+<div class="kpis" id="kpis"></div>
+<div class="filters">
+  <div class="seg" id="metric"><button data-m="highest" class="on">Highest point</button><button data-m="lowest">Lowest point</button><button data-m="span">Elevation span</button></div>
+  <div class="seg" id="view"><button data-v="countries" class="on">Countries</button><button data-v="points">Points only</button></div>
+  <select id="fRegion"><option value="">All regions</option></select>
+  <select id="fType"><option value="">All record types</option></select>
+  <select id="fStatus"><option value="">All statuses</option></select>
+  <input type="search" id="fSearch" placeholder="Search country or point">
+  <label class="muted"><input type="checkbox" id="fShown"> Only records with a figure</label>
+</div>
+<div class="main">
+  <div id="map"></div>
+  <div class="card" id="detail"><p class="muted">Click a country on the map or a row in the table.</p></div>
+</div>
+<div class="charts">
+  <div class="card"><h3 id="barTitle"></h3><div class="cw"><canvas id="barChart"></canvas></div></div>
+  <div class="card"><h3 id="statTitle"></h3><div class="cw"><canvas id="statChart"></canvas></div></div>
+</div>
+<div class="card"><h3>All records <span class="muted" id="tcount"></span></h3><div class="tw"><table id="tbl"><thead></thead><tbody></tbody></table></div></div>
+<footer>Sources: Wikipedia, List of elevation extremes by country (revision 1381548721, fetched 29 October 2026), for the countries and territories of the ISO 3166-1 list (Wikipedia, revision 1376647436); Åland and Bonaire, Sint Eustatius and Saba from the Wikipedia articles Geography of Åland (revision 1354505985) and Caribbean Netherlands (revision 1375847237), with their lowest points set to sea level; Wikidata coordinates for point markers; fieldmaps.io country boundaries. Status tags: clean = no issue found; unnamed = no named point; disputed = disputed territory or competing candidates; span mismatch = Wikipedia's span does not equal highest minus lowest; shared = lowest point shared with a neighbour or several coasts. Every figure is the one in the Wikipedia table; countries the table does not list are not included. Marker positions come from Wikidata and are shown only where the named point matched unambiguously.</footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const DATA = /*DATA*/;
+const REC = DATA.records, BYID = {}; REC.forEach(r => BYID[r.id] = r);
+const STATUS_COL = {clean:'#2f8f6b',unnamed:'#c28a1e',disputed:'#c0504d','span mismatch':'#d27a2c',shared:'#3c7fb1'};
+const STATUS_ORDER = ['clean','shared','span mismatch','unnamed','disputed'];
+let metric='highest', view='countries', sel=null, sortKey='name', sortDir=1;
+const fmt = v => v==null ? 'no figure' : Math.round(v).toLocaleString('en-GB') + ' m';
+const val = (r,m) => m==='span' ? r.span_m : r[m].m;
+const stat = (r,m) => m==='span' ? (r.highest.status) : r[m].status;
+
+// bins
+const BINS = {
+  highest:{cuts:[100,300,1000,2000,3000,4000,5000],cols:['#f3efe6','#e5dcc3','#d2c28f','#b9a063','#9a7c45','#7b5e35','#5c4528','#3d2c1a']},
+  span:{cuts:[100,300,1000,2000,3000,4000,5000],cols:['#e8f1f4','#c9e0e6','#a3ccd7','#7bb3c3','#5497ac','#3a7b92','#285d73','#173f52']},
+  lowest:{cuts:[-100,-1,50,200,500,1000,2000],cols:['#2b6aa3','#8fbadc','#eef0e6','#e0dbc0','#cdbf92','#b3a06a','#8f7a48','#6b5733']}
+};
+function colourFor(v,m){ if(v==null) return '#c9ced3'; const b=BINS[m]; let i=0; while(i<b.cuts.length && v>=b.cuts[i]) i++; return b.cols[i]; }
+function labelsFor(m){ const b=BINS[m],c=b.cuts,out=[]; const f=x=>x.toLocaleString('en-GB');
+  out.push('below '+f(c[0])); for(let i=1;i<c.length;i++) out.push(f(c[i-1])+' to '+f(c[i])); out.push(f(c[c.length-1])+' and above'); return out; }
+
+// filters
+const fRegion=document.getElementById('fRegion'), fType=document.getElementById('fType'), fStatus=document.getElementById('fStatus');
+[...new Set(REC.map(r=>r.region))].sort().forEach(x=>fRegion.add(new Option(x,x)));
+[...new Set(REC.map(r=>r.type))].sort().forEach(x=>fType.add(new Option(x,x)));
+STATUS_ORDER.forEach(x=>fStatus.add(new Option(x,x)));
+function passes(r){
+  if(fRegion.value && r.region!==fRegion.value) return false;
+  if(fType.value && r.type!==fType.value) return false;
+  if(fStatus.value){ const t = metric==='lowest' ? r.lowest.tags : r.highest.tags; if(!t.includes(fStatus.value)) return false; }
+  const q=document.getElementById('fSearch').value.trim().toLowerCase();
+  if(q && !(r.name.toLowerCase().includes(q) || (r.highest.name||'').toLowerCase().includes(q) || (r.lowest.name||'').toLowerCase().includes(q))) return false;
+  if(document.getElementById('fShown').checked && val(r,metric)==null) return false;
+  return true;
+}
+let F=[];
+
+// map
+const map = L.map('map',{worldCopyJump:true,minZoom:1}).setView([20,10],2);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{attribution:'Esri, HERE, Garmin',maxZoom:10}).addTo(map);
+const layers = {};
+const gj = L.geoJSON(DATA.geojson,{style:()=>({weight:.6,color:'#6b7680',fillOpacity:.85}),onEachFeature:(f,l)=>{
+  layers[f.properties.id]=l;
+  l.on('click',()=>select(f.properties.id));
+  l.bindTooltip(()=>{const r=BYID[f.properties.id];return `<b>${r.name}</b><br>${metric==='span'?'Span':metric==='highest'?'Highest':'Lowest'}: ${fmt(val(r,metric))}`;},{sticky:true});
+}}).addTo(map);
+const markers = L.layerGroup().addTo(map);
+const legend = L.control({position:'bottomleft'});
+legend.onAdd = () => { const d=L.DomUtil.create('div','legend'); d.id='legend'; return d; };
+legend.addTo(map);
+const pointsLayer = L.layerGroup().addTo(map), PT_COL={highest:'#b3402f',lowest:'#2b6aa3'};
+function drawPoints(){
+  pointsLayer.clearLayers(); if(view!=='points') return;
+  const sides = metric==='span' ? ['highest','lowest'] : [metric];
+  F.forEach(r=>sides.forEach(s=>{ const p=r[s]; if(p.lat==null||p.lon==null) return;
+    const cm=L.circleMarker([p.lat,p.lon],{radius:5,weight:1,color:'#fff',fillColor:PT_COL[s],fillOpacity:.9});
+    cm.bindTooltip(`<b>${p.name||'Unnamed point'}</b> (${r.name})<br>${s==='highest'?'Highest':'Lowest'}: ${fmt(p.m)}`);
+    cm.on('click',()=>select(r.id)); cm.addTo(pointsLayer); }));
+}
+function drawLegend(){
+  if(view==='points'){ const n={highest:0,lowest:0}; F.forEach(r=>['highest','lowest'].forEach(s=>{if(r[s].lat!=null)n[s]++;}));
+    document.getElementById('legend').innerHTML='<b>Point locations</b><br>'+
+      (metric!=='lowest'?`<i style="background:${PT_COL.highest};border-radius:5px;width:10px"></i>highest points (${n.highest})<br>`:'')+
+      (metric!=='highest'?`<i style="background:${PT_COL.lowest};border-radius:5px;width:10px"></i>lowest points (${n.lowest})<br>`:'')+
+      '<span class="muted">Records with no coordinates are not shown.</span>'; return; }
+  const b=BINS[metric], lab=labelsFor(metric);
+  document.getElementById('legend').innerHTML = '<b>'+({highest:'Highest point (m)',lowest:'Lowest point (m)',span:'Elevation span (m)'})[metric]+'</b><br>'+
+    b.cols.map((c,i)=>`<i style="background:${c}"></i>${lab[i]}`).join('<br>')+'<br><i style="background:#c9ced3"></i>no figure';
+}
+function styleMap(){
+  const set = new Set(F.map(r=>r.id));
+  for(const id in layers){ const r=BYID[id], on=set.has(r.id);
+    if(view==='points') layers[id].setStyle({fillColor:'#000',fillOpacity:0,opacity:on?.7:.25,weight:sel===r.id?2.5:.6,color:sel===r.id?'#000':'#8a949e'});
+    else layers[id].setStyle({fillColor:colourFor(val(r,metric),metric),fillOpacity:on?.85:.12,opacity:on?1:.3,weight:sel===r.id?2.5:.6,color:sel===r.id?'#000':'#6b7680'});
+    if(sel===r.id) layers[id].bringToFront();
+  }
+}
+function drawMarkers(){
+  markers.clearLayers(); if(sel==null) return; const r=BYID[sel];
+  [['highest','▲','#b3402f'],['lowest','▼','#2b6aa3']].forEach(([s,sym,col])=>{
+    const p=r[s]; if(p.lat==null) return;
+    L.marker([p.lat,p.lon],{icon:L.divIcon({className:'',html:`<div style="color:${col};font-size:18px;text-shadow:0 0 3px #fff">${sym}</div>`,iconSize:[18,18],iconAnchor:[9,9]})})
+      .bindTooltip((p.name||'Unnamed point')+': '+fmt(p.m)).addTo(markers);
+  });
+}
+
+// KPIs
+function kpis(){
+  const all=REC.filter(r=>r.highest.m!=null), hi=all.reduce((a,b)=>b.highest.m>a.highest.m?b:a);
+  const lo=REC.filter(r=>r.lowest.m!=null).reduce((a,b)=>b.lowest.m<a.lowest.m?b:a);
+    const k=[[REC.length,'countries and territories'],[all.length,'with a highest point'],[`${fmt(hi.highest.m)}`,'highest: '+hi.name],[`${fmt(lo.lowest.m)}`,'lowest: '+lo.name],[REC.filter(r=>r.lowest.m!=null).length,'with a lowest point']];
+  document.getElementById('kpis').innerHTML = k.map(([v,l])=>`<div class="kpi"><div class="v">${typeof v==='number'?v.toLocaleString('en-GB'):v}</div><div class="l">${l}</div></div>`).join('');
+}
+
+// charts (no gridlines, value labels at bar end)
+const endLabels = {id:'endLabels',afterDatasetsDraw(c){const ctx=c.ctx;ctx.save();ctx.fillStyle=getComputedStyle(document.body).color;ctx.font='11px Arial';ctx.textBaseline='middle';
+  c.getDatasetMeta(0).data.forEach((b,i)=>{const v=c.data.datasets[0].data[i]; ctx.fillText(Math.round(v).toLocaleString('en-GB'), Math.max(b.x,b.base)+4, b.y);});ctx.restore();}};
+let barChart, statChart;
+function charts(){
+  const m=metric, title={highest:'Highest points',lowest:'Lowest points',span:'Elevation span'}[m];
+  const ranked=F.filter(r=>val(r,m)!=null).sort((a,b)=> m==='lowest' ? val(a,m)-val(b,m) : val(b,m)-val(a,m)).slice(0,15);
+  document.getElementById('barTitle').textContent = (m==='lowest'?'Fifteen deepest ':'Fifteen highest ')+title.toLowerCase()+' in the current selection (metres)';
+  const d={labels:ranked.map(r=>r.name),datasets:[{data:ranked.map(r=>val(r,m)),backgroundColor:ranked.map(r=>STATUS_COL[stat(r,m)]||'#8a8f98')}]};
+  if(barChart){barChart.data=d;barChart.update();} else barChart=new Chart(document.getElementById('barChart'),{type:'bar',data:d,plugins:[endLabels],
+    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:46}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.parsed.x)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#62707d'}},y:{grid:{display:false},ticks:{color:'#62707d',autoSkip:false}}},
+      onClick:(e,els)=>{if(els.length) select(barChart._ids[els[0].index]);}}});
+  barChart._ids=ranked.map(r=>r.id);
+  const side = m==='lowest'?'lowest':'highest';
+  document.getElementById('statTitle').textContent = 'Status of the '+side+' figure, records in the current selection';
+  const cnt={}; STATUS_ORDER.forEach(s=>cnt[s]=0); let none=0;
+  F.forEach(r=>{const s=r[side].status; if(s) cnt[s]++; else none++;});
+  const labels=[...STATUS_ORDER,'no figure'], vals=[...STATUS_ORDER.map(s=>cnt[s]),none];
+  const d2={labels,datasets:[{data:vals,backgroundColor:[...STATUS_ORDER.map(s=>STATUS_COL[s]),'#c9ced3']}]};
+  if(statChart){statChart.data=d2;statChart.update();} else statChart=new Chart(document.getElementById('statChart'),{type:'bar',data:d2,plugins:[endLabels],
+    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:36}},plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{color:'#62707d'}},y:{grid:{display:false},ticks:{color:'#62707d'}}}}});
+}
+
+// table
+const COLS=[['name','Record',r=>r.name,false],['region','Region',r=>r.region,false],['type','Type',r=>r.type,false],
+ ['hm','Highest (m)',r=>r.highest.m,true],['hp','Highest point',r=>r.highest.name||(r.highest.m!=null?'unnamed':''),false],['hs','Status',r=>r.highest.status||'',false],
+ ['lm','Lowest (m)',r=>r.lowest.m,true],['lp','Lowest point',r=>r.lowest.name||'',false],['ls','Status',r=>r.lowest.status||'',false],['sp','Span (m)',r=>r.span_m,true]];
+function table(){
+  const th=document.querySelector('#tbl thead'); th.innerHTML='<tr>'+COLS.map(c=>`<th class="${c[3]?'n':''}" data-k="${c[0]}">${c[1]}${sortKey===c[0]?(sortDir>0?' ▲':' ▼'):''}</th>`).join('')+'</tr>';
+  const col=COLS.find(c=>c[0]===sortKey), rows=[...F].sort((a,b)=>{const x=col[2](a),y=col[2](b); if(x==null||x==='') return 1; if(y==null||y==='') return -1; return (x>y?1:x<y?-1:0)*sortDir;});
+  document.querySelector('#tbl tbody').innerHTML = rows.map(r=>`<tr data-id="${r.id}" class="${sel===r.id?'sel':''}">`+COLS.map(c=>{const v=c[2](r);
+    return `<td class="${c[3]?'n':''}">${c[3]?(v==null?'':Math.round(v).toLocaleString('en-GB')):(v||'')}</td>`;}).join('')+'</tr>').join('');
+  document.getElementById('tcount').textContent='('+F.length+' shown)';
+}
+document.querySelector('#tbl thead').addEventListener('click',e=>{const k=e.target.dataset.k; if(!k) return; if(sortKey===k) sortDir*=-1; else {sortKey=k;sortDir=1;} table();});
+document.querySelector('#tbl tbody').addEventListener('click',e=>{const tr=e.target.closest('tr'); if(tr) select(+tr.dataset.id,true);});
+
+// detail
+function chips(t){return t.map(x=>`<span class="chip" style="background:${STATUS_COL[x]}">${x}</span>`).join('');}
+function ptBlock(label,p){
+  if(p.m==null) return `<div class="pt"><div class="muted">${label}</div><div class="big">no figure</div><div class="muted">${p.why_blank==='no_wikipedia_row'?'Wikipedia has no row for this record.':p.why_blank==='other_piece'?'The point Wikipedia lists sits in another piece of this country.':'Not available.'}</div></div>`;
+  const how = 'Wikipedia value.';
+  return `<div class="pt"><div class="muted">${label}</div><div class="big">${fmt(p.m)}</div><div>${p.name||'<span class="muted">Unnamed point</span>'}</div>${chips(p.tags)}<div class="muted">${how}</div></div>`;
+}
+function detail(r){
+  document.getElementById('detail').innerHTML = `<h2>${r.name}</h2><div class="muted">${r.type} · ${r.region}${r.iso3?' · '+r.iso3:''}${r.scope&&r.scope!=='single_record'?' · '+r.scope.replace(/_/g,' '):''}</div>`+
+   ptBlock('Highest point',r.highest)+ptBlock('Lowest point',r.lowest)+
+   `<div class="pt"><div class="muted">Elevation span</div><div class="big">${fmt(r.span_m)}</div>${r.flags?`<div class="muted">Flags: ${r.flags.replace(/;/g,', ').replace(/_/g,' ')}</div>`:''}</div>`+
+   `<div class="muted">Row ${r.id+1}${r.source_url?` · <a href="${r.source_url}" target="_blank" rel="noopener">Wikipedia source</a>`:''}</div>`;
+}
+function select(id,fromTable){
+  sel=id; detail(BYID[id]); styleMap(); drawMarkers();
+  document.querySelectorAll('#tbl tbody tr').forEach(t=>t.classList.toggle('sel',+t.dataset.id===id));
+  const l=layers[id]; if(l && fromTable) map.fitBounds(l.getBounds(),{maxZoom:6,padding:[30,30]});
+}
+
+function refresh(){ F=REC.filter(passes); drawLegend(); styleMap(); drawPoints(); charts(); table(); }
+document.querySelectorAll('#metric button').forEach(b=>b.onclick=()=>{metric=b.dataset.m;document.querySelectorAll('#metric button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
+['fRegion','fType','fStatus','fSearch','fShown'].forEach(i=>document.getElementById(i).addEventListener('input',()=>{
+  refresh(); const q=document.getElementById('fSearch').value; if(F.length && F.length<REC.length){const b=L.featureGroup(F.map(r=>layers[r.id]).filter(Boolean)).getBounds(); if(b.isValid()) map.fitBounds(b,{maxZoom:6,padding:[20,20]});}}));
+document.querySelectorAll('#view button').forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll('#view button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
+kpis(); refresh();
+window.__ready = true;
+</script>
+</body>
+</html>

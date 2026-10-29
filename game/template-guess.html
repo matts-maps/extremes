@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guess the height</title>
+<style>
+:root{
+  --bg1:#0c1722;--bg2:#13283a;--card:rgba(255,255,255,.06);--card-s:#182a3a;--ink:#f1f5f8;--mute:#9fb2c2;--line:rgba(255,255,255,.14);
+  --accent:#ffb347;--accent2:#ff6f61;--a:#35c2c9;--b:#ff9f5a;--good:#3ddc97;--bad:#ff6b6b;--sea:#4aa3e8;
+  --glow:rgba(255,179,71,.35);--radius:18px;
+}
+body[data-kind="lowest"]{--accent:#4aa3e8;--accent2:#35c2c9;--glow:rgba(74,163,232,.35);--bg1:#071420;--bg2:#0d2a40}
+*{box-sizing:border-box}
+html{background:var(--bg1)}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,var(--bg2),var(--bg1) 70%) fixed;transition:background .6s;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600' fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.4'%3E%3Cellipse cx='300' cy='300' rx='60' ry='40'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='84'/%3E%3Cellipse cx='300' cy='300' rx='190' ry='130'/%3E%3Cellipse cx='300' cy='300' rx='270' ry='185'/%3E%3Cellipse cx='300' cy='300' rx='360' ry='250'/%3E%3Cellipse cx='300' cy='300' rx='460' ry='320'/%3E%3C/svg%3E") center/760px}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px;position:relative}
+header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.logo{width:54px;height:54px;flex:none;filter:drop-shadow(0 4px 14px var(--glow))}
+h1{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.5px;font-weight:800}
+h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mute);margin:10px 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;backdrop-filter:blur(8px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.hidden{display:none!important}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.muted{color:var(--mute);font-size:13px}
+
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.mode{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:14px 8px 12px;font:inherit;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,background .15s}
+.mode:hover{transform:translateY(-2px);border-color:var(--mute)}
+.mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.lvl{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 6px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:transform .15s,border-color .15s}
+.lvl:hover{transform:translateY(-1px);border-color:var(--mute)}
+.lvl.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 3px var(--glow)}
+.lvl.extreme.on{border-color:#ff6b6b;box-shadow:0 0 0 3px rgba(255,107,107,.25)}
+.mode svg{width:44px;height:34px;display:block;margin:0 auto 6px}
+.mode b{display:block;font-size:15px}.mode small{color:var(--mute);font-size:12px}
+select,input[type=number]{background:var(--card-s);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit}
+select{min-width:170px}
+.go{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;border:0;border-radius:14px;padding:12px 26px;font:inherit;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px var(--glow);transition:transform .15s,filter .15s}
+.go:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.07)}
+.go:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:11px 18px;font:inherit;cursor:pointer}
+.ghost:hover{border-color:var(--mute)}
+
+.hud{display:flex;gap:10px;justify-content:center;margin:0 0 16px;flex-wrap:wrap;align-items:center}
+.pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 16px 6px 12px;color:var(--ink);font:inherit}
+.pill .ic{font-size:20px}.pill b{font-size:22px;line-height:1;display:inline-block}
+.pill span{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.dots{display:flex;gap:5px}.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);display:block}
+.dots i.done{background:var(--accent)}.dots i.now{box-shadow:0 0 0 3px var(--glow);background:var(--ink)}
+button.pill{cursor:pointer}
+
+/* play area */
+.stage{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:20px;align-items:start}
+.stage>#gauge{grid-column:1;grid-row:1}.stage>.info{grid-column:2;grid-row:1;min-width:0}
+.stage>#cmp{grid-column:1;grid-row:2;margin:0;gap:10px;align-self:stretch}
+.stage>#cmp .c{display:flex;flex-direction:column;justify-content:center}
+.stage>#cmp .big{font-size:22px}
+.res,.gu{display:contents}
+.gcard{background:rgba(255,255,255,.05);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:10px 14px;align-self:stretch;min-width:0}
+.gcard.gin{border-top-color:var(--b);display:flex;flex-direction:column;justify-content:center}
+.gcard .sub2{margin:0}.gcard.gin input[type=range]{margin:4px 0 6px}.gcard .numrow{margin-bottom:0}
+.stage>#guessui>#gcard{grid-column:1;grid-row:2}.stage>#guessui>.gin{grid-column:2;grid-row:2}
+.lockrow{grid-column:2;grid-row:3;justify-self:end;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.res>*{animation:rise .45s ease-out both}
+.stage>#resui>.rating{grid-column:2;grid-row:2;margin:0;align-self:stretch}
+.stage>#resui>.nextrow{grid-column:2;grid-row:3;justify-self:end}
+.gaugebox{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:14px;padding:6px;touch-action:none;user-select:none}
+.gaugebox svg{cursor:ns-resize}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--ink);font:12px "Segoe UI",system-ui,Arial,sans-serif}
+svg .m{fill:var(--mute)}
+.place{font-size:13px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin:0}
+.mapbox{margin:10px 0 12px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0a1824}
+.mapbox svg{display:block;width:100%;height:200px}
+.mapcap{margin:0;padding:5px 10px;font-size:12px;border-top:1px solid var(--line)}
+.mp-n{fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.14);stroke-width:.6;vector-effect:non-scaling-stroke}
+.mp-n path{vector-effect:non-scaling-stroke}
+.mp-c{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+.mp-c.shown{fill:var(--glow)}
+.mp-pin circle.d{fill:#fff;stroke:#0a1824;stroke-width:2}
+.mp-pin circle.r{fill:none;stroke:#fff;stroke-width:2;opacity:.8}
+@media (prefers-reduced-motion:no-preference){.mp-pin circle.r{animation:mpp 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}@keyframes mpp{from{transform:scale(.4);opacity:.9}to{transform:scale(1.6);opacity:0}}}
+.q{font-weight:800;font-size:28px;line-height:1.1;margin:2px 0 4px;letter-spacing:-.4px}
+.pt{font-size:18px;margin:0 0 4px}
+.pt b{color:var(--accent)}
+.bigread{font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1.05;margin:2px 0 2px}
+.bigread i{font-style:normal;font-size:20px;color:var(--mute);font-weight:600;margin-left:4px}
+.sub2{color:var(--mute);font-size:13px;margin:0 0 10px}
+input[type=range]{width:100%;margin:6px 0 10px;accent-color:var(--accent);height:30px}
+.numrow{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.numrow input{width:150px;font-size:18px;font-weight:700}
+.numrow label{color:var(--mute);font-size:13px}
+.kbd{background:rgba(255,255,255,.1);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;font-size:11px}
+
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rating{display:flex;align-items:center;gap:14px;border-radius:14px;padding:12px 16px;margin:0 0 12px;border:1px solid var(--line);background:rgba(255,255,255,.05)}
+.rating .pts{font-size:42px;font-weight:800;line-height:1;min-width:3ch;text-align:center;letter-spacing:-1px}
+.rating .pts small{display:block;font-size:11px;font-weight:600;color:var(--mute);letter-spacing:.08em;text-transform:uppercase}
+.rating h3{margin:0;font-size:22px}.rating p{margin:2px 0 0}
+.rating.t4{border-color:rgba(61,220,151,.6);background:linear-gradient(90deg,rgba(61,220,151,.22),rgba(61,220,151,.04))}
+.rating.t3{border-color:rgba(53,194,201,.6);background:linear-gradient(90deg,rgba(53,194,201,.2),rgba(53,194,201,.04))}
+.rating.t2{border-color:rgba(255,179,71,.6);background:linear-gradient(90deg,rgba(255,179,71,.2),rgba(255,179,71,.04))}
+.rating.t1,.rating.t0{border-color:rgba(255,107,107,.55);background:linear-gradient(90deg,rgba(255,107,107,.2),rgba(255,107,107,.04))}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px}
+.cmp .c{background:rgba(255,255,255,.05);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:10px 14px}
+.cmp .c.b{border-top-color:var(--b)}
+.cmp .big{font-size:26px;font-weight:800;line-height:1.1}.cmp .big i{font-style:normal;font-size:15px;color:var(--mute);font-weight:600;margin-left:3px}
+.chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
+
+.final h2{font-size:34px;margin:0}
+.final .tot{font-size:64px;font-weight:800;letter-spacing:-2px;line-height:1;margin:6px 0}
+.final .tot small{font-size:20px;color:var(--mute);font-weight:600;letter-spacing:0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden;min-width:60px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+footer{color:var(--mute);font-size:12px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){.res>*{animation:none}}
+@media(max-width:640px){
+  h1{font-size:24px}.logo{width:44px;height:44px}.stage{grid-template-columns:1fr}.q{font-size:23px}.bigread{font-size:32px}
+  .stage>*,.stage>#resui>*,.stage>#guessui>*{grid-column:1!important;grid-row:auto!important}.stage>#resui>.nextrow{justify-self:end}
+  .levels{gap:5px}.lvl{font-size:12px;padding:8px 2px}.modes{gap:6px}.mode small{display:none}.cmp{grid-template-columns:1fr}.final .tot{font-size:48px}
+}
+</style>
+</head>
+<body data-kind="highest">
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <h1>Guess <span>the height</span></h1>
+</header>
+<p class="sub">You get the name of a country and its highest or lowest point. Say how far above or below sea level it is. The closer you are, the more points you score, up to 1,000 a round. Pick a level to set how close you need to be.</p>
+
+<div class="card" id="setup">
+  <div class="modes" id="mode">
+    <button class="mode on" data-m="highest"><svg viewBox="0 0 44 34"><path d="M2 32 L16 8 L24 20 L30 12 L42 32Z" fill="#ffb347"/><path d="M13 13 L16 8 L19 13 L16 12Z" fill="#fff"/></svg><b>Highest points</b><small>How tall is the peak?</small></button>
+    <button class="mode" data-m="lowest"><svg viewBox="0 0 44 34"><path d="M2 8 H42 V10 Q32 14 22 10 Q12 6 2 10Z" fill="#4aa3e8"/><path d="M2 12 L14 12 L22 30 L30 12 L42 12 V32 H2Z" fill="#35c2c9" opacity=".85"/></svg><b>Lowest points</b><small>How deep is the dip?</small></button>
+    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>Both, at random</small></button>
+  </div>
+  <div class="levels" id="level" role="group" aria-label="Level">
+    <button class="lvl" data-l="beginner">Beginner</button>
+    <button class="lvl on" data-l="intermediate">Intermediate</button>
+    <button class="lvl" data-l="advanced">Advanced</button>
+    <button class="lvl extreme" data-l="extreme">Extreme</button>
+  </div>
+  <p class="muted" id="levelnote" style="margin:10px 0 0"></p>
+  <div class="row" style="margin-top:14px">
+    <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <button class="go" id="start">Start</button>
+    <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
+  </div>
+  <p class="muted" id="poolnote" style="margin:12px 0 0"></p>
+</div>
+
+<div class="hud hidden" id="hud">
+  <div class="pill"><span class="ic">📍</span><div><b id="rn">1</b> <span id="rof">of 10</span></div></div>
+  <div class="dots" id="dots"></div>
+  <div class="pill"><span class="ic">⭐</span><div><b id="total">0</b> <span>points</span></div></div>
+  <button class="pill" id="menu">☰ <span>Menu</span></button>
+</div>
+
+<div class="card hidden" id="play">
+  <div class="stage">
+    <div class="gaugebox" id="gauge"></div>
+    <div class="info">
+      <p class="place" id="kindword"></p>
+      <p class="q" id="country"></p>
+      <p class="pt" id="point"></p>
+      <div class="mapbox"><svg id="map" role="img" aria-label="Map of the country"></svg><p class="mapcap muted" id="mapcap"></p></div>
+    </div>
+    <div id="guessui" class="gu">
+      <div class="gcard" id="gcard"><div class="muted">Your guess</div><div class="bigread"><span id="read">0</span><i>m</i></div><p class="sub2" id="readsub"></p></div>
+      <div class="gcard gin"><label class="muted" for="slider">Drag the scale, use the slider or type a figure</label><input type="range" id="slider" aria-label="Your guess in metres"><div class="numrow"><label for="num">Or type it:</label><input type="number" id="num" step="1"><label>m</label></div></div>
+      <div class="lockrow"><span class="muted">or press <span class="kbd">Enter</span></span><button class="go" id="lock">Lock in guess</button></div>
+    </div>
+    <div class="cmp hidden" id="cmp"></div>
+    <div id="resui" class="hidden res">
+      <div class="rating" id="rating"><div class="pts" id="pts"></div><div><h3 id="rword"></h3><p class="muted" id="rdetail"></p></div></div>
+      <div class="nextrow"><button class="go" id="next">Next</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="card final hidden" id="final"></div>
+
+<footer id="foot"></footer>
+</div>
+<script>
+const POOL = /*DATA*/;
+const MAPS = /*MAPDATA*/;
+const HI = POOL.extremes.highest, LO = POOL.extremes.lowest;
+const ROUNDS = 10, TOP_MARKS = 1000;
+const $ = id => document.getElementById(id);
+const fmt = v => Math.round(v).toLocaleString('en-GB');
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+const rnd = n => Math.floor(Math.random()*n);
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+// the gauge and slider scale is uniform: equal heights take equal space
+const f = v => v;
+const finv = s => s;
+const RANGE = {highest:{lo:0, hi:HI.m}, lowest:{lo:LO.m, hi:Math.ceil(Math.max(...POOL.lowest.map(r=>r.m))/100)*100}};
+
+const g = {mode:'highest', level:'intermediate', region:'', best:{}, items:[], idx:0, total:0, log:[], v:0, locked:false, anim:0};
+[...new Set([...POOL.highest,...POOL.lowest].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
+try{ g.best = JSON.parse(localStorage.getItem('country-extremes-guess-best')||'{}'); }catch(e){ g.best={}; }
+const saveBest = () => { try{ localStorage.setItem('country-extremes-guess-best',JSON.stringify(g.best)); }catch(e){} };
+
+const poolFor = kind => POOL[kind].filter(r=>!g.region||r.region===g.region);
+const bestKey = () => g.mode+'|'+g.region+'|'+g.level;
+const kindsFor = () => g.mode==='mixed' ? ['highest','lowest'] : [g.mode];
+const needed = () => Math.min(ROUNDS, kindsFor().reduce((n,k)=>n+poolFor(k).length,0));
+
+function poolNote(){
+  const ks=kindsFor(), n=ks.map(k=>poolFor(k).length), total=n.reduce((a,b)=>a+b,0), ok=total>=3;
+  $('poolnote').textContent = ok ? `${ks.map((k,i)=>n[i]+' '+k+' points').join(' and ')} in the question pool; ${Math.min(ROUNDS,total)} rounds per game.` : 'Not enough records for this choice. Pick another region or mode.';
+  $('start').disabled = !ok;
+  $('levelnote').textContent = LEVELS[g.level].note;
+  $('best').textContent = g.best[bestKey()] || 0;
+  if(!$('hud').classList.contains('hidden')) return; document.body.dataset.kind = g.mode==='lowest'?'lowest':'highest';
+}
+
+// score: 1,000 for an exact answer. Beginner to advanced fall away as exp(-miss/allowance), allowance a share of the true value
+// (40, 20, 10 per cent, with a floor in metres). Extreme: only guesses within 5 per cent (at least 10 m) score, 1,000 for exact
+// falling in a straight line to 500 at the edge, 0 outside.
+const LEVELS = {
+  beginner:{label:'Beginner', pct:.4, floor:100, note:'Generous: a miss of 40 per cent of the true figure (or 100 m, for low places) still scores about 370; 10 per cent off scores about 780.'},
+  intermediate:{label:'Intermediate', pct:.2, floor:50, note:'A miss of 20 per cent of the true figure (or 50 m, for low places) scores about 370; 10 per cent off scores about 600.'},
+  advanced:{label:'Advanced', pct:.1, floor:25, note:'Tight: a miss of 10 per cent of the true figure (or 25 m, for low places) scores about 370; 5 per cent off scores about 600.'},
+  extreme:{label:'Extreme', pct:.05, floor:10, note:'Only guesses within 5 per cent of the true figure (or 10 m, for low places) score. Exact scores 1,000, falling to 500 at the edge; anything further out scores 0.'}
+};
+function scoreFor(guess,truth,level){
+  const L=LEVELS[level||g.level], miss=Math.abs(guess-truth), tol=Math.max(L.floor,L.pct*Math.abs(truth));
+  if(level==='extreme'||(!level&&g.level==='extreme')) return miss<=tol ? Math.round(TOP_MARKS*(1-.5*miss/tol)) : 0;
+  return Math.round(TOP_MARKS*Math.exp(-miss/tol));
+}
+function ratingFor(p){ return p>=950?['Spot on',4]:p>=800?['Very close',3]:p>=550?['Close',2]:p>=250?['Off target',1]:['Way off',0]; }
+
+function buildGame(){
+  const ks=kindsFor(), pools={}; ks.forEach(k=>pools[k]=poolFor(k).slice());
+  const items=[], n=needed();
+  while(items.length<n){
+    const avail=ks.filter(k=>pools[k].length); if(!avail.length) break;
+    const k=avail[rnd(avail.length)], r=pools[k].splice(rnd(pools[k].length),1)[0]; items.push({kind:k,rec:r});
+  }
+  return items;
+}
+
+// ---- gauge ----
+const GW=340, GH=330, GT=18, GB=18, GX0=64, GX1=GW-10;
+function geom(kind){ const R=RANGE[kind], fl=f(R.lo), fh=f(R.hi), P=GH-GT-GB; const y=v=>GT+(fh-f(v))/(fh-fl)*P; return {R,fl,fh,P,y}; }
+function ticksFor(kind,G){
+  // evenly spaced ticks: the smallest round step that leaves at least 26 px between labels
+  const pxPerM=G.P/(G.R.hi-G.R.lo), step=[10,20,50,100,200,250,500,1000,2000,2500,5000].find(st=>st*pxPerM>=26)||5000, out=[];
+  for(let v=Math.ceil(G.R.lo/step)*step; v<=G.R.hi; v+=step) out.push(v);
+  return out;
+}
+function drawGauge(extra){
+  const q=g.items[g.idx], G=geom(q.kind), y0=G.y(0), yg=G.y(g.v), ticks=ticksFor(q.kind,G);
+  let s=`<svg viewBox="0 0 ${GW} ${GH}" id="gsvg" role="img" aria-label="Scale of heights; your guess is marked">`;
+  s+=`<defs>
+   <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a)" stop-opacity=".5"/></linearGradient>
+   <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--b)"/><stop offset="1" stop-color="var(--b)" stop-opacity=".5"/></linearGradient>
+   <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb347" stop-opacity=".16"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></linearGradient>
+   <clipPath id="gclip"><rect x="${GX0}" y="${GT}" width="${GX1-GX0}" height="${G.P}"/></clipPath></defs>`;
+  s+=`<g clip-path="url(#gclip)"><rect x="${GX0}" y="${GT}" width="${GX1-GX0}" height="${y0-GT}" fill="url(#gSky)"/><rect x="${GX0}" y="${y0}" width="${GX1-GX0}" height="${GT+G.P-y0}" fill="var(--sea)" fill-opacity=".14"/>`;
+  ticks.forEach(v=>{ if(v!==0) s+=`<line x1="${GX0}" x2="${GX1}" y1="${G.y(v)}" y2="${G.y(v)}" stroke="#fff" stroke-opacity=".08"/>`; });
+  // the answer, drawn as a mountain or a bowl once revealed
+  if(extra){
+    const t=extra.value, yt=G.y(t), h=Math.max(Math.abs(yt-y0),2), x=GX0+(GX1-GX0)*.32, hw=44;
+    if(t>=0){ const pt=(dx,fr)=>`${x+dx},${(y0-h*fr).toFixed(1)}`;
+      s+=`<path d="M${x-hw},${y0} L${pt(-25,.42)} L${pt(-14,.34)} L${pt(-5,.7)} L${x},${y0-h} L${pt(7,.78)} L${pt(16,.45)} L${pt(26,.5)} L${x+hw},${y0}Z" fill="url(#gB)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>`;
+      if(h>26) s+=`<path d="M${x},${y0-h} L${x-7},${y0-h+h*.2} L${x-2},${y0-h+h*.17} L${x+2},${y0-h+h*.23} L${x+7},${y0-h+h*.2}Z" fill="#fff" opacity=".9"/>`; }
+    else s+=`<path d="M${x-hw},${y0} C${x-hw+12},${y0+h*1.05} ${x+hw-12},${y0+h*1.05} ${x+hw},${y0}Z" fill="url(#gB)" stroke="#fff" stroke-width="1.6"/>`;
+  }
+  s+=`</g>`;
+  ticks.forEach(v=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-y0)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmt(v)}</text>`; });
+  s+=`<line x1="${GX0}" x2="${GX1}" y1="${y0}" y2="${y0}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${y0+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">0</text>`;
+  // the guess marker
+  const gy=clamp(yg,GT,GT+G.P), left=GX0+(GX1-GX0)*.62;
+  if(extra&&extra.showGap){ const ya=G.y(extra.value); s+=`<line x1="${left+34}" x2="${left+34}" y1="${gy}" y2="${ya}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/><line x1="${GX0}" x2="${GX1}" y1="${ya}" y2="${ya}" stroke="var(--b)" stroke-width="1.5" stroke-dasharray="5 4"/>`; }
+  s+=`<line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5" ${g.locked?'':'stroke-dasharray="0"'}/>`;
+  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="78" height="26" rx="13" fill="var(--a)"/><text x="33" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmt(g.v)} m</text></g>`;
+  s+=`</svg>`; $('gauge').innerHTML=s;
+}
+
+// ---- input handling ----
+function setValue(v,fromNum){
+  const q=g.items[g.idx], R=RANGE[q.kind]; g.v=Math.round(clamp(v,R.lo,R.hi));
+  $('read').textContent=fmt(g.v); $('slider').value=f(g.v); if(!fromNum) $('num').value=g.v;
+  $('readsub').textContent = g.v===0?'At sea level':`${fmt(Math.abs(g.v))} m ${g.v>0?'above':'below'} sea level`;
+  drawGauge();
+}
+function gaugeToValue(e){
+  const svg=$('gsvg'); if(!svg) return; const r=svg.getBoundingClientRect(), q=g.items[g.idx], G=geom(q.kind);
+  const yy=(e.clientY-r.top)/r.height*GH; const fv=G.fh-clamp((yy-GT)/G.P,0,1)*(G.fh-G.fl); setValue(finv(fv));
+}
+let dragging=false;
+$('gauge').addEventListener('pointerdown',e=>{ if(g.locked) return; dragging=true; $('gauge').setPointerCapture(e.pointerId); gaugeToValue(e); });
+$('gauge').addEventListener('pointermove',e=>{ if(dragging&&!g.locked) gaugeToValue(e); });
+$('gauge').addEventListener('pointerup',()=>dragging=false);
+$('slider').addEventListener('input',e=>{ if(!g.locked) setValue(finv(parseFloat(e.target.value))); });
+$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(parseFloat(e.target.value),true); });
+
+// ---- flow ----
+function dots(){ $('dots').innerHTML=g.items.map((_,i)=>`<i class="${i<g.idx?'done':i===g.idx?'now':''}"></i>`).join(''); }
+function ask(){
+  stopAnim(); g.locked=false;
+  const q=g.items[g.idx], R=RANGE[q.kind]; document.body.dataset.kind=q.kind;
+  $('setup').classList.add('hidden'); $('final').classList.add('hidden'); $('hud').classList.remove('hidden'); $('play').classList.remove('hidden');
+  $('rn').textContent=g.idx+1; $('rof').textContent='of '+g.items.length; $('total').textContent=fmt(g.total); dots();
+  $('kindword').textContent = q.kind==='highest' ? 'Highest point of' : 'Lowest point of';
+  $('country').textContent = q.rec.name; $('point').innerHTML = `${q.kind==='highest'?'Peak':'Spot'}: <b>${esc(q.rec.point)}</b>`;
+  const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=1; sl.disabled=false;
+  const nm=$('num'); nm.min=R.lo; nm.max=R.hi; nm.disabled=false;
+  drawMap(q,false); $('cmp').classList.add('hidden');
+  $('guessui').classList.remove('hidden'); $('resui').classList.add('hidden');
+  setValue(finv((f(R.lo)+f(R.hi))/2));
+  $('lock').focus({preventScroll:true});
+}
+
+// ---- map (Natural Earth outlines, drawn as SVG; no tiles, works offline) ----
+const WORLD = {}; MAPS.world.forEach(w=>WORLD[w[0]]=w);
+const OWNED = new Set(); Object.values(MAPS.rows).forEach(r=>r.parts.forEach(p=>OWNED.add(p[0])));
+const SVGNS='http://www.w3.org/2000/svg';
+function ringPath(flat,k){ let d=''; for(let i=0;i<flat.length;i+=2){ d+=(i?'L':'M')+(flat[i]/1000*k).toFixed(3)+' '+(-flat[i+1]/1000).toFixed(3); } return d+'Z'; }
+function drawMap(q, reveal){
+  const svg=$('map'), row=MAPS.rows[String(q.rec.id)], cap=$('mapcap'); svg.innerHTML='';
+  if(!row){ cap.textContent='No map for this place.'; svg.style.visibility='hidden'; return; }
+  svg.style.visibility='visible';
+  let [x0,y0,x1,y1]=row.view.map(v=>v/1000); const hasPt=q.rec.lat!=null&&q.rec.lon!=null;
+  if(reveal&&hasPt){ const pd=Math.max(x1-x0,y1-y0)*.08; x0=Math.min(x0,q.rec.lon-pd); x1=Math.max(x1,q.rec.lon+pd); y0=Math.min(y0,q.rec.lat-pd); y1=Math.max(y1,q.rec.lat+pd); }
+  const k=Math.max(.2,Math.cos(((y0+y1)/2)*Math.PI/180));
+  svg.setAttribute('viewBox',`${(x0*k).toFixed(3)} ${(-y1).toFixed(3)} ${((x1-x0)*k).toFixed(3)} ${(y1-y0).toFixed(3)}`);
+  let nd=''; const mn=[x0*1000,y0*1000,x1*1000,y1*1000];
+  for(const id in WORLD){ if(OWNED.has(+id)&&row.parts.some(p=>p[0]===+id)) continue; const w=WORLD[id], b=w[1]; if(b[2]<mn[0]||b[0]>mn[2]||b[3]<mn[1]||b[1]>mn[3]) continue; w[2].forEach(r=>nd+=ringPath(r,k)); }
+  const n=document.createElementNS(SVGNS,'path'); n.setAttribute('d',nd); n.setAttribute('class','mp-n'); n.setAttribute('fill-rule','evenodd'); svg.appendChild(n);
+  let cd=''; row.parts.forEach(p=>p[1].forEach(r=>cd+=ringPath(r,k)));
+  const c=document.createElementNS(SVGNS,'path'); c.setAttribute('d',cd); c.setAttribute('class','mp-c'+(reveal?' shown':'')); c.setAttribute('fill-rule','evenodd'); c.setAttribute('vector-effect','non-scaling-stroke'); svg.appendChild(c);
+  if(reveal&&hasPt){
+    const gp=document.createElementNS(SVGNS,'g'); gp.setAttribute('class','mp-pin'); const cx=q.rec.lon*k, cy=-q.rec.lat, rr=Math.max(x1-x0,y1-y0)*.012;
+    gp.innerHTML=`<circle class="r" cx="${cx}" cy="${cy}" r="${rr*2.2}" vector-effect="non-scaling-stroke"/><circle class="d" cx="${cx}" cy="${cy}" r="${rr}" vector-effect="non-scaling-stroke"/>`; svg.appendChild(gp);
+  }
+  cap.textContent = !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : hasPt ? `${q.rec.point}: marked on the map.` : `${q.rec.point}: exact location not plotted.`;
+}
+function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
+function lock(){
+  if(g.locked) return; g.locked=true; dragging=false;
+  const q=g.items[g.idx], truth=q.rec.m, pts=scoreFor(g.v,truth), err=Math.abs(g.v-truth);
+  g.total+=pts; g.log.push({kind:q.kind,rec:q.rec,guess:g.v,pts,err});
+  $('total').textContent=fmt(g.total); $('slider').disabled=true; $('num').disabled=true;
+  $('guessui').classList.add('hidden');
+  drawMap(q,true);
+  const [word,tier]=ratingFor(pts);
+  $('rating').className='rating t'+tier; $('rword').textContent=(g.level==='extreme'&&pts===0)?'Outside 5 per cent':word;
+  const tol=Math.max(LEVELS[g.level].floor,LEVELS[g.level].pct*Math.abs(truth));
+  $('rdetail').textContent = err===0 ? 'Exactly right.' : `You were ${fmt(err)} m too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmt(tol)} m.`:'');
+  $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmt(g.v)}<i>m</i></div></div><div class="c b"><div class="muted">${esc(q.rec.point)}</div><div class="big">${fmt(truth)}<i>m</i></div></div>`;
+  $('next').textContent = g.idx+1>=g.items.length ? 'See your score' : 'Next';
+  $('resui').classList.remove('hidden'); $('cmp').classList.remove('hidden');
+  // answer rises (or sinks) from sea level, then the score counts up
+  const t0=performance.now(), DUR=reduce?1:1300;
+  const frame=now=>{ const p=Math.min(1,(now-t0)/DUR), e=1-Math.pow(1-p,3);
+    drawGauge({value:truth*e, showGap:false}); $('pts').innerHTML=`${fmt(pts*e)}<small>points</small>`;
+    if(p<1) g.anim=requestAnimationFrame(frame); else { g.anim=0; drawGauge({value:truth,showGap:true}); } };
+  g.anim=requestAnimationFrame(frame);
+  $('next').focus({preventScroll:true});
+}
+function nextRound(){ if(!g.locked) return; g.idx++; if(g.idx>=g.items.length) finish(); else ask(); }
+
+function finish(){
+  stopAnim(); document.body.dataset.kind=g.mode==='lowest'?'lowest':'highest';
+  const max=g.items.length*TOP_MARKS, key=bestKey(), prev=g.best[key]||0, fresh=g.total>prev;
+  if(fresh){ g.best[key]=g.total; saveBest(); }
+  const avg=g.total/g.items.length, [word]=ratingFor(avg);
+  $('play').classList.add('hidden'); $('hud').classList.add('hidden'); $('final').classList.remove('hidden');
+  $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmt(g.total)} <small>of ${fmt(max)}</small></div>
+   <p class="muted">${LEVELS[g.level].label} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmt(prev)+'.'}</p>
+   <table><tr><th>Place</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${esc(r.rec.point)}</div></td><td class="n">${fmt(r.guess)} m</td><td class="n">${fmt(r.rec.m)} m</td><td class="n">${fmt(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
+   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button></div>`;
+  $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
+}
+function start(){ g.items=buildGame(); g.idx=0; g.total=0; g.log=[]; ask(); }
+function toMenu(){ stopAnim(); g.locked=true; ['hud','play','final'].forEach(i=>$(i).classList.add('hidden')); $('setup').classList.remove('hidden'); poolNote(); }
+
+$('start').onclick=start; $('lock').onclick=lock; $('next').onclick=nextRound; $('menu').onclick=toMenu;
+document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{g.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+document.querySelectorAll('#level button').forEach(b=>b.onclick=()=>{g.level=b.dataset.l;document.querySelectorAll('#level button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+$('region').onchange=()=>{g.region=$('region').value;poolNote();};
+document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
+  if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });
+$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>).`;
+$('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
+poolNote();
+window.__guess={g,scoreFor,ratingFor,buildGame,RANGE,f,finv,setValue,lock,start};
+</script>
+</body>
+</html>

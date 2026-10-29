@@ -1,0 +1,57 @@
+Join report 2026-10-29
+Wikipedia rows (excluding aggregate): 253
+Fieldmaps records: 329
+Wikipedia rows matched: 250 (217 exact, 33 alias); records receiving values: 281
+Wikipedia rows with no record: 3
+  Bir Tawil
+  Kosovo
+  Spratly Islands
+Fieldmaps records with no Wikipedia row: 48
+    4 Åland Islands (Fin.) [ALA] Territory/Self-governing territory
+   29 Bonaire (Neth.) [BES] Territory/Self-governing territory
+   30 Saba (Neth.) [BES] Territory/Self-governing territory
+   31 Sint Eustatius (Neth.) [BES] Territory/Self-governing territory
+  122 Jammu and Kashmir [XJK] Sovereignty unsettled
+  124 Jammu and Kashmir [XJK] Sovereignty unsettled
+  133 Pedro Bank (Jam.) [JAM] Territory/Self-governing territory
+  134 Morant Cays (Jam.) [JAM] Territory/Self-governing territory
+  194 Jammu and Kashmir [XJK] Sovereignty unsettled
+  196 Jammu and Kashmir [XJK] Sovereignty unsettled
+  279 Bird Island (Ven.) [VEN] Territory/Self-governing territory
+  287 Abyei [XAB] Sovereignty unsettled
+  288  [XAC] Sovereignty unsettled
+  289  [XAP] Sovereignty unsettled
+  290  [XCE] Sovereignty unsettled
+  291  [XCH] Sovereignty unsettled
+  292  [XCR] Sovereignty unsettled
+  293  [XDE] Sovereignty unsettled
+  294  [XDI] Sovereignty unsettled
+  295  [XDS] Sovereignty unsettled
+  296  [XHI] Sovereignty unsettled
+  297  [XHT] Sovereignty unsettled
+  298  [XIB] Sovereignty unsettled
+  299  [XIK] Sovereignty unsettled
+  300  [XIT] Sovereignty unsettled
+  301  [XJL] Sovereignty unsettled
+  302  [XJN] Sovereignty unsettled
+  303  [XKA] Sovereignty unsettled
+  304  [XKI] Sovereignty unsettled
+  305  [XKO] Sovereignty unsettled
+  306  [XKT] Sovereignty unsettled
+  307  [XKU] Sovereignty unsettled
+  309  [XLB] Sovereignty unsettled
+  310  [XLE] Sovereignty unsettled
+  311  [XLR] Sovereignty unsettled
+  312  [XMA] Sovereignty unsettled
+  313  [XMB] Sovereignty unsettled
+  314  [XMO] Joint sovereignty
+  315  [XMS] Sovereignty unsettled
+  316  [XPI] Sovereignty unsettled
+  317  [XSI] Sovereignty unsettled
+  318  [XSK] Sovereignty unsettled
+  319  [XSP] Sovereignty unsettled
+  320 Jammu and Kashmir [XJK] Sovereignty unsettled
+  321 Akrotiri (UK) [XUK] Territory/Self-governing territory
+  322 Dekelia (UK) [XUK] Territory/Self-governing territory
+  323  [XVO] Sovereignty unsettled
+  325 Prince Edward Islands (SA) [ZAF] Territory/Self-governing territory
