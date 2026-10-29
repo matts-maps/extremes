@@ -10,6 +10,7 @@
   --accent:#ffb347;--accent2:#ff6f61;--a:#35c2c9;--b:#ff9f5a;--good:#3ddc97;--bad:#ff6b6b;--sea:#4aa3e8;
   --glow:rgba(255,179,71,.35);--radius:18px;
 }
+body[data-kind="average"]{--accent:#7bd88f;--accent2:#35c2c9;--glow:rgba(123,216,143,.35);--bg1:#0a1a16;--bg2:#12332b}
 body[data-kind="lowest"]{--accent:#4aa3e8;--accent2:#35c2c9;--glow:rgba(74,163,232,.35);--bg1:#071420;--bg2:#0d2a40}
 *{box-sizing:border-box}
 html{background:var(--bg1)}
@@ -19,10 +20,10 @@ body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system
 body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600' fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.4'%3E%3Cellipse cx='300' cy='300' rx='60' ry='40'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='84'/%3E%3Cellipse cx='300' cy='300' rx='190' ry='130'/%3E%3Cellipse cx='300' cy='300' rx='270' ry='185'/%3E%3Cellipse cx='300' cy='300' rx='360' ry='250'/%3E%3Cellipse cx='300' cy='300' rx='460' ry='320'/%3E%3C/svg%3E") center/760px;}
 .wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px;position:relative}
-header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .home{margin-left:auto;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--card)}
 .home:hover,.home:focus-visible{border-color:var(--accent);outline:none}
 .credit{margin-top:6px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .logo{width:54px;height:54px;flex:none;filter:drop-shadow(0 4px 14px var(--glow))}
 h1{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.5px;font-weight:800}
 h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;transition:all .4s}
@@ -32,7 +33,7 @@ h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-b
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
 /* mode tiles */
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
 .mode{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:14px 8px 12px;font:inherit;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,background .15s}
 .mode:hover{transform:translateY(-2px);border-color:var(--mute)}
 .mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
@@ -121,7 +122,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   h1{font-size:24px}.logo{width:44px;height:44px}
   .choices{gap:10px}.choice{min-height:250px}.choice .nm{font-size:19px}.choice svg.cardmap{top:62px;height:calc(100% - 70px)}
   .vs{width:38px;height:38px;font-size:12px}
-  .cmp{grid-template-columns:1fr}.modes{gap:6px}.mode small{display:none}.q{font-size:18px}
+  .cmp{grid-template-columns:1fr}.modes{gap:6px;grid-template-columns:repeat(2,1fr)}.mode small{display:none}.q{font-size:18px}
 }
 </style>
 </head>
@@ -132,13 +133,14 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <h1>Higher <span>or lower</span></h1>
   <a class="home" href="../">Home</a>
 </header>
-<p class="sub">Which country has the highest point? Keep a streak going until you get one wrong. After each answer, both heights are shown against sea level and the highest and lowest points in the dataset.</p>
+<p class="sub">Which country has the highest point, the lowest point or the higher average elevation? Keep a streak going until you get one wrong. After each answer, both figures are shown against sea level and the dataset extremes.</p>
 
 <div class="card" id="setup">
   <div class="modes" id="mode">
     <button class="mode on" data-m="highest"><svg viewBox="0 0 44 34"><path d="M2 32 L16 8 L24 20 L30 12 L42 32Z" fill="#ffb347"/><path d="M13 13 L16 8 L19 13 L16 12Z" fill="#fff"/></svg><b>Highest points</b><small>Peaks and plateaus</small></button>
     <button class="mode" data-m="lowest"><svg viewBox="0 0 44 34"><path d="M2 8 H42 V10 Q32 14 22 10 Q12 6 2 10Z" fill="#4aa3e8"/><path d="M2 12 L14 12 L22 30 L30 12 L42 12 V32 H2Z" fill="#35c2c9" opacity=".85"/></svg><b>Lowest points</b><small>Basins and shores</small></button>
-    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>Both, at random</small></button>
+    <button class="mode" data-m="average"><svg viewBox="0 0 44 34"><path d="M2 32 L12 16 L20 24 L28 10 L42 32Z" fill="#7bd88f" opacity=".85"/><path d="M2 20 H42" stroke="#fff" stroke-width="2" stroke-dasharray="4 3"/></svg><b>Average elevation</b><small>The whole country</small></button>
+    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>All three, at random</small></button>
   </div>
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
@@ -171,13 +173,15 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
 <script>
 const POOL = /*DATA*/;
 const MAPS = /*MAPDATA*/;
-const HI = POOL.extremes.highest, LO = POOL.extremes.lowest;
+const HI = POOL.extremes.highest, LO = POOL.extremes.lowest, AX = POOL.avgextremes;
+const KINDS = ['highest','lowest','average'];
+const KWORD = {highest:'highest points', lowest:'lowest points', average:'average elevations'};
 const MIN_REL = 0.05, MIN_ABS = 10;   // pairs closer than this are never asked
 const $ = id => document.getElementById(id);
 const fmt = v => Math.round(v).toLocaleString('en-GB');
-const state = {mode:'highest', region:'', streak:0, best:{}, cur:null, used:{highest:new Set(),lowest:new Set()}, over:false};
+const state = {mode:'highest', region:'', streak:0, best:{}, cur:null, used:{highest:new Set(),lowest:new Set(),average:new Set()}, over:false};
 
-[...new Set([...POOL.highest,...POOL.lowest].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
+[...new Set([...POOL.highest,...POOL.lowest,...POOL.average].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
 try{ state.best = JSON.parse(localStorage.getItem('country-extremes-best')||'{}'); }catch(e){ state.best={}; }
 function saveBest(){ try{ localStorage.setItem('country-extremes-best',JSON.stringify(state.best)); }catch(e){} }
 
@@ -194,20 +198,20 @@ function makePair(kind){
     const a=fresh[rnd(fresh.length)], cands=p.filter(b=>b.id!==a.id && apart(a,b)); if(!cands.length) continue;
     const b=cands[rnd(cands.length)]; state.used[kind].add(a.id); state.used[kind].add(b.id);
     const pair=Math.random()<.5?[a,b]:[b,a];
-    const win = kind==='highest' ? (pair[0].m>pair[1].m?0:1) : (pair[0].m<pair[1].m?0:1);
+    const win = kind==='lowest' ? (pair[0].m<pair[1].m?0:1) : (pair[0].m>pair[1].m?0:1);
     return {kind,pair,win};
   }
   return null;
 }
-function nextKind(){ if(state.mode!=='mixed') return state.mode; const h=validPairs('highest')>0,l=validPairs('lowest')>0; return h&&l ? (Math.random()<.5?'highest':'lowest') : (h?'highest':'lowest'); }
+function nextKind(){ if(state.mode!=='mixed') return state.mode; const ok=KINDS.filter(k=>validPairs(k)>0); return ok[rnd(ok.length)]||'highest'; }
 
 function poolNote(){
-  const kinds = state.mode==='mixed'?['highest','lowest']:[state.mode];
+  const kinds = state.mode==='mixed'?KINDS:[state.mode];
   const n = kinds.map(k=>poolFor(k).length), ok = kinds.some(k=>validPairs(k)>0);
-  $('poolnote').textContent = ok ? `${kinds.map((k,i)=>n[i]+' '+k+' points').join(' and ')} in the question pool.` : 'Not enough records with a clean figure for this choice. Pick another region or mode.';
+  $('poolnote').textContent = ok ? `${kinds.map((k,i)=>n[i]+' '+k+(k==='average'?' elevations':' points')).join(' and ')} in the question pool.` : 'Not enough records with a clean figure for this choice. Pick another region or mode.';
   $('start').disabled = !ok;
   $('best').textContent = state.best[state.mode+'|'+state.region] || 0;
-  if(!state.cur || state.over) document.body.dataset.kind = state.mode==='lowest' ? 'lowest' : 'highest';
+  if(!state.cur || state.over) document.body.dataset.kind = state.mode==='lowest' ? 'lowest' : state.mode==='average' ? 'average' : 'highest';
 }
 
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -236,7 +240,7 @@ function ask(){
   state.cur=q; document.body.dataset.kind = kind;
   $('setup').classList.add('hidden'); $('hud').classList.remove('hidden');
   $('reveal').classList.add('hidden'); $('play').classList.remove('hidden');
-  $('question').textContent = kind==='highest' ? 'Which country has the highest point?' : 'Which country has the lowest point?';
+  $('question').textContent = {highest:'Which country has the highest point?', lowest:'Which country has the lowest point?', average:'Which country has the higher average elevation?'}[kind];
   q.pair.forEach((r,i)=>{ const b=$('c'+i); b.disabled=false; b.className='choice';
     b.style.animation='none'; void b.offsetWidth; b.style.animation='';
     b.innerHTML=`<span class="top"><span class="key">${i+1}</span><span class="nm">${esc(r.name)}</span><small>${esc(r.type==='State'?r.region:r.type)}</small></span><span class="tick">${''}</span>${mapMarkup(r,false)}`; });
@@ -253,8 +257,9 @@ function answer(i){
 }
 
 // share of the way from sea level to the dataset extreme
-function pct(v){ return v===0 ? 0 : Math.min(100, v>0 ? v/HI.m*100 : v/LO.m*100); }
-function share(v){ if(v===0) return '0 per cent'; const p = pct(v); const t = p<10 ? p.toFixed(1) : Math.round(p).toString(); return `${t} per cent of the way ${v>0?'up to':'down to'} ${v>0?'the highest':'the lowest'} point`; }
+function pct(v,kind){ if(kind==='average') return Math.min(100, v/AX.max.m*100); return v===0 ? 0 : Math.min(100, v>0 ? v/HI.m*100 : v/LO.m*100); }
+function share(v,kind){ if(kind==='average'){ const p=pct(v,kind); return `${p<10?p.toFixed(1):Math.round(p)} per cent of the highest national average (${AX.max.name}, ${fmt(AX.max.m)} m)`; }
+  if(v===0) return '0 per cent'; const p = pct(v); const t = p<10 ? p.toFixed(1) : Math.round(p).toString(); return `${t} per cent of the way ${v>0?'up to':'down to'} ${v>0?'the highest':'the lowest'} point`; }
 function above(v){ return v===0 ? 'at sea level' : `${fmt(Math.abs(v))} m ${v>0?'above':'below'} sea level`; }
 
 // Reveal chart, drawn as a function of time t (seconds) so the view can zoom.
@@ -280,9 +285,10 @@ function chart(q, t){
   // zoomed-in range around the two values, then geometric interpolation out to the dataset extremes
   const vals=q.pair.map(r=>r.m), span=Math.max(...vals.map(Math.abs),10);
   const up0=Math.max(Math.max(...vals,0)*1.3, span*.35, 5), dn0=Math.max(-Math.min(...vals,0)*1.3, span*.35, 5);
+  const avg=q.kind==='average', EH=avg?{m:AX.max.m,point:'Highest national average',name:AX.max.name}:HI;
   const e=easeIO(clamp01((t-3.4)/2));
-  const up=up0*Math.pow(HI.m/up0,e), dn=dn0*Math.pow(-LO.m/dn0,e);
-  const y=v=>top+(up-v)/(up+dn)*P, y0=y(0), yHi=y(HI.m), yLo=y(LO.m);
+  const up=up0*Math.pow(EH.m/up0,e), dn=avg?0:dn0*Math.pow(-LO.m/dn0,e);
+  const y=v=>top+(up-v)/(up+dn)*P, y0=y(0), yHi=y(EH.m), yLo=avg?y0:y(LO.m);
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Both values against sea level and the dataset extremes">`;
   s+=`<defs>
     <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a)" stop-opacity=".55"/></linearGradient>
@@ -316,8 +322,9 @@ function chart(q, t){
   // tick labels, dataset extremes and sea level sit outside the clip so text is never cut
   for(let v=Math.ceil(-dn/st)*st; v<=up; v+=st){ if(v===0) continue; const yy=y(v); if(Math.abs(yy-y0)<12) continue;
     s+=`<text class="m" x="36" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmt(v)}</text>`; }
-  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(HI.m)} m - ${esc(HI.point)} - ${esc(HI.name)}</text>`;
-  if(yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} m - ${esc(LO.point)} - ${esc(LO.name)}</text>`;
+  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(EH.m)} m - ${esc(EH.point)} - ${esc(EH.name)}</text>`;
+  if(avg){ const yw=y(POOL.avgextremes.world.m); if(yw>=top && yw<=H-bot && Math.abs(yw-yHi)>14) s+=`<line x1="40" x2="${W-20}" y1="${yw}" y2="${yw}" stroke="var(--mute)" stroke-dasharray="2 4"/><text class="m" x="44" y="${yw-6}">World average, ${fmt(POOL.avgextremes.world.m)} m</text>`; }
+  if(!avg && yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} m - ${esc(LO.point)} - ${esc(LO.name)}</text>`;
   q.pair.forEach((r,i)=>{
     const delay = i===q.win ? 1.4 : 0.2, x=xs[i];
     const v=r.m*easeOut(clamp01((t-delay)/.9)), yv=y(v), yt=v>=0?Math.min(yv,y0):y0;
@@ -342,12 +349,12 @@ function animateChart(q){
 }
 
 function showReveal(q,ok){
-  const kindWord=q.kind==='highest'?'highest':'lowest';
+  const kindWord=q.kind;
   $('verdict').textContent = ok ? 'Correct!' : 'Not this time.';
   $('banner').className='banner '+(ok?'ok':'no'); $('badge').textContent = ok ? '✓' : '✗';
   const d=Math.abs(q.pair[0].m-q.pair[1].m);
-  $('gap').textContent = `The two ${kindWord} points are ${fmt(d)} m apart.`;
-  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmt(r.m)}<i>m</i></div><div>${esc(r.point)}</div><div class="meter ${r.m<0?'neg':''}"><i style="width:${Math.max(pct(r.m),1.5).toFixed(1)}%"></i></div><div class="muted">${above(r.m)}; ${share(r.m)}.</div></div>`).join('');
+  $('gap').textContent = q.kind==='average' ? `The two averages are ${fmt(d)} m apart.` : `The two ${kindWord} points are ${fmt(d)} m apart.`;
+  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmt(r.m)}<i>m</i></div><div>${esc(r.point)}</div><div class="meter ${r.m<0?'neg':''}"><i style="width:${Math.max(pct(r.m,q.kind),1.5).toFixed(1)}%"></i></div><div class="muted">${q.kind==='average'?'Average elevation; '+share(r.m,q.kind):above(r.m)+'; '+share(r.m)}.</div></div>`).join('');
   animateChart(q);
   $('next').textContent = state.over ? 'Play again' : 'Next';
   $('endnote').textContent = state.over ? `Run over: streak of ${state.streak}.` : '';
@@ -355,7 +362,7 @@ function showReveal(q,ok){
   $('reveal').scrollIntoView({block:'nearest',behavior:'smooth'});
 }
 
-function start(){ state.streak=0; state.over=false; state.used={highest:new Set(),lowest:new Set()}; $('streak').textContent=0; ask(); }
+function start(){ state.streak=0; state.over=false; state.used={highest:new Set(),lowest:new Set(),average:new Set()}; $('streak').textContent=0; ask(); }
 $('start').onclick=start;
 $('menu').onclick=()=>{ stopAnim(); state.cur=null; state.over=true; ['hud','play','reveal'].forEach(i=>$(i).classList.add('hidden')); $('setup').classList.remove('hidden'); poolNote(); };
 $('next').onclick=()=>{ if(state.over) start(); else ask(); };
@@ -365,7 +372,7 @@ $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
   else if(e.key==='Enter' && !$('reveal').classList.contains('hidden') && e.target.tagName!=='BUTTON') $('next').click(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>).`;
+$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>) and Kosovo. Average elevation: <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_elevation" target="_blank" rel="noopener">Wikipedia, List of countries by average elevation</a> (revision 1366634239).`;
 $('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__game={state,makePair,validPairs,poolFor,apart,POOL};

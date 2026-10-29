@@ -4,6 +4,7 @@ Inputs : data/clean/wikipedia-elevation-extremes-clean-2026-10-29.csv   (253 Wik
          data/joined/elevation-extremes-by-record-2026-10-29.csv        (row -> fieldmaps record link, region, type)
          data/coords/point-coordinates-2026-10-29.csv                   (Wikidata coordinates, used for markers only)
          data/clean/manual-additions-2026-10-29.csv                     (rows added by hand from other Wikipedia pages)
+Also   : data/clean/average-elevation-clean-*.csv and temperature-records-clean-*.csv (from clean_climate_elevation.py)
 Output : data/master/country-extremes-master-2026-10-29.csv
 
 No elevation model is used. Every figure is the Wikipedia value. Coordinates are kept only where the Wikidata
@@ -21,6 +22,10 @@ JOIN = ROOT / "data/joined/elevation-extremes-by-record-2026-10-29.csv"
 COORDS = ROOT / "data/coords/point-coordinates-2026-10-29.csv"
 ISO = ROOT / "data/iso/iso3166-1-2026-10-29.csv"
 EXTRA = ROOT / "data/clean/manual-additions-2026-10-29.csv"
+AVG_ELEV = ROOT / "data/clean/average-elevation-clean-2026-10-29.csv"
+PRECIP = ROOT / "data/clean/average-precipitation-clean-2026-10-29.csv"
+AVG_TEMP = ROOT / "data/clean/average-temperature-clean-2026-10-29.csv"
+TEMPS = ROOT / "data/clean/temperature-records-clean-2026-10-29.csv"
 OUT = ROOT / "data/master/country-extremes-master-2026-10-29.csv"
 DISPUTED_TYPES = ("Sovereignty unsettled", "Occupied Palestinian Territory", "Joint sovereignty")
 
@@ -108,6 +113,10 @@ def main():
         exact = cand[cand["country_wikipedia"] == c["name"]]
         pick = (exact if len(exact) else cand.sort_values("map_pieces", ascending=False)).index[0]
         out.loc[pick, ["iso_alpha2", "iso_name", "in_iso_3166_1"]] = [c["alpha2"], c["name"], True]
+    # average elevation and hottest / coldest records (Wikipedia; run clean_climate_elevation.py first). Blank where Wikipedia has no row.
+    for path in (AVG_ELEV, PRECIP, AVG_TEMP, TEMPS):
+        out = out.merge(pd.read_csv(path, encoding="utf-8-sig"), on="country_wikipedia", how="left")
+    print("average elevation:", out.avg_elevation_m.notna().sum(), "| hottest:", out.hottest_c.notna().sum(), "| coldest:", out.coldest_c.notna().sum())
     print("in ISO 3166-1:", int(out["in_iso_3166_1"].sum()), "of", len(iso), "| not in ISO:", out[~out["in_iso_3166_1"]].country_wikipedia.tolist())
     OUT.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(OUT, index=False, encoding="utf-8-sig")

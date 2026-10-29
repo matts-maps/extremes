@@ -39,7 +39,8 @@ def rings(poly, tol):
     return out
 
 
-def main():
+def natural_earth_parts():
+    """Every Natural Earth part as one polygon: [(ne_name, polygon)]."""
     gj = json.loads(NE.read_text(encoding="utf-8"))
     parts = []  # (ne_name, polygon)
     for f in gj["features"]:
@@ -53,8 +54,11 @@ def main():
             for u in shapely.get_parts(v):
                 if u.geom_type == "Polygon" and not u.is_empty:
                     parts.append((f["properties"]["NAME"], u))
-    print("Natural Earth parts:", len(parts))
+    return parts
 
+
+def assign_parts(parts):
+    """Assign Natural Earth parts to the ISO master rows. Returns (master rows, ids, assigned {master_id: [part index]})."""
     m = pd.read_csv(MASTER, keep_default_na=False)
     m = m[m["in_iso_3166_1"].astype(str) == "True"]
     # fieldmaps shapes, to assign parts to rows
@@ -69,7 +73,6 @@ def main():
     ids = list(row_geom)
     tree = STRtree([row_geom[i] for i in ids])
     assigned = {i: [] for i in ids}
-    owner = {}
     for pi, (_, q) in enumerate(parts):
         pt = q.representative_point()
         best = None
@@ -81,7 +84,14 @@ def main():
                 if best is None or score < best[0]:
                     best = (score, rid)
         if best:
-            assigned[best[1]].append(pi); owner[pi] = best[1]
+            assigned[best[1]].append(pi)
+    return m, ids, assigned
+
+
+def main():
+    parts = natural_earth_parts()
+    print("Natural Earth parts:", len(parts))
+    m, ids, assigned = assign_parts(parts)
 
     world = []
     for pi, (_, q) in enumerate(parts):

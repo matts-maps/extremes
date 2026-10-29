@@ -10,6 +10,7 @@
   --accent:#ffb347;--accent2:#ff6f61;--a:#35c2c9;--b:#ff9f5a;--good:#3ddc97;--bad:#ff6b6b;--sea:#4aa3e8;
   --glow:rgba(255,179,71,.35);--radius:18px;
 }
+body[data-kind="average"]{--accent:#7bd88f;--accent2:#35c2c9;--glow:rgba(123,216,143,.35);--bg1:#0a1a16;--bg2:#12332b}
 body[data-kind="lowest"]{--accent:#4aa3e8;--accent2:#35c2c9;--glow:rgba(74,163,232,.35);--bg1:#071420;--bg2:#0d2a40}
 *{box-sizing:border-box}
 html{background:var(--bg1)}
@@ -18,10 +19,10 @@ body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system
 body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600' fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.4'%3E%3Cellipse cx='300' cy='300' rx='60' ry='40'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='84'/%3E%3Cellipse cx='300' cy='300' rx='190' ry='130'/%3E%3Cellipse cx='300' cy='300' rx='270' ry='185'/%3E%3Cellipse cx='300' cy='300' rx='360' ry='250'/%3E%3Cellipse cx='300' cy='300' rx='460' ry='320'/%3E%3C/svg%3E") center/760px}
 .wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px;position:relative}
-header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .home{margin-left:auto;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--card)}
 .home:hover,.home:focus-visible{border-color:var(--accent);outline:none}
 .credit{margin-top:6px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .logo{width:54px;height:54px;flex:none;filter:drop-shadow(0 4px 14px var(--glow))}
 h1{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.5px;font-weight:800}
 h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -31,7 +32,7 @@ h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-b
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .muted{color:var(--mute);font-size:13px}
 
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
 .mode{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:14px 8px 12px;font:inherit;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,background .15s}
 .mode:hover{transform:translateY(-2px);border-color:var(--mute)}
 .mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
@@ -129,7 +130,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
 @media(max-width:640px){
   h1{font-size:24px}.logo{width:44px;height:44px}.stage{grid-template-columns:1fr}.q{font-size:23px}.bigread{font-size:32px}
   .stage>*,.stage>#resui>*,.stage>#guessui>*{grid-column:1!important;grid-row:auto!important}.stage>#resui>.nextrow{justify-self:end}
-  .levels{gap:5px}.lvl{font-size:12px;padding:8px 2px}.modes{gap:6px}.mode small{display:none}.cmp{grid-template-columns:1fr}.final .tot{font-size:48px}
+  .levels{gap:5px}.lvl{font-size:12px;padding:8px 2px}.modes{gap:6px;grid-template-columns:repeat(2,1fr)}.mode small{display:none}.cmp{grid-template-columns:1fr}.final .tot{font-size:48px}
 }
 </style>
 </head>
@@ -140,13 +141,14 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <h1>Guess <span>the height</span></h1>
   <a class="home" href="../">Home</a>
 </header>
-<p class="sub">You get the name of a country and its highest or lowest point. Say how far above or below sea level it is. The closer you are, the more points you score, up to 1,000 a round. Pick a level to set how close you need to be.</p>
+<p class="sub">You get the name of a country and its highest point, lowest point or average elevation. Say how far above or below sea level it is. The closer you are, the more points you score, up to 1,000 a round. Pick a level to set how close you need to be.</p>
 
 <div class="card" id="setup">
   <div class="modes" id="mode">
     <button class="mode on" data-m="highest"><svg viewBox="0 0 44 34"><path d="M2 32 L16 8 L24 20 L30 12 L42 32Z" fill="#ffb347"/><path d="M13 13 L16 8 L19 13 L16 12Z" fill="#fff"/></svg><b>Highest points</b><small>How tall is the peak?</small></button>
     <button class="mode" data-m="lowest"><svg viewBox="0 0 44 34"><path d="M2 8 H42 V10 Q32 14 22 10 Q12 6 2 10Z" fill="#4aa3e8"/><path d="M2 12 L14 12 L22 30 L30 12 L42 12 V32 H2Z" fill="#35c2c9" opacity=".85"/></svg><b>Lowest points</b><small>How deep is the dip?</small></button>
-    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>Both, at random</small></button>
+    <button class="mode" data-m="average"><svg viewBox="0 0 44 34"><path d="M2 32 L12 16 L20 24 L28 10 L42 32Z" fill="#7bd88f" opacity=".85"/><path d="M2 20 H42" stroke="#fff" stroke-width="2" stroke-dasharray="4 3"/></svg><b>Average elevation</b><small>How high is it overall?</small></button>
+    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>All three, at random</small></button>
   </div>
   <div class="levels" id="level" role="group" aria-label="Level">
     <button class="lvl" data-l="beginner">Beginner</button>
@@ -199,7 +201,8 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
 <script>
 const POOL = /*DATA*/;
 const MAPS = /*MAPDATA*/;
-const HI = POOL.extremes.highest, LO = POOL.extremes.lowest;
+const HI = POOL.extremes.highest, LO = POOL.extremes.lowest, AX = POOL.avgextremes;
+const KINDS = ['highest','lowest','average'];
 const ROUNDS = 10, TOP_MARKS = 1000;
 const $ = id => document.getElementById(id);
 const fmt = v => Math.round(v).toLocaleString('en-GB');
@@ -211,25 +214,25 @@ const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 // the gauge and slider scale is uniform: equal heights take equal space
 const f = v => v;
 const finv = s => s;
-const RANGE = {highest:{lo:0, hi:HI.m}, lowest:{lo:LO.m, hi:Math.ceil(Math.max(...POOL.lowest.map(r=>r.m))/100)*100}};
+const RANGE = {highest:{lo:0, hi:HI.m}, lowest:{lo:LO.m, hi:Math.ceil(Math.max(...POOL.lowest.map(r=>r.m))/100)*100}, average:{lo:0, hi:Math.ceil(AX.max.m/500)*500}};
 
 const g = {mode:'highest', level:'intermediate', region:'', best:{}, items:[], idx:0, total:0, log:[], v:0, locked:false, anim:0};
-[...new Set([...POOL.highest,...POOL.lowest].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
+[...new Set([...POOL.highest,...POOL.lowest,...POOL.average].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
 try{ g.best = JSON.parse(localStorage.getItem('country-extremes-guess-best')||'{}'); }catch(e){ g.best={}; }
 const saveBest = () => { try{ localStorage.setItem('country-extremes-guess-best',JSON.stringify(g.best)); }catch(e){} };
 
 const poolFor = kind => POOL[kind].filter(r=>!g.region||r.region===g.region);
 const bestKey = () => g.mode+'|'+g.region+'|'+g.level;
-const kindsFor = () => g.mode==='mixed' ? ['highest','lowest'] : [g.mode];
+const kindsFor = () => g.mode==='mixed' ? KINDS : [g.mode];
 const needed = () => Math.min(ROUNDS, kindsFor().reduce((n,k)=>n+poolFor(k).length,0));
 
 function poolNote(){
   const ks=kindsFor(), n=ks.map(k=>poolFor(k).length), total=n.reduce((a,b)=>a+b,0), ok=total>=3;
-  $('poolnote').textContent = ok ? `${ks.map((k,i)=>n[i]+' '+k+' points').join(' and ')} in the question pool; ${Math.min(ROUNDS,total)} rounds per game.` : 'Not enough records for this choice. Pick another region or mode.';
+  $('poolnote').textContent = ok ? `${ks.map((k,i)=>n[i]+' '+k+(k==='average'?' elevations':' points')).join(' and ')} in the question pool; ${Math.min(ROUNDS,total)} rounds per game.` : 'Not enough records for this choice. Pick another region or mode.';
   $('start').disabled = !ok;
   $('levelnote').textContent = LEVELS[g.level].note;
   $('best').textContent = g.best[bestKey()] || 0;
-  if(!$('hud').classList.contains('hidden')) return; document.body.dataset.kind = g.mode==='lowest'?'lowest':'highest';
+  if(!$('hud').classList.contains('hidden')) return; document.body.dataset.kind = g.mode==='lowest'?'lowest':g.mode==='average'?'average':'highest';
 }
 
 // score: 1,000 for an exact answer. Beginner to advanced fall away as exp(-miss/allowance), allowance a share of the true value
@@ -321,8 +324,8 @@ function ask(){
   const q=g.items[g.idx], R=RANGE[q.kind]; document.body.dataset.kind=q.kind;
   $('setup').classList.add('hidden'); $('final').classList.add('hidden'); $('hud').classList.remove('hidden'); $('play').classList.remove('hidden');
   $('rn').textContent=g.idx+1; $('rof').textContent='of '+g.items.length; $('total').textContent=fmt(g.total); dots();
-  $('kindword').textContent = q.kind==='highest' ? 'Highest point of' : 'Lowest point of';
-  $('country').textContent = q.rec.name; $('point').innerHTML = `${q.kind==='highest'?'Peak':'Spot'}: <b>${esc(q.rec.point)}</b>`;
+  $('kindword').textContent = {highest:'Highest point of', lowest:'Lowest point of', average:'Average elevation of'}[q.kind];
+  $('country').textContent = q.rec.name; $('point').innerHTML = q.kind==='average' ? 'The mean height of all the land, <b>not</b> the peak' : `${q.kind==='highest'?'Peak':'Spot'}: <b>${esc(q.rec.point)}</b>`;
   const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=1; sl.disabled=false;
   const nm=$('num'); nm.min=R.lo; nm.max=R.hi; nm.disabled=false;
   drawMap(q,false); $('cmp').classList.add('hidden');
@@ -353,7 +356,7 @@ function drawMap(q, reveal){
     const gp=document.createElementNS(SVGNS,'g'); gp.setAttribute('class','mp-pin'); const cx=q.rec.lon*k, cy=-q.rec.lat, rr=Math.max(x1-x0,y1-y0)*.012;
     gp.innerHTML=`<circle class="r" cx="${cx}" cy="${cy}" r="${rr*2.2}" vector-effect="non-scaling-stroke"/><circle class="d" cx="${cx}" cy="${cy}" r="${rr}" vector-effect="non-scaling-stroke"/>`; svg.appendChild(gp);
   }
-  cap.textContent = !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : hasPt ? `${q.rec.point}: marked on the map.` : `${q.rec.point}: exact location not plotted.`;
+  cap.textContent = q.kind==='average' ? (reveal?'Average over the whole country, so no single point is marked.':'Find your bearings: the outlined country is the one to guess for.') : !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : hasPt ? `${q.rec.point}: marked on the map.` : `${q.rec.point}: exact location not plotted.`;
 }
 function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
 function lock(){
@@ -381,7 +384,7 @@ function lock(){
 function nextRound(){ if(!g.locked) return; g.idx++; if(g.idx>=g.items.length) finish(); else ask(); }
 
 function finish(){
-  stopAnim(); document.body.dataset.kind=g.mode==='lowest'?'lowest':'highest';
+  stopAnim(); document.body.dataset.kind=g.mode==='lowest'?'lowest':g.mode==='average'?'average':'highest';
   const max=g.items.length*TOP_MARKS, key=bestKey(), prev=g.best[key]||0, fresh=g.total>prev;
   if(fresh){ g.best[key]=g.total; saveBest(); }
   const avg=g.total/g.items.length, [word]=ratingFor(avg);
@@ -401,7 +404,7 @@ document.querySelectorAll('#level button').forEach(b=>b.onclick=()=>{g.level=b.d
 $('region').onchange=()=>{g.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
   if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>).`;
+$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>) and Kosovo. Average elevation: <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_elevation" target="_blank" rel="noopener">Wikipedia, List of countries by average elevation</a> (revision 1366634239).`;
 $('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__guess={g,scoreFor,ratingFor,buildGame,RANGE,f,finv,setValue,lock,start};
