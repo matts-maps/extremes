@@ -56,7 +56,9 @@ def main():
     shared = {"Mount Everest": "Nepal and China", "Dead Sea": "Israel, Jordan and Palestine"}
     top_name = shared.get(top["highest"]["name"], top["name"])
     bottom_name = shared.get(bottom["lowest"]["name"], bottom["name"])
-    out = {"highest": highest, "lowest": lowest, "average": avg,
+    gl = json.loads((ROOT / "data/game/global-averages-2026-10-29.json").read_text(encoding="utf-8"))["values"]
+    glob = {k: {"v": gl[k]["v"], "label": gl[k]["label"]} for k in ['highest', 'lowest', 'average']}
+    out = {"highest": highest, "lowest": lowest, "average": avg, "global": glob,
            "avgextremes": {"max": {"m": avg_top["m"], "name": avg_top["name"]}, "min": {"m": avg_low["m"], "name": avg_low["name"]},
                            "world": {"m": 840.0, "name": "World"}},
            "extremes": {"highest": {"m": top["highest"]["m"], "name": top_name, "point": top["highest"]["name"]},

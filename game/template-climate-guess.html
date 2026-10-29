@@ -338,6 +338,8 @@ function drawGauge(extra){
   s+=`</g>`;
   ticks.forEach(([v,lab])=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-yb)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
   if(zero) s+=`<line x1="${GX0}" x2="${GX1}" y1="${yb}" y2="${yb}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${yb+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">${isRain(q.kind)?0:IMP?32:0}</text>`;
+  if(extra){ const GA=POOL.global[q.kind], yg2=G.y(GA.v);
+    s+=`<line x1="${GX0}" x2="${GX1}" y1="${yg2}" y2="${yg2}" stroke="#fff" stroke-opacity=".6" stroke-dasharray="2 4"/><text x="${GX1-3}" y="${yg2-4}" text-anchor="end" style="font-size:10px;fill:#fff;opacity:.9">${GA.label}: ${fmtV(q.kind,GA.v)} ${UN(q.kind)}</text>`; }
   const gy=clamp(yg,GT,GT+G.P), left=GX0+(GX1-GX0)*.62;
   if(extra&&extra.showGap){ const ya=G.y(extra.value); s+=`<line x1="${left+34}" x2="${left+34}" y1="${gy}" y2="${ya}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/><line x1="${GX0}" x2="${GX1}" y1="${ya}" y2="${ya}" stroke="var(--b)" stroke-width="1.5" stroke-dasharray="5 4"/>`; }
   s+=`<line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5"/>`;

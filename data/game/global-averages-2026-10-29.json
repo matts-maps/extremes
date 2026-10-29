@@ -1,0 +1,86 @@
+{
+ "values": {
+  "highest": {
+   "v": 2334.3,
+   "label": "Average of all countries",
+   "n": 250,
+   "method": "mean of the countries"
+  },
+  "lowest": {
+   "v": 31.0,
+   "label": "Average of all countries",
+   "n": 250,
+   "method": "mean of the countries"
+  },
+  "average": {
+   "v": 840.0,
+   "label": "Global average",
+   "n": 0,
+   "method": "Wikipedia, World row"
+  },
+  "hottest": {
+   "v": 42.3,
+   "label": "Average of all countries",
+   "n": 178,
+   "method": "mean of the countries"
+  },
+  "coldest": {
+   "v": -22.2,
+   "label": "Average of all countries",
+   "n": 122,
+   "method": "mean of the countries"
+  },
+  "avghigh": {
+   "v": 19.7,
+   "label": "Global average",
+   "n": 236,
+   "method": "mean weighted by land area",
+   "no_area": [
+    "French Guiana",
+    "French Southern and Antarctic Lands",
+    "Guadeloupe",
+    "Martinique",
+    "Mayotte",
+    "R\u00e9union",
+    "\u00c5land Islands"
+   ]
+  },
+  "avglow": {
+   "v": 8.1,
+   "label": "Global average",
+   "n": 236,
+   "method": "mean weighted by land area",
+   "no_area": [
+    "French Guiana",
+    "French Southern and Antarctic Lands",
+    "Guadeloupe",
+    "Martinique",
+    "Mayotte",
+    "R\u00e9union",
+    "\u00c5land Islands"
+   ]
+  },
+  "avgmean": {
+   "v": 13.9,
+   "label": "Global average",
+   "n": 236,
+   "method": "mean weighted by land area",
+   "no_area": [
+    "French Guiana",
+    "French Southern and Antarctic Lands",
+    "Guadeloupe",
+    "Martinique",
+    "Mayotte",
+    "R\u00e9union",
+    "\u00c5land Islands"
+   ]
+  },
+  "wettest": {
+   "v": 815.9,
+   "label": "Global average",
+   "n": 183,
+   "method": "mean weighted by land area",
+   "no_area": []
+  }
+ }
+}

@@ -71,7 +71,9 @@ def main():
         place = (lambda x: x[f"{side}_place"]) if side in ("hottest", "coldest") else (lambda x: "national average")
         ext[side] = {"max": {"v": round(float(hi[col]), 1), "name": hi["country_wikipedia"], "point": place(hi)},
                      "min": {"v": round(float(lo[col]), 1), "name": lo["country_wikipedia"], "point": place(lo)}}
-    out = {**pool, "ext": ext, "detail": detail,
+    gl = json.loads((ROOT / "data/game/global-averages-2026-10-29.json").read_text(encoding="utf-8"))["values"]
+    glob = {k: {"v": gl[k]["v"], "label": gl[k]["label"]} for k in ['hottest', 'coldest', 'avghigh', 'avglow', 'avgmean', 'wettest']}
+    out = {**pool, "ext": ext, "detail": detail, "global": glob,
            "source": "Wikipedia, List of weather records (revision 1382542755) for hottest and coldest; List of countries by average annual precipitation (revision 1380108857) for wettest; fetched 29 October 2026; average temperatures: World Bank Climate Change Knowledge Portal, CRU TS 4.07, 1991 to 2020; countries and territories of the ISO 3166-1 list."}
     OUT.write_text(json.dumps(out, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     print({k: len(v) for k, v in pool.items()}, json.dumps(ext, ensure_ascii=False))
