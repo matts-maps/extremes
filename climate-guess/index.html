@@ -125,6 +125,10 @@ table.nums tr:first-child td{border-top:0}
 table.nums td.v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;padding-left:8px}
 table.nums tr.ask td{color:var(--accent);font-weight:800}
 table.nums small{display:block;color:var(--mute);font-weight:400;font-size:11px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:10px 14px;font:inherit;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
 .chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
 
 .final h2{font-size:34px;margin:0}
@@ -172,6 +176,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <p class="muted" id="levelnote" style="margin:10px 0 0"></p>
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (°C, mm)</button><button data-u="imperial">Imperial (°F, in)</button></div>
     <button class="go" id="start">Start</button>
     <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
   </div>
@@ -222,6 +227,19 @@ const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
 const rnd = n => Math.floor(Math.random()*n);
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 const fmtI = v => Math.round(v).toLocaleString('en-GB').replace('-','−');
+// ---- units: figures are held in degrees Celsius and millimetres; the display can switch to Fahrenheit and inches (kept in localStorage, shared by all the games)
+let IMP = false; try{ IMP = localStorage.getItem('country-extremes-units')==='imperial'; }catch(e){}
+const isRain = k => k==='wettest';
+const dv = (k,v) => IMP ? (isRain(k) ? v/25.4 : v*9/5+32) : v;      // an absolute value, for display
+const dd = (k,d) => IMP ? (isRain(k) ? d/25.4 : d*1.8) : d;         // a difference, for display
+const toBase = (k,x) => IMP ? (isRain(k) ? x*25.4 : (x-32)/1.8) : x;
+const UN = k => isRain(k) ? (IMP?'in':'mm') : (IMP?'°F':'°C');
+const decs = k => isRain(k) ? (IMP?1:0) : 1;
+const fmtNum = (x,d) => (d ? x.toFixed(d) : Math.round(x).toLocaleString('en-GB')).replace('-','−');
+const fmtV = (k,v) => fmtNum(dv(k,v),decs(k));
+const fmtD = (k,d) => fmtNum(dd(k,d),decs(k));
+function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.classList.toggle('on',(b.dataset.u==='imperial')===IMP)); }
+
 
 // per-measure settings. Gauge ranges are fixed so the range gives nothing away.
 // Temperatures are scored on an absolute miss in degrees; rainfall on a share of the true figure with a floor in millimetres.
@@ -240,8 +258,7 @@ const ASK = {hottest:'rh', coldest:'rl', avghigh:'ah', avglow:'al', avgmean:'am'
 const ROWS = [['rh','Record high','rhp','rhd'],['ah','Average daily high'],['am','Average temperature'],['al','Average daily low'],['rl','Record low','rlp','rld']];
 function numsTable(kind,rec){ if(!ASK[kind]) return ''; const d=POOL.detail[rec.id]||{};
   return '<table class="nums">'+ROWS.map(([k,label,pk,dk])=>{ const place=pk&&d[pk]?esc(d[pk])+(d[dk]&&d[dk]!=='?'&&d[dk]!=='N/A'?', '+esc(d[dk]):''):'';
-    return `<tr class="${k===ASK[kind]?'ask':''}"><td>${label}${place?`<small>${place}</small>`:''}</td><td class="v">${d[k]==null?'no figure':fmtV('hottest',d[k])+' °C'}</td></tr>`; }).join('')+'</table>'; }
-const fmtV = (kind,v) => (CFG[kind].dec ? v.toFixed(CFG[kind].dec) : fmtI(v)).replace('-','−');
+    return `<tr class="${k===ASK[kind]?'ask':''}"><td>${label}${place?`<small>${place}</small>`:''}</td><td class="v">${d[k]==null?'no figure':fmtV('hottest',d[k])+' '+UN('hottest')}</td></tr>`; }).join('')+'</table>'; }
 const LEVELNAMES = {beginner:'Beginner', intermediate:'Intermediate', advanced:'Advanced', extreme:'Extreme'};
 function tolFor(kind,level,truth){ const C=CFG[kind]; return C.tol ? C.tol[level] : Math.max(C.floor[level], C.pct[level]*Math.abs(truth)); }
 
@@ -257,11 +274,11 @@ const needed = () => Math.min(ROUNDS, kindsFor().reduce((n,k)=>n+poolFor(k).leng
 
 function levelNote(){
   const L=g.level, ks=kindsFor(), parts=[], isRec=k=>k==='hottest'||k==='coldest', isAvg=k=>k==='avghigh'||k==='avglow'||k==='avgmean';
-  const temp=(name,x)=> L==='extreme' ? `${name}: only guesses within ${x} °C score; exact scores 1,000, falling to 500 at the edge.` : `${name}: a miss of ${x} °C scores about 370; half that scores about 600.`;
+  const temp=(name,x)=>{ const t=`${fmtD('hottest',x)} ${UN('hottest')}`; return L==='extreme' ? `${name}: only guesses within ${t} score; exact scores 1,000, falling to 500 at the edge.` : `${name}: a miss of ${t} scores about 370; half that scores about 600.`; };
   if(ks.some(isRec)) parts.push(temp('Records',TOL_REC[L]));
   if(ks.some(isAvg)) parts.push(temp('Averages',TOL_AVG[L]));
   if(ks.includes('wettest')){ const p=CFG.wettest.pct[L]*100, fl=CFG.wettest.floor[L];
-    parts.push(L==='extreme' ? `Rainfall: only guesses within ${p} per cent (at least ${fl} mm) score; exact scores 1,000, falling to 500 at the edge.` : `Rainfall: a miss of ${p} per cent of the true figure (at least ${fl} mm) scores about 370.`); }
+    parts.push(L==='extreme' ? `Rainfall: only guesses within ${p} per cent (at least ${fmtD('wettest',fl)} ${UN('wettest')}) score; exact scores 1,000, falling to 500 at the edge.` : `Rainfall: a miss of ${p} per cent of the true figure (at least ${fmtD('wettest',fl)} ${UN('wettest')}) scores about 370.`); }
   return parts.join(' ');
 }
 function poolNote(){
@@ -295,13 +312,13 @@ function buildGame(){
 const GW=340, GH=330, GT=18, GB=18, GX0=64, GX1=GW-10;
 const baseOf = R => clamp(0,R.lo,R.hi);
 function geom(kind){ const R=CFG[kind], P=GH-GT-GB; const y=v=>GT+(R.hi-v)/(R.hi-R.lo)*P; return {R,P,y}; }
-function ticksFor(G){
-  const pxPer=G.P/(G.R.hi-G.R.lo), step=[.5,1,2,5,10,20,25,50,100,200,250,500,1000].find(st=>st*pxPer>=26)||1000, out=[];
-  for(let v=Math.ceil(G.R.lo/step)*step; v<=G.R.hi+1e-9; v+=step) out.push(Math.round(v*100)/100);
+function ticksFor(G,kind){
+  const a=dv(kind,G.R.lo), b=dv(kind,G.R.hi), pxPer=G.P/(b-a), step=[.5,1,2,5,10,20,25,50,100,200,250,500,1000].find(st=>st*pxPer>=26)||1000, out=[];
+  for(let d=Math.ceil(a/step)*step; d<=b+1e-9; d+=step) out.push([toBase(kind,d), Math.round(d*100)/100]);
   return out;
 }
 function drawGauge(extra){
-  const q=g.items[g.idx], G=geom(q.kind), C=CFG[q.kind], yb=G.y(baseOf(C)), yg=G.y(g.v), ticks=ticksFor(G), zero=C.lo<0&&C.hi>0;
+  const q=g.items[g.idx], G=geom(q.kind), C=CFG[q.kind], yb=G.y(baseOf(C)), yg=G.y(g.v), ticks=ticksFor(G,q.kind), zero=C.lo<0&&C.hi>0;
   let s=`<svg viewBox="0 0 ${GW} ${GH}" id="gsvg" role="img" aria-label="Scale; your guess is marked">`;
   s+=`<defs>
    <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a)" stop-opacity=".5"/></linearGradient>
@@ -309,24 +326,30 @@ function drawGauge(extra){
    <clipPath id="gclip"><rect x="${GX0}" y="${GT}" width="${GX1-GX0}" height="${G.P}"/></clipPath></defs>`;
   s+=`<g clip-path="url(#gclip)">`;
   if(zero) s+=`<rect x="${GX0}" y="${yb}" width="${GX1-GX0}" height="${GT+G.P-yb}" fill="var(--sea)" fill-opacity=".12"/>`;
-  ticks.forEach(v=>{ if(v!==0) s+=`<line x1="${GX0}" x2="${GX1}" y1="${G.y(v)}" y2="${G.y(v)}" stroke="#fff" stroke-opacity=".08"/>`; });
-  if(extra){ const yt=G.y(extra.value), x=GX0+(GX1-GX0)*.32, hw=40, top=Math.min(yt,yb), h=Math.max(Math.abs(yt-yb),2);
-    s+=`<rect x="${x-hw}" y="${top}" width="${hw*2}" height="${h}" rx="10" fill="url(#gB)" stroke="#fff" stroke-width="1.6"/>`; }
+  ticks.forEach(([v])=>{ if(v!==0) s+=`<line x1="${GX0}" x2="${GX1}" y1="${G.y(v)}" y2="${G.y(v)}" stroke="#fff" stroke-opacity=".08"/>`; });
+  if(extra){ const x=GX0+(GX1-GX0)*.30, yt=G.y(extra.value), yb0=GT+G.P, col='var(--b)', glass='#15293b';
+    if(q.kind==='wettest'){ const hw=22;
+      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-4}" rx="8" fill="${glass}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="${Math.max(0,yb0-2-yt)}" fill="${col}" opacity=".85"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="3" fill="#fff" opacity=".55"/>`;
+    } else { const hw=12, bc=yb0-17;
+      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-6}" rx="${hw}" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="${x}" cy="${bc}" r="17" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`;
+      s+=`<rect x="${x-hw+1}" y="${GT+3}" width="${hw*2-2}" height="${G.P-8}" rx="${hw-1}" fill="${glass}"/><circle cx="${x}" cy="${bc}" r="16" fill="${glass}"/>`;
+      s+=`<rect x="${x-5}" y="${Math.min(yt,bc)}" width="10" height="${Math.max(0,bc-Math.min(yt,bc))}" rx="5" fill="${col}"/><circle cx="${x}" cy="${bc}" r="12" fill="${col}"/>`; }
+  }
   s+=`</g>`;
-  ticks.forEach(v=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-yb)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtI(v)}</text>`; });
-  if(zero) s+=`<line x1="${GX0}" x2="${GX1}" y1="${yb}" y2="${yb}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${yb+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">0</text>`;
+  ticks.forEach(([v,lab])=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-yb)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
+  if(zero) s+=`<line x1="${GX0}" x2="${GX1}" y1="${yb}" y2="${yb}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${yb+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">${isRain(q.kind)?0:IMP?32:0}</text>`;
   const gy=clamp(yg,GT,GT+G.P), left=GX0+(GX1-GX0)*.62;
   if(extra&&extra.showGap){ const ya=G.y(extra.value); s+=`<line x1="${left+34}" x2="${left+34}" y1="${gy}" y2="${ya}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/><line x1="${GX0}" x2="${GX1}" y1="${ya}" y2="${ya}" stroke="var(--b)" stroke-width="1.5" stroke-dasharray="5 4"/>`; }
   s+=`<line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5"/>`;
-  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="84" height="26" rx="13" fill="var(--a)"/><text x="36" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmtV(q.kind,g.v)} ${C.unit}</text></g>`;
+  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="84" height="26" rx="13" fill="var(--a)"/><text x="36" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmtV(q.kind,g.v)} ${UN(q.kind)}</text></g>`;
   s+=`</svg>`; $('gauge').innerHTML=s;
 }
 
 // ---- input handling ----
-function sub(kind,v){ if(kind==='wettest') return v===0?'No rain':`About ${fmtI(v/10)} cm of rain in a year`; return v===0?'Exactly freezing':`${fmtV(kind,Math.abs(v))} °C ${v>0?'above':'below'} freezing`; }
+function sub(kind,v){ if(kind==='wettest') return v===0?'No rain':IMP?`About ${fmtNum(v/25.4,0)} in of rain in a year`:`About ${fmtI(v/10)} cm of rain in a year`; return v===0?'Exactly freezing':`${fmtD(kind,Math.abs(v))} ${UN(kind)} ${v>0?'above':'below'} freezing`; }
 function setValue(v,fromNum){
-  const q=g.items[g.idx], C=CFG[q.kind]; g.v=Math.round(clamp(v,C.lo,C.hi)/C.step)*C.step;
-  $('read').textContent=fmtV(q.kind,g.v); $('slider').value=g.v; if(!fromNum) $('num').value=g.v;
+  const q=g.items[g.idx], C=CFG[q.kind]; const st=IMP?(isRain(q.kind)?1:.1):C.step; g.v=+(Math.round(clamp(v,C.lo,C.hi)/st)*st).toFixed(2);
+  $('read').textContent=fmtV(q.kind,g.v); $('slider').value=g.v; if(!fromNum) $('num').value=+dv(q.kind,g.v).toFixed(decs(q.kind));
   $('readsub').textContent = sub(q.kind,g.v);
   drawGauge();
 }
@@ -339,7 +362,7 @@ $('gauge').addEventListener('pointerdown',e=>{ if(g.locked) return; dragging=tru
 $('gauge').addEventListener('pointermove',e=>{ if(dragging&&!g.locked) gaugeToValue(e); });
 $('gauge').addEventListener('pointerup',()=>dragging=false);
 $('slider').addEventListener('input',e=>{ if(!g.locked) setValue(parseFloat(e.target.value)); });
-$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(parseFloat(e.target.value),true); });
+$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(toBase(g.items[g.idx].kind,parseFloat(e.target.value)),true); });
 
 // ---- flow ----
 function dots(){ $('dots').innerHTML=g.items.map((_,i)=>`<i class="${i<g.idx?'done':i===g.idx?'now':''}"></i>`).join(''); }
@@ -349,9 +372,9 @@ function ask(){
   $('setup').classList.add('hidden'); $('final').classList.add('hidden'); $('hud').classList.remove('hidden'); $('play').classList.remove('hidden');
   $('rn').textContent=g.idx+1; $('rof').textContent='of '+g.items.length; $('total').textContent=fmtI(g.total); dots();
   $('kindword').textContent = C.word; $('country').textContent = q.rec.name; $('point').innerHTML = esc(C.hint);
-  $('unit').textContent=C.unit; $('unit2').textContent=C.unit;
-  const sl=$('slider'); sl.min=C.lo; sl.max=C.hi; sl.step=C.step; sl.disabled=false;
-  const nm=$('num'); nm.min=C.lo; nm.max=C.hi; nm.step=C.step; nm.disabled=false;
+  $('unit').textContent=UN(q.kind); $('unit2').textContent=UN(q.kind);
+  const sl=$('slider'); sl.min=C.lo; sl.max=C.hi; sl.step=IMP?(isRain(q.kind)?1:.1):C.step; sl.disabled=false;
+  const nm=$('num'); nm.min=+dv(q.kind,C.lo).toFixed(1); nm.max=+dv(q.kind,C.hi).toFixed(1); nm.step='any'; nm.disabled=false;
   drawMap(q,false); $('cmp').classList.add('hidden');
   $('guessui').classList.remove('hidden'); $('resui').classList.add('hidden');
   setValue((C.lo+C.hi)/2);
@@ -387,14 +410,16 @@ function lock(){
   drawMap(q,true);
   const [word,tier]=ratingFor(pts), tol=tolFor(q.kind,g.level,truth), eps=q.kind==='wettest'?.5:.05;
   $('rating').className='rating t'+tier; $('rword').textContent=(g.level==='extreme'&&pts===0)?'Outside the allowance':word;
-  $('rdetail').textContent = err<eps ? 'Exactly right.' : `You were ${fmtV(q.kind,err)} ${C.unit} too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmtV(q.kind,tol)} ${C.unit}.`:'');
-  $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmtV(q.kind,g.v)}<i>${C.unit}</i></div></div><div class="c b"><div class="muted">${(q.kind==='hottest'||q.kind==='coldest')?esc(q.rec.point):C.label}</div><div class="big">${fmtV(q.kind,truth)}<i>${C.unit}</i></div></div>${ASK[q.kind]?`<div class="c" style="grid-column:1/-1"><div class="muted">All the temperature figures for ${esc(q.rec.name)}</div>${numsTable(q.kind,q.rec)}</div>`:''}`;
+  $('rdetail').textContent = err<eps ? 'Exactly right.' : `You were ${fmtD(q.kind,err)} ${UN(q.kind)} too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmtD(q.kind,tol)} ${UN(q.kind)}.`:'');
+  $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmtV(q.kind,g.v)}<i>${UN(q.kind)}</i></div></div><div class="c b"><div class="muted">${(q.kind==='hottest'||q.kind==='coldest')?esc(q.rec.point):C.label}</div><div class="big">${fmtV(q.kind,truth)}<i>${UN(q.kind)}</i></div></div>${ASK[q.kind]?`<div class="c" style="grid-column:1/-1"><div class="muted">All the temperature figures for ${esc(q.rec.name)}</div>${numsTable(q.kind,q.rec)}</div>`:''}`;
   $('next').textContent = g.idx+1>=g.items.length ? 'See your score' : 'Next';
   $('resui').classList.remove('hidden'); $('cmp').classList.remove('hidden');
-  const t0=performance.now(), DUR=reduce?1:1300, base=baseOf(C);
-  const frame=now=>{ const p=Math.min(1,(now-t0)/DUR), e=1-Math.pow(1-p,3);
-    drawGauge({value:base+(truth-base)*e, showGap:false}); $('pts').innerHTML=`${fmtI(pts*e)}<small>points</small>`;
-    if(p<1) g.anim=requestAnimationFrame(frame); else { g.anim=0; drawGauge({value:truth,showGap:true}); } };
+  // fill to your guess, pause for a second, then carry on to the true figure
+  const t0=performance.now(), A=reduce?.01:1.1, PA=reduce?0:1.0, B=reduce?.01:1.2, easeO=x=>1-Math.pow(1-x,3);
+  const frame=now=>{ const t=(now-t0)/1000; let level, e=0;
+    if(t<A) level=C.lo+(g.v-C.lo)*easeO(t/A); else if(t<A+PA) level=g.v; else { e=easeO(Math.min(1,(t-A-PA)/B)); level=g.v+(truth-g.v)*e; }
+    drawGauge({value:level, showGap:false}); $('pts').innerHTML=`${fmtI(pts*e)}<small>points</small>`;
+    if(t<A+PA+B) g.anim=requestAnimationFrame(frame); else { g.anim=0; drawGauge({value:truth,showGap:true}); $('pts').innerHTML=`${fmtI(pts)}<small>points</small>`; } };
   g.anim=requestAnimationFrame(frame);
   $('next').focus({preventScroll:true});
 }
@@ -408,7 +433,7 @@ function finish(){
   $('play').classList.add('hidden'); $('hud').classList.add('hidden'); $('final').classList.remove('hidden');
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmtI(g.total)} <small>of ${fmtI(max)}</small></div>
    <p class="muted">${LEVELNAMES[g.level]} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmtI(prev)+'.'}</p>
-   <table><tr><th>Country</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${CFG[r.kind].label}</div></td><td class="n">${fmtV(r.kind,r.guess)} ${CFG[r.kind].unit}</td><td class="n">${fmtV(r.kind,r.rec.v)} ${CFG[r.kind].unit}</td><td class="n">${fmtI(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
+   <table><tr><th>Country</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${CFG[r.kind].label}</div></td><td class="n">${fmtV(r.kind,r.guess)} ${UN(r.kind)}</td><td class="n">${fmtV(r.kind,r.rec.v)} ${UN(r.kind)}</td><td class="n">${fmtI(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
    <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button></div>`;
   $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
 }
@@ -418,6 +443,8 @@ function toMenu(){ stopAnim(); g.locked=true; ['hud','play','final'].forEach(i=>
 $('start').onclick=start; $('lock').onclick=lock; $('next').onclick=nextRound; $('menu').onclick=toMenu;
 document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{g.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
 document.querySelectorAll('#level button').forEach(b=>b.onclick=()=>{g.level=b.dataset.l;document.querySelectorAll('#level button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{ IMP=b.dataset.u==='imperial'; try{ localStorage.setItem('country-extremes-units',IMP?'imperial':'metric'); }catch(e){} syncUnits(); poolNote(); });
+syncUnits();
 $('region').onchange=()=>{g.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
   if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });

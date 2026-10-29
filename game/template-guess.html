@@ -115,6 +115,10 @@ input[type=range]{width:100%;margin:6px 0 10px;accent-color:var(--accent);height
 .cmp .c{background:rgba(255,255,255,.05);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:10px 14px}
 .cmp .c.b{border-top-color:var(--b)}
 .cmp .big{font-size:26px;font-weight:800;line-height:1.1}.cmp .big i{font-style:normal;font-size:15px;color:var(--mute);font-weight:600;margin-left:3px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:10px 14px;font:inherit;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
 .chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
 
 .final h2{font-size:34px;margin:0}
@@ -159,6 +163,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <p class="muted" id="levelnote" style="margin:10px 0 0"></p>
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (m)</button><button data-u="imperial">Imperial (ft)</button></div>
     <button class="go" id="start">Start</button>
     <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
   </div>
@@ -182,8 +187,8 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
       <div class="mapbox"><svg id="map" role="img" aria-label="Map of the country"></svg><p class="mapcap muted" id="mapcap"></p></div>
     </div>
     <div id="guessui" class="gu">
-      <div class="gcard" id="gcard"><div class="muted">Your guess</div><div class="bigread"><span id="read">0</span><i>m</i></div><p class="sub2" id="readsub"></p></div>
-      <div class="gcard gin"><label class="muted" for="slider">Drag the scale, use the slider or type a figure</label><input type="range" id="slider" aria-label="Your guess in metres"><div class="numrow"><label for="num">Or type it:</label><input type="number" id="num" step="1"><label>m</label></div></div>
+      <div class="gcard" id="gcard"><div class="muted">Your guess</div><div class="bigread"><span id="read">0</span><i id="unit">m</i></div><p class="sub2" id="readsub"></p></div>
+      <div class="gcard gin"><label class="muted" for="slider">Drag the scale, use the slider or type a figure</label><input type="range" id="slider" aria-label="Your guess"><div class="numrow"><label for="num">Or type it:</label><input type="number" id="num" step="1"><label id="unit2">m</label></div></div>
       <div class="lockrow"><span class="muted">or press <span class="kbd">Enter</span></span><button class="go" id="lock">Lock in guess</button></div>
     </div>
     <div class="cmp hidden" id="cmp"></div>
@@ -206,6 +211,15 @@ const KINDS = ['highest','lowest','average'];
 const ROUNDS = 10, TOP_MARKS = 1000;
 const $ = id => document.getElementById(id);
 const fmt = v => Math.round(v).toLocaleString('en-GB');
+// ---- units: every figure is held in metres; the display can switch to feet (the choice is kept in localStorage and shared by all the games)
+const FT = 3.28084; let IMP = false; try{ IMP = localStorage.getItem('country-extremes-units')==='imperial'; }catch(e){}
+const U = () => IMP ? 'ft' : 'm';
+const fmtL = v => Math.round(IMP ? v*FT : v).toLocaleString('en-GB');
+function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.classList.toggle('on',(b.dataset.u==='imperial')===IMP)); }
+// nice round tick values in the display unit, returned in metres
+function niceStepL(span,n){ const raw=span/n, mag=Math.pow(10,Math.floor(Math.log10(raw))); return [1,2,5,10].map(k=>k*mag).find(s=>s>=raw); }
+function niceTicks(lo,hi,n){ const k=IMP?FT:1, st=niceStep((hi-lo)*k,n), out=[]; for(let d=Math.ceil(lo*k/st)*st; d<=hi*k+1e-9; d+=st) out.push(d/k); return out; }
+
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
 const rnd = n => Math.floor(Math.random()*n);
@@ -230,7 +244,7 @@ function poolNote(){
   const ks=kindsFor(), n=ks.map(k=>poolFor(k).length), total=n.reduce((a,b)=>a+b,0), ok=total>=3;
   $('poolnote').textContent = ok ? `${ks.map((k,i)=>n[i]+' '+k+(k==='average'?' elevations':' points')).join(' and ')} in the question pool; ${Math.min(ROUNDS,total)} rounds per game.` : 'Not enough records for this choice. Pick another region or mode.';
   $('start').disabled = !ok;
-  $('levelnote').textContent = LEVELS[g.level].note;
+  $('levelnote').textContent = levelNote();
   $('best').textContent = g.best[bestKey()] || 0;
   if(!$('hud').classList.contains('hidden')) return; document.body.dataset.kind = g.mode==='lowest'?'lowest':g.mode==='average'?'average':'highest';
 }
@@ -244,6 +258,11 @@ const LEVELS = {
   advanced:{label:'Advanced', pct:.1, floor:25, note:'Tight: a miss of 10 per cent of the true figure (or 25 m, for low places) scores about 370; 5 per cent off scores about 600.'},
   extreme:{label:'Extreme', pct:.05, floor:10, note:'Only guesses within 5 per cent of the true figure (or 10 m, for low places) score. Exact scores 1,000, falling to 500 at the edge; anything further out scores 0.'}
 };
+const lenTxt = m => `${fmtL(m)} ${U()}`;
+function levelNote(){ const L=LEVELS[g.level], p=Math.round(L.pct*100);
+  if(g.level==='extreme') return `Only guesses within ${p} per cent of the true figure (or ${lenTxt(L.floor)}, for low places) score. Exact scores 1,000, falling to 500 at the edge; anything further out scores 0.`;
+  const lead={beginner:'Generous: a miss',intermediate:'A miss',advanced:'Tight: a miss'}[g.level], tail={beginner:'10 per cent off scores about 780.',intermediate:'10 per cent off scores about 600.',advanced:'5 per cent off scores about 600.'}[g.level];
+  return `${lead} of ${p} per cent of the true figure (or ${lenTxt(L.floor)}, for low places) scores about 370; ${tail}`; }
 function scoreFor(guess,truth,level){
   const L=LEVELS[level||g.level], miss=Math.abs(guess-truth), tol=Math.max(L.floor,L.pct*Math.abs(truth));
   if(level==='extreme'||(!level&&g.level==='extreme')) return miss<=tol ? Math.round(TOP_MARKS*(1-.5*miss/tol)) : 0;
@@ -266,8 +285,8 @@ const GW=340, GH=330, GT=18, GB=18, GX0=64, GX1=GW-10;
 function geom(kind){ const R=RANGE[kind], fl=f(R.lo), fh=f(R.hi), P=GH-GT-GB; const y=v=>GT+(fh-f(v))/(fh-fl)*P; return {R,fl,fh,P,y}; }
 function ticksFor(kind,G){
   // evenly spaced ticks: the smallest round step that leaves at least 26 px between labels
-  const pxPerM=G.P/(G.R.hi-G.R.lo), step=[10,20,50,100,200,250,500,1000,2000,2500,5000].find(st=>st*pxPerM>=26)||5000, out=[];
-  for(let v=Math.ceil(G.R.lo/step)*step; v<=G.R.hi; v+=step) out.push(v);
+  const k=IMP?FT:1, pxPerM=G.P/((G.R.hi-G.R.lo)*k), step=[10,20,50,100,200,250,500,1000,2000,2500,5000,10000].find(st=>st*pxPerM>=26)||10000, out=[];
+  for(let d=Math.ceil(G.R.lo*k/step)*step; d<=G.R.hi*k+1e-9; d+=step) out.push(d/k);
   return out;
 }
 function drawGauge(extra){
@@ -289,21 +308,21 @@ function drawGauge(extra){
     else s+=`<path d="M${x-hw},${y0} C${x-hw+12},${y0+h*1.05} ${x+hw-12},${y0+h*1.05} ${x+hw},${y0}Z" fill="url(#gB)" stroke="#fff" stroke-width="1.6"/>`;
   }
   s+=`</g>`;
-  ticks.forEach(v=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-y0)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmt(v)}</text>`; });
+  ticks.forEach(v=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-y0)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtL(v)}</text>`; });
   s+=`<line x1="${GX0}" x2="${GX1}" y1="${y0}" y2="${y0}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${y0+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">0</text>`;
   // the guess marker
   const gy=clamp(yg,GT,GT+G.P), left=GX0+(GX1-GX0)*.62;
   if(extra&&extra.showGap){ const ya=G.y(extra.value); s+=`<line x1="${left+34}" x2="${left+34}" y1="${gy}" y2="${ya}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/><line x1="${GX0}" x2="${GX1}" y1="${ya}" y2="${ya}" stroke="var(--b)" stroke-width="1.5" stroke-dasharray="5 4"/>`; }
   s+=`<line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5" ${g.locked?'':'stroke-dasharray="0"'}/>`;
-  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="78" height="26" rx="13" fill="var(--a)"/><text x="33" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmt(g.v)} m</text></g>`;
+  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="92" height="26" rx="13" fill="var(--a)"/><text x="40" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmtL(g.v)} ${U()}</text></g>`;
   s+=`</svg>`; $('gauge').innerHTML=s;
 }
 
 // ---- input handling ----
 function setValue(v,fromNum){
-  const q=g.items[g.idx], R=RANGE[q.kind]; g.v=Math.round(clamp(v,R.lo,R.hi));
-  $('read').textContent=fmt(g.v); $('slider').value=f(g.v); if(!fromNum) $('num').value=g.v;
-  $('readsub').textContent = g.v===0?'At sea level':`${fmt(Math.abs(g.v))} m ${g.v>0?'above':'below'} sea level`;
+  const q=g.items[g.idx], R=RANGE[q.kind]; const stepL=IMP?.1:1; g.v=+(Math.round(clamp(v,R.lo,R.hi)/stepL)*stepL).toFixed(1);
+  $('read').textContent=fmtL(g.v); $('slider').value=f(g.v); if(!fromNum) $('num').value=Math.round(IMP?g.v*FT:g.v);
+  $('readsub').textContent = g.v===0?'At sea level':`${fmtL(Math.abs(g.v))} ${U()} ${g.v>0?'above':'below'} sea level`;
   drawGauge();
 }
 function gaugeToValue(e){
@@ -315,7 +334,7 @@ $('gauge').addEventListener('pointerdown',e=>{ if(g.locked) return; dragging=tru
 $('gauge').addEventListener('pointermove',e=>{ if(dragging&&!g.locked) gaugeToValue(e); });
 $('gauge').addEventListener('pointerup',()=>dragging=false);
 $('slider').addEventListener('input',e=>{ if(!g.locked) setValue(finv(parseFloat(e.target.value))); });
-$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(parseFloat(e.target.value),true); });
+$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(parseFloat(e.target.value)/(IMP?FT:1),true); });
 
 // ---- flow ----
 function dots(){ $('dots').innerHTML=g.items.map((_,i)=>`<i class="${i<g.idx?'done':i===g.idx?'now':''}"></i>`).join(''); }
@@ -326,8 +345,9 @@ function ask(){
   $('rn').textContent=g.idx+1; $('rof').textContent='of '+g.items.length; $('total').textContent=fmt(g.total); dots();
   $('kindword').textContent = {highest:'Highest point of', lowest:'Lowest point of', average:'Average elevation of'}[q.kind];
   $('country').textContent = q.rec.name; $('point').innerHTML = q.kind==='average' ? 'The mean height of all the land, <b>not</b> the peak' : `${q.kind==='highest'?'Peak':'Spot'}: <b>${esc(q.rec.point)}</b>`;
-  const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=1; sl.disabled=false;
-  const nm=$('num'); nm.min=R.lo; nm.max=R.hi; nm.disabled=false;
+  const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=IMP?.1:1; sl.disabled=false;
+  const nm=$('num'); nm.min=Math.round(IMP?R.lo*FT:R.lo); nm.max=Math.round(IMP?R.hi*FT:R.hi); nm.disabled=false;
+  $('unit').textContent=U(); $('unit2').textContent=U();
   drawMap(q,false); $('cmp').classList.add('hidden');
   $('guessui').classList.remove('hidden'); $('resui').classList.add('hidden');
   setValue(finv((f(R.lo)+f(R.hi))/2));
@@ -369,8 +389,8 @@ function lock(){
   const [word,tier]=ratingFor(pts);
   $('rating').className='rating t'+tier; $('rword').textContent=(g.level==='extreme'&&pts===0)?'Outside 5 per cent':word;
   const tol=Math.max(LEVELS[g.level].floor,LEVELS[g.level].pct*Math.abs(truth));
-  $('rdetail').textContent = err===0 ? 'Exactly right.' : `You were ${fmt(err)} m too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmt(tol)} m.`:'');
-  $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmt(g.v)}<i>m</i></div></div><div class="c b"><div class="muted">${esc(q.rec.point)}</div><div class="big">${fmt(truth)}<i>m</i></div></div>`;
+  $('rdetail').textContent = err===0 ? 'Exactly right.' : `You were ${fmtL(err)} ${U()} too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmtL(tol)} ${U()}.`:'');
+  $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmtL(g.v)}<i>${U()}</i></div></div><div class="c b"><div class="muted">${esc(q.rec.point)}</div><div class="big">${fmtL(truth)}<i>${U()}</i></div></div>`;
   $('next').textContent = g.idx+1>=g.items.length ? 'See your score' : 'Next';
   $('resui').classList.remove('hidden'); $('cmp').classList.remove('hidden');
   // answer rises (or sinks) from sea level, then the score counts up
@@ -391,7 +411,7 @@ function finish(){
   $('play').classList.add('hidden'); $('hud').classList.add('hidden'); $('final').classList.remove('hidden');
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmt(g.total)} <small>of ${fmt(max)}</small></div>
    <p class="muted">${LEVELS[g.level].label} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmt(prev)+'.'}</p>
-   <table><tr><th>Place</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${esc(r.rec.point)}</div></td><td class="n">${fmt(r.guess)} m</td><td class="n">${fmt(r.rec.m)} m</td><td class="n">${fmt(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
+   <table><tr><th>Place</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${esc(r.rec.point)}</div></td><td class="n">${fmtL(r.guess)} ${U()}</td><td class="n">${fmtL(r.rec.m)} ${U()}</td><td class="n">${fmt(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
    <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button></div>`;
   $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
 }
@@ -401,6 +421,8 @@ function toMenu(){ stopAnim(); g.locked=true; ['hud','play','final'].forEach(i=>
 $('start').onclick=start; $('lock').onclick=lock; $('next').onclick=nextRound; $('menu').onclick=toMenu;
 document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{g.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
 document.querySelectorAll('#level button').forEach(b=>b.onclick=()=>{g.level=b.dataset.l;document.querySelectorAll('#level button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{ IMP=b.dataset.u==='imperial'; try{ localStorage.setItem('country-extremes-units',IMP?'imperial':'metric'); }catch(e){} syncUnits(); poolNote(); });
+syncUnits();
 $('region').onchange=()=>{g.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
   if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });

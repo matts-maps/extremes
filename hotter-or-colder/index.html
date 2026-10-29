@@ -118,6 +118,10 @@ kbd{background:rgba(255,255,255,.1);border:1px solid var(--line);border-bottom-w
 .nums td.v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;padding-left:8px}
 .nums tr.ask td{color:var(--accent);font-weight:800}
 .nums small{display:block;color:var(--mute);font-weight:400;font-size:11px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:10px 14px;font:inherit;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
 .chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
 .chartbox{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:14px;padding:6px 6px 2px}
 .chartbox .muted{margin:8px 10px 0}
@@ -155,6 +159,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   </div>
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (°C)</button><button data-u="imperial">Imperial (°F)</button></div>
     <button class="go" id="start">Start</button>
     <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best streak</span></div></div>
   </div>
@@ -193,12 +198,25 @@ const CFG = {
   avglow:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average daily low?', noun:'average daily lows', pool:'average daily lows', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'},
   avgmean:{unit:'°C', dec:1, minAbs:1, lowWins:false, dir:1, q:'Which country has the higher average temperature?', noun:'average temperatures', pool:'average temperatures', zero:'Freezing point, 0 °C', lines:LINE_AVG, far:'highest national average'}
 };
+Object.assign(CFG.hottest,{lo:10,hi:60}); Object.assign(CFG.coldest,{lo:-90,hi:25}); Object.assign(CFG.avghigh,{lo:-20,hi:40}); Object.assign(CFG.avglow,{lo:-30,hi:30}); Object.assign(CFG.avgmean,{lo:-25,hi:35});
 // every temperature figure held for a country, and which one each question asks for
 const ASK = {hottest:'rh', coldest:'rl', avghigh:'ah', avglow:'al', avgmean:'am'};
 const ROWS = [['rh','Record high','rhp','rhd'],['ah','Average daily high'],['am','Average temperature'],['al','Average daily low'],['rl','Record low','rlp','rld']];
 const $ = id => document.getElementById(id);
-const fmtV = (kind,v) => (CFG[kind].dec ? v.toFixed(CFG[kind].dec) : Math.round(v).toLocaleString('en-GB')).replace('-','−');
 const fmtI = v => Math.round(v).toLocaleString('en-GB').replace('-','−');
+// ---- units: figures are held in degrees Celsius and millimetres; the display can switch to Fahrenheit and inches (kept in localStorage, shared by all the games)
+let IMP = false; try{ IMP = localStorage.getItem('country-extremes-units')==='imperial'; }catch(e){}
+const isRain = k => !!CFG[k].rain;
+const dv = (k,v) => IMP ? (isRain(k) ? v/25.4 : v*9/5+32) : v;      // an absolute value, for display
+const dd = (k,d) => IMP ? (isRain(k) ? d/25.4 : d*1.8) : d;         // a difference, for display
+const toBase = (k,x) => IMP ? (isRain(k) ? x*25.4 : (x-32)/1.8) : x;
+const UN = k => isRain(k) ? (IMP?'in':'mm') : (IMP?'°F':'°C');
+const decs = k => isRain(k) ? (IMP?1:0) : 1;
+const fmtNum = (x,d) => (d ? x.toFixed(d) : Math.round(x).toLocaleString('en-GB')).replace('-','−');
+const fmtV = (k,v) => fmtNum(dv(k,v),decs(k));
+const fmtD = (k,d) => fmtNum(dd(k,d),decs(k));
+function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.classList.toggle('on',(b.dataset.u==='imperial')===IMP)); }
+
 const state = {mode:'hottest', region:'', streak:0, best:{}, cur:null, used:{}, over:false};
 KINDS.forEach(k=>state.used[k]=new Set());
 
@@ -276,21 +294,20 @@ function pct(kind,v){ const e=POOL.ext[kind], lo=e.min.v, hi=e.max.v;
   if(CFG[kind].rain) return clamp01(v/hi)*100;
   return clamp01(CFG[kind].dir>0 ? (v-lo)/(hi-lo) : (hi-v)/(hi-lo))*100; }
 function share(kind,v){ const C=CFG[kind], e=POOL.ext[kind], p=pct(kind,v), t=p<10?p.toFixed(1):Math.round(p);
-  if(C.rain) return `${t} per cent of the wettest national average (${e.max.name}, ${fmtI(e.max.v)} mm)`;
+  if(C.rain) return `${t} per cent of the wettest national average (${e.max.name}, ${fmtV(kind,e.max.v)} ${UN(kind)})`;
   const far = C.dir>0 ? e.max : e.min, near = C.dir>0 ? e.min : e.max;
-  return `${t} per cent of the way from ${fmtV(kind,near.v)} °C (${near.name}) to the ${C.far} (${far.name}, ${fmtV(kind,far.v)} °C)`; }
+  return `${t} per cent of the way from ${fmtV(kind,near.v)} ${UN(kind)} (${near.name}) to the ${C.far} (${far.name}, ${fmtV(kind,far.v)} ${UN(kind)})`; }
 // every temperature figure for a country, with the one the question asked for highlighted
 function numsTable(kind,rec){ if(!ASK[kind]) return ''; const d=POOL.detail[rec.id]||{};
   return '<table class="nums">'+ROWS.map(([k,label,pk,dk])=>{ const place=pk&&d[pk]?esc(d[pk])+(d[dk]&&d[dk]!=='?'&&d[dk]!=='N/A'?', '+esc(d[dk]):''):'';
-    return `<tr class="${k===ASK[kind]?'ask':''}"><td>${label}${place?`<small>${place}</small>`:''}</td><td class="v">${d[k]==null?'no figure':fmtV('hottest',d[k])+' °C'}</td></tr>`; }).join('')+'</table>'; }
+    return `<tr class="${k===ASK[kind]?'ask':''}"><td>${label}${place?`<small>${place}</small>`:''}</td><td class="v">${d[k]==null?'no figure':fmtV('hottest',d[k])+' '+UN('hottest')}</td></tr>`; }).join('')+'</table>'; }
 
-// Reveal chart, drawn as a function of time t (seconds): bars grow from the zero line in a zoomed view (the wrong answer first),
-// pause, then the view zooms out to the dataset range.
-const T_END = 5.4;
+// Reveal graphic: a thermometer (or a rain gauge) for each country, both on the same fixed scale.
+// The instrument for the wrong answer fills first from the bottom of the scale, there is a one second pause, then the instrument for the correct answer fills.
+const T_START = 0.2, T_FILL = 1.2, T_PAUSE = 1.0, T_END = T_START + 2*T_FILL + T_PAUSE + 0.2;
 const easeOut = x => 1 - Math.pow(1 - x, 3);
-const easeIO = x => x<.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2;
-const gm = (a,b,e) => (a>0&&b>0) ? a*Math.pow(b/a,e) : a+(b-a)*e;
-function niceStep(span){ const raw=span/5, mag=Math.pow(10,Math.floor(Math.log10(raw))); return [1,2,5,10].map(k=>k*mag).find(s=>s>=raw); }
+function niceTicksK(kind,lo,hi,n){ const a=dv(kind,lo), b=dv(kind,hi), st=niceStep(b-a,n), out=[]; for(let d=Math.ceil(a/st)*st; d<=b+1e-9; d+=st) out.push([toBase(kind,d), Math.round(d*100)/100]); return out; }
+function niceStep(span,n){ const raw=span/(n||5), mag=Math.pow(10,Math.floor(Math.log10(raw))); return [1,2,5,10].map(k=>k*mag).find(s=>s>=raw); }
 function wrap2(name,max){
   if(name.length<=max) return [name];
   const words=name.split(' '); let a='',i=0;
@@ -301,41 +318,39 @@ function wrap2(name,max){
 }
 
 function chart(q, t){
-  const kind=q.kind, C=CFG[kind], E=POOL.ext[kind], W=560,H=362,top=28,bot=60,P=H-top-bot, xs=[190,400];
-  const vals=q.pair.map(r=>r.v), span=Math.max(...vals.map(Math.abs),1);
-  const up0=Math.max(Math.max(...vals,0)*1.3, span*.35, 1), dn0=C.rain?0:Math.max(-Math.min(...vals,0)*1.3, C.pos?0:span*.35, 0);
-  const e=easeIO(clamp01((t-3.4)/2));
-  const upT=Math.max(E.max.v*1.04,1), dnT=C.rain?0:Math.max(-E.min.v*1.04,0);
-  const up=gm(up0,upT,e), dn=gm(dn0,dnT,e);
-  const y=v=>top+(up-v)/(up+dn)*P, y0=y(0);
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Both values against zero and the dataset extremes">`;
-  s+=`<defs>
-    <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a)" stop-opacity=".55"/></linearGradient>
-    <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--b)"/><stop offset="1" stop-color="var(--b)" stop-opacity=".55"/></linearGradient>
-    <clipPath id="plotclip"><rect x="40" y="${top}" width="${W-60}" height="${P}"/></clipPath>
-  </defs><g clip-path="url(#plotclip)">`;
-  if(!C.rain) s+=`<rect x="40" y="${y0}" width="${W-60}" height="${Math.max(0,top+P-y0)}" fill="var(--sea)" fill-opacity=".10"/>`;
-  const st=niceStep(up+dn);
-  for(let v=Math.ceil(-dn/st)*st; v<=up; v+=st){ if(v===0) continue; const yy=y(v); s+=`<line x1="40" x2="${W-20}" y1="${yy}" y2="${yy}" stroke="#fff" stroke-opacity=".07"/>`; }
+  const kind=q.kind, C=CFG[kind], E=POOL.ext[kind], rain=!!C.rain, W=560, H=396, top=52, L=240, bot=top+L, xs=[190,400];
+  const y=v=>top+(C.hi-Math.max(C.lo,Math.min(C.hi,v)))/(C.hi-C.lo)*L;
+  const ticks=niceTicksK(kind,C.lo,C.hi,7);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${rain?'Rain gauges':'Thermometers'} filling to each country's figure">`;
+  // the extremes in the dataset, and freezing point for temperatures
+  C.lines.forEach(([w,label])=>{ const x=E[w], yy=y(x.v);
+    s+=`<line x1="24" x2="${W-24}" y1="${yy}" y2="${yy}" stroke="var(--mute)" stroke-dasharray="4 4" opacity=".7"/><text class="m" x="26" y="${yy-5}" style="font-size:11px">${esc(label.replace(' in the dataset','').replace(' national',''))}: ${fmtV(kind,x.v)} ${UN(kind)}</text>`; });
+  if(!rain && C.lo<0 && C.hi>0) s+=`<line x1="24" x2="${W-24}" y1="${y(0)}" y2="${y(0)}" stroke="var(--sea)" stroke-width="2" opacity=".7"/><text x="${W-26}" y="${y(0)-5}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:11px">${IMP?'Freezing point, 32 °F':C.zero}</text>`;
   q.pair.forEach((r,i)=>{
-    const delay = i===q.win ? 1.4 : 0.2, p=easeOut(clamp01((t-delay)/.9)), yv=y(r.v*p), x=xs[i], hw=46;
-    const yt=Math.min(yv,y0), h=Math.max(Math.abs(yv-y0),2);
-    s+=`<rect x="${x-hw}" y="${yt}" width="${hw*2}" height="${h}" rx="10" fill="url(#g${i?'B':'A'})" ${i===q.win?'stroke="#fff" stroke-width="2"':''}/>`;
-  });
-  s+=`</g>`;
-  for(let v=Math.ceil(-dn/st)*st; v<=up; v+=st){ if(v===0) continue; const yy=y(v); if(Math.abs(yy-y0)<12) continue; s+=`<text class="m" x="36" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtI(v)}</text>`; }
-  const lines = C.lines.map(([w,label])=>[E[w],label]);
-  lines.forEach(([x,label])=>{ const yy=y(x.v); if(yy>=top-1 && yy<=H-bot+1 && Math.abs(yy-y0)>14){ const lab=`${fmtV(kind,x.v)} ${C.unit} - ${label} - ${x.name}`;
-    s+=`<line x1="40" x2="${W-20}" y1="${yy}" y2="${yy}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yy+(yy<y0?-6:15)}">${esc(lab)}</text>`; } });
-  q.pair.forEach((r,i)=>{
-    const delay = i===q.win ? 1.4 : 0.2, x=xs[i], v=r.v*easeOut(clamp01((t-delay)/.9)), yv=y(v);
-    const ly = r.v>=0 ? Math.max(Math.min(yv,y0)-8, top+14) : Math.min(y0+18, H-bot-4);
-    const op = clamp01((t-delay-.9)/.3);
-    s+=`<text x="${x}" y="${ly}" text-anchor="middle" opacity="${op}" style="font-weight:800;font-size:14px">${fmtV(kind,r.v)} ${C.unit}</text>`;
+    const x=xs[i], win=i===q.win, start=win?T_START+T_FILL+T_PAUSE:T_START, p=easeOut(clamp01((t-start)/T_FILL));
+    const v=C.lo+(r.v-C.lo)*p, yv=y(v), col=`var(--${i?'b':'a'})`, stroke=(win&&p>=1)?'#fff':'rgba(255,255,255,.4)', glass='#15293b';
+    let hw;
+    if(rain){
+      // cylinder with a funnel rim; the water rises from the bottom
+      hw=26;
+      s+=`<rect x="${x-hw}" y="${top-6}" width="${hw*2}" height="${L+14}" rx="8" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`;
+      s+=`<clipPath id="cp${i}"><rect x="${x-hw+2}" y="${top-4}" width="${hw*2-4}" height="${L+10}" rx="6"/></clipPath>`;
+      if(p>0) s+=`<g clip-path="url(#cp${i})"><rect x="${x-hw}" y="${yv}" width="${hw*2}" height="${bot+10-yv}" fill="${col}" opacity=".85"/><rect x="${x-hw}" y="${yv}" width="${hw*2}" height="3" fill="#fff" opacity=".55"/></g>`;
+      s+=`<path d="M${x-hw-14} ${top-26} L${x+hw+14} ${top-26} L${x+hw} ${top-6} L${x-hw} ${top-6}Z" fill="${glass}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`;
+    } else {
+      // thermometer: glass tube and bulb, drawn as strokes first and fills second so the joint is clean
+      hw=13;
+      s+=`<rect x="${x-hw}" y="${top-8}" width="${hw*2}" height="${L+34}" rx="${hw}" fill="none" stroke="${stroke}" stroke-width="2"/><circle cx="${x}" cy="${bot+24}" r="26" fill="none" stroke="${stroke}" stroke-width="2"/>`;
+      s+=`<rect x="${x-hw+1}" y="${top-7}" width="${hw*2-2}" height="${L+32}" rx="${hw-1}" fill="${glass}"/><circle cx="${x}" cy="${bot+24}" r="25" fill="${glass}"/>`;
+      s+=`<rect x="${x-6}" y="${yv}" width="12" height="${bot+24-yv}" rx="6" fill="${col}"/><circle cx="${x}" cy="${bot+24}" r="19" fill="${col}"/>`;
+    }
+    // scale marks on the right of each instrument
+    ticks.forEach(([tv,lab])=>{ const yy=y(tv); s+=`<line x1="${x+hw+2}" x2="${x+hw+9}" y1="${yy}" y2="${yy}" stroke="var(--mute)"/><text class="m" x="${x+hw+13}" y="${yy+4}" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
+    // the reading follows the top of the liquid
+    if(p>0) s+=`<text x="${x-hw-10}" y="${yv+5}" text-anchor="end" style="font-weight:800;font-size:15px">${fmtV(kind,v)} ${UN(kind)}</text>`;
     const ln=wrap2(r.name,20);
     s+=`<text class="m" text-anchor="middle" style="font-weight:700">${ln.map((l,k)=>`<tspan x="${x}" y="${H-8-(ln.length-1-k)*16}">${esc(l)}</tspan>`).join('')}</text>`;
   });
-  if(y0>=top && y0<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${y0}" y2="${y0}" stroke="var(--sea)" stroke-width="2.5"/><text x="${W-22}" y="${y0-5}" text-anchor="end" style="fill:var(--sea);font-weight:700">${C.zero}</text>`;
   s+='</svg>'; return s;
 }
 
@@ -354,8 +369,8 @@ function showReveal(q,ok){
   $('verdict').textContent = ok ? 'Correct!' : 'Not this time.';
   $('banner').className='banner '+(ok?'ok':'no'); $('badge').textContent = ok ? '✓' : '✗';
   const d=Math.abs(q.pair[0].v-q.pair[1].v);
-  $('gap').textContent = `The two ${C.noun} are ${fmtV(q.kind,d)} ${C.unit} apart.`;
-  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmtV(q.kind,r.v)}<i>${C.unit}${C.rain?' a year':''}</i></div><div>${esc(r.point)}${r.date&&r.date!=='?'&&r.date!=='N/A'?', '+esc(r.date):''}</div><div class="meter"><i style="width:${Math.max(pct(q.kind,r.v),1.5).toFixed(1)}%"></i></div><div class="muted">${share(q.kind,r.v)}.</div>${numsTable(q.kind,r)}</div>`).join('');
+  $('gap').textContent = `The two ${C.noun} are ${fmtD(q.kind,d)} ${UN(q.kind)} apart.`;
+  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmtV(q.kind,r.v)}<i>${UN(q.kind)}${C.rain?' a year':''}</i></div><div>${esc(r.point)}${r.date&&r.date!=='?'&&r.date!=='N/A'?', '+esc(r.date):''}</div><div class="meter"><i style="width:${Math.max(pct(q.kind,r.v),1.5).toFixed(1)}%"></i></div><div class="muted">${share(q.kind,r.v)}.</div>${numsTable(q.kind,r)}</div>`).join('');
   animateChart(q);
   $('next').textContent = state.over ? 'Play again' : 'Next';
   $('endnote').textContent = state.over ? `Run over: streak of ${state.streak}.` : '';
@@ -369,6 +384,8 @@ $('menu').onclick=()=>{ stopAnim(); state.cur=null; state.over=true; ['hud','pla
 $('next').onclick=()=>{ if(state.over) start(); else ask(); };
 $('c0').onclick=()=>answer(0); $('c1').onclick=()=>answer(1);
 document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{state.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{ IMP=b.dataset.u==='imperial'; try{ localStorage.setItem('country-extremes-units',IMP?'imperial':'metric'); }catch(e){} syncUnits(); poolNote(); });
+syncUnits();
 $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);

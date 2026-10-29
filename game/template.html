@@ -109,6 +109,10 @@ kbd{background:rgba(255,255,255,.1);border:1px solid var(--line);border-bottom-w
 .c.b .meter i{background:linear-gradient(90deg,var(--b),var(--accent))}
 .meter.neg i{background:linear-gradient(90deg,var(--sea),var(--accent2))}
 @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:10px 14px;font:inherit;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
 .chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
 .chartbox{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:14px;padding:6px 6px 2px}
 .chartbox .muted{margin:8px 10px 0}
@@ -144,6 +148,7 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   </div>
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (m)</button><button data-u="imperial">Imperial (ft)</button></div>
     <button class="go" id="start">Start</button>
     <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best streak</span></div></div>
   </div>
@@ -178,7 +183,14 @@ const KINDS = ['highest','lowest','average'];
 const KWORD = {highest:'highest points', lowest:'lowest points', average:'average elevations'};
 const MIN_REL = 0.05, MIN_ABS = 10;   // pairs closer than this are never asked
 const $ = id => document.getElementById(id);
-const fmt = v => Math.round(v).toLocaleString('en-GB');
+// ---- units: every figure is held in metres; the display can switch to feet (the choice is kept in localStorage and shared by all the games)
+const FT = 3.28084; let IMP = false; try{ IMP = localStorage.getItem('country-extremes-units')==='imperial'; }catch(e){}
+const U = () => IMP ? 'ft' : 'm';
+const fmtL = v => Math.round(IMP ? v*FT : v).toLocaleString('en-GB');
+function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.classList.toggle('on',(b.dataset.u==='imperial')===IMP)); }
+// nice round tick values in the display unit, returned in metres
+function niceTicks(lo,hi,n){ const k=IMP?FT:1, st=niceStep((hi-lo)*k,n), out=[]; for(let d=Math.ceil(lo*k/st)*st; d<=hi*k+1e-9; d+=st) out.push(d/k); return out; }
+const fmt = fmtL;
 const state = {mode:'highest', region:'', streak:0, best:{}, cur:null, used:{highest:new Set(),lowest:new Set(),average:new Set()}, over:false};
 
 [...new Set([...POOL.highest,...POOL.lowest,...POOL.average].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
@@ -258,9 +270,9 @@ function answer(i){
 
 // share of the way from sea level to the dataset extreme
 function pct(v,kind){ if(kind==='average') return Math.min(100, v/AX.max.m*100); return v===0 ? 0 : Math.min(100, v>0 ? v/HI.m*100 : v/LO.m*100); }
-function share(v,kind){ if(kind==='average'){ const p=pct(v,kind); return `${p<10?p.toFixed(1):Math.round(p)} per cent of the highest national average (${AX.max.name}, ${fmt(AX.max.m)} m)`; }
+function share(v,kind){ if(kind==='average'){ const p=pct(v,kind); return `${p<10?p.toFixed(1):Math.round(p)} per cent of the highest national average (${AX.max.name}, ${fmt(AX.max.m)} ${U()})`; }
   if(v===0) return '0 per cent'; const p = pct(v); const t = p<10 ? p.toFixed(1) : Math.round(p).toString(); return `${t} per cent of the way ${v>0?'up to':'down to'} ${v>0?'the highest':'the lowest'} point`; }
-function above(v){ return v===0 ? 'at sea level' : `${fmt(Math.abs(v))} m ${v>0?'above':'below'} sea level`; }
+function above(v){ return v===0 ? 'at sea level' : `${fmt(Math.abs(v))} ${U()} ${v>0?'above':'below'} sea level`; }
 
 // Reveal chart, drawn as a function of time t (seconds) so the view can zoom.
 // 0.2-2.3 s: both bars grow from sea level in a zoomed-in view (wrong answer first); to 3.4 s: pause; 3.4-5.4 s: zoom out to the dataset extremes.
@@ -300,7 +312,7 @@ function chart(q, t){
   s+=`<rect x="40" y="${y0}" width="${W-60}" height="${yLo-y0}" fill="var(--sea)" fill-opacity=".14"/>`;
   // scale ticks, so the zoom reads as a zoom
   const st=niceStep(up+dn);
-  for(let v=Math.ceil(-dn/st)*st; v<=up; v+=st){ if(v===0) continue; const yy=y(v);
+  for(const v of niceTicks(-dn,up,5)){ if(v===0) continue; const yy=y(v);
     s+=`<line x1="40" x2="${W-20}" y1="${yy}" y2="${yy}" stroke="#fff" stroke-opacity=".07"/>`; }
   q.pair.forEach((r,i)=>{
     const delay = i===q.win ? 1.4 : 0.2;
@@ -320,21 +332,21 @@ function chart(q, t){
   });
   s+=`</g>`;
   // tick labels, dataset extremes and sea level sit outside the clip so text is never cut
-  for(let v=Math.ceil(-dn/st)*st; v<=up; v+=st){ if(v===0) continue; const yy=y(v); if(Math.abs(yy-y0)<12) continue;
+  for(const v of niceTicks(-dn,up,5)){ if(v===0) continue; const yy=y(v); if(Math.abs(yy-y0)<12) continue;
     s+=`<text class="m" x="36" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmt(v)}</text>`; }
-  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(EH.m)} m - ${esc(EH.point)} - ${esc(EH.name)}</text>`;
-  if(avg){ const yw=y(POOL.avgextremes.world.m); if(yw>=top && yw<=H-bot && Math.abs(yw-yHi)>14) s+=`<line x1="40" x2="${W-20}" y1="${yw}" y2="${yw}" stroke="var(--mute)" stroke-dasharray="2 4"/><text class="m" x="44" y="${yw-6}">World average, ${fmt(POOL.avgextremes.world.m)} m</text>`; }
-  if(!avg && yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} m - ${esc(LO.point)} - ${esc(LO.name)}</text>`;
+  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(EH.m)} ${U()} - ${esc(EH.point)} - ${esc(EH.name)}</text>`;
+  if(avg){ const yw=y(POOL.avgextremes.world.m); if(yw>=top && yw<=H-bot && Math.abs(yw-yHi)>14) s+=`<line x1="40" x2="${W-20}" y1="${yw}" y2="${yw}" stroke="var(--mute)" stroke-dasharray="2 4"/><text class="m" x="44" y="${yw-6}">World average, ${fmt(POOL.avgextremes.world.m)} ${U()}</text>`; }
+  if(!avg && yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} ${U()} - ${esc(LO.point)} - ${esc(LO.name)}</text>`;
   q.pair.forEach((r,i)=>{
     const delay = i===q.win ? 1.4 : 0.2, x=xs[i];
     const v=r.m*easeOut(clamp01((t-delay)/.9)), yv=y(v), yt=v>=0?Math.min(yv,y0):y0;
     const ly = r.m>=0 ? Math.max(yt-8, top+14) : y0-8;   // below-sea-level values sit above the line: the area under it is too thin for a label
     const op = clamp01((t-delay-.9)/.3);
-    s+=`<text x="${x}" y="${ly}" text-anchor="middle" opacity="${op}" style="font-weight:800;font-size:14px">${fmt(r.m)} m</text>`;
+    s+=`<text x="${x}" y="${ly}" text-anchor="middle" opacity="${op}" style="font-weight:800;font-size:14px">${fmt(r.m)} ${U()}</text>`;
     const ln=wrap2(r.name,20);
     s+=`<text class="m" text-anchor="middle" style="font-weight:700">${ln.map((l,k)=>`<tspan x="${x}" y="${H-8-(ln.length-1-k)*16}">${esc(l)}</tspan>`).join('')}</text>`;
   });
-  s+=`<line x1="40" x2="${W-20}" y1="${y0}" y2="${y0}" stroke="var(--sea)" stroke-width="2.5"/><text x="${W-22}" y="${y0-5}" text-anchor="end" style="fill:var(--sea);font-weight:700">Sea level, 0 m</text>`;
+  s+=`<line x1="40" x2="${W-20}" y1="${y0}" y2="${y0}" stroke="var(--sea)" stroke-width="2.5"/><text x="${W-22}" y="${y0-5}" text-anchor="end" style="fill:var(--sea);font-weight:700">Sea level, 0 ${U()}</text>`;
   s+='</svg>'; return s;
 }
 
@@ -353,8 +365,8 @@ function showReveal(q,ok){
   $('verdict').textContent = ok ? 'Correct!' : 'Not this time.';
   $('banner').className='banner '+(ok?'ok':'no'); $('badge').textContent = ok ? '✓' : '✗';
   const d=Math.abs(q.pair[0].m-q.pair[1].m);
-  $('gap').textContent = q.kind==='average' ? `The two averages are ${fmt(d)} m apart.` : `The two ${kindWord} points are ${fmt(d)} m apart.`;
-  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmt(r.m)}<i>m</i></div><div>${esc(r.point)}</div><div class="meter ${r.m<0?'neg':''}"><i style="width:${Math.max(pct(r.m,q.kind),1.5).toFixed(1)}%"></i></div><div class="muted">${q.kind==='average'?'Average elevation; '+share(r.m,q.kind):above(r.m)+'; '+share(r.m)}.</div></div>`).join('');
+  $('gap').textContent = q.kind==='average' ? `The two averages are ${fmt(d)} ${U()} apart.` : `The two ${kindWord} points are ${fmt(d)} ${U()} apart.`;
+  $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmt(r.m)}<i>${U()}</i></div><div>${esc(r.point)}</div><div class="meter ${r.m<0?'neg':''}"><i style="width:${Math.max(pct(r.m,q.kind),1.5).toFixed(1)}%"></i></div><div class="muted">${q.kind==='average'?'Average elevation; '+share(r.m,q.kind):above(r.m)+'; '+share(r.m)}.</div></div>`).join('');
   animateChart(q);
   $('next').textContent = state.over ? 'Play again' : 'Next';
   $('endnote').textContent = state.over ? `Run over: streak of ${state.streak}.` : '';
@@ -368,6 +380,8 @@ $('menu').onclick=()=>{ stopAnim(); state.cur=null; state.over=true; ['hud','pla
 $('next').onclick=()=>{ if(state.over) start(); else ask(); };
 $('c0').onclick=()=>answer(0); $('c1').onclick=()=>answer(1);
 document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{state.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
+document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{ IMP=b.dataset.u==='imperial'; try{ localStorage.setItem('country-extremes-units',IMP?'imperial':'metric'); }catch(e){} syncUnits(); poolNote(); });
+syncUnits();
 $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
