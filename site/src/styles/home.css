@@ -10,9 +10,6 @@ main{max-width:860px;margin:0 auto;padding:44px 16px 32px;position:relative}
 h1{font-size:clamp(34px,7vw,52px);margin:0;line-height:1.05;letter-spacing:-.5px}
 h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .tagline{color:var(--mute);margin:4px 0 0}
-nav{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
-nav a{color:var(--ink);text-decoration:none;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:11px 16px;line-height:1.2;background:var(--card)}
-nav a:hover,nav a:focus-visible{border-color:var(--accent);outline:none}
 
 /* welcome */
 .welcome{margin:22px 0 0;background:linear-gradient(135deg,rgba(255,179,71,.10),rgba(53,194,201,.08));border:1px solid var(--line);border-radius:20px;padding:16px 22px}
