@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SiteMenu from '../components/SiteMenu.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/home.css';
 const base = import.meta.env.BASE_URL;
 ---
@@ -70,6 +71,6 @@ const base = import.meta.env.BASE_URL;
   </a>
 </section>
 
-<footer>Created by Fantail GIS (2026)</footer>
+<SiteFooter />
 </main>
 </Base>

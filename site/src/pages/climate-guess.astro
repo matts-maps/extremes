@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SiteMenu from '../components/SiteMenu.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/game-base.css';
 import '../styles/climate-guess.css';
 ---
@@ -69,7 +70,7 @@ import '../styles/climate-guess.css';
 
 <div class="card final hidden" id="final"></div>
 
-<footer><div class="credit">Created by Fantail GIS (2026)</div></footer>
+<SiteFooter />
 </div>
 </Base>
 <script>
