@@ -1,48 +1,21 @@
 import POOL from '../data/game-pool.json';
-import MAPS from '../data/map-data.json';
-import { $, ringPath, rnd } from './game-common.js';
-
+import { $, esc, createUnits } from './game-common.js';
+import { createGuess, clamp, ratingFor, TOP_MARKS } from './guess-core.js';
 
 const HI = POOL.extremes.highest, LO = POOL.extremes.lowest, AX = POOL.avgextremes;
 const KINDS = ['highest','lowest','average'];
-const ROUNDS = 10, TOP_MARKS = 1000;
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 // ---- units: every figure is held in metres; the display can switch to feet (the choice is kept in localStorage and shared by all the games)
-const FT = 3.28084; let IMP = false; try{ IMP = localStorage.getItem('country-extremes-units')==='imperial'; }catch(e){}
-const U = () => IMP ? 'ft' : 'm';
-const fmtL = v => Math.round(IMP ? v*FT : v).toLocaleString('en-GB');
-function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.classList.toggle('on',(b.dataset.u==='imperial')===IMP)); }
-// nice round tick values in the display unit, returned in metres
-function niceStepL(span,n){ const raw=span/n, mag=Math.pow(10,Math.floor(Math.log10(raw))); return [1,2,5,10].map(k=>k*mag).find(s=>s>=raw); }
-function niceTicks(lo,hi,n){ const k=IMP?FT:1, st=niceStep((hi-lo)*k,n), out=[]; for(let d=Math.ceil(lo*k/st)*st; d<=hi*k+1e-9; d+=st) out.push(d/k); return out; }
-
-const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+const FT = 3.28084;
+const units = createUnits(() => poolNote());
+const U = () => units.imp ? 'ft' : 'm';
+const fmtL = v => Math.round(units.imp ? v*FT : v).toLocaleString('en-GB');
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 // the gauge and slider scale is uniform: equal heights take equal space
 const f = v => v;
 const finv = s => s;
 const RANGE = {highest:{lo:0, hi:HI.m}, lowest:{lo:LO.m, hi:Math.ceil(Math.max(...POOL.lowest.map(r=>r.m))/100)*100}, average:{lo:0, hi:Math.ceil(AX.max.m/500)*500}};
-
-const g = {mode:'highest', level:'intermediate', region:'', best:{}, items:[], idx:0, total:0, log:[], v:0, locked:false, anim:0};
-[...new Set([...POOL.highest,...POOL.lowest,...POOL.average].map(r=>r.region))].filter(x=>x!=='Antarctica').sort().forEach(x=>$('region').add(new Option(x,x)));
-try{ g.best = JSON.parse(localStorage.getItem('country-extremes-guess-best')||'{}'); }catch(e){ g.best={}; }
-const saveBest = () => { try{ localStorage.setItem('country-extremes-guess-best',JSON.stringify(g.best)); }catch(e){} };
-
-const poolFor = kind => POOL[kind].filter(r=>!g.region||r.region===g.region);
-const bestKey = () => g.mode+'|'+g.region+'|'+g.level;
-const kindsFor = () => g.mode==='mixed' ? KINDS : [g.mode];
-const needed = () => Math.min(ROUNDS, kindsFor().reduce((n,k)=>n+poolFor(k).length,0));
-
-function poolNote(){
-  const ks=kindsFor(), n=ks.map(k=>poolFor(k).length), total=n.reduce((a,b)=>a+b,0), ok=total>=3;
-  $('poolnote').textContent = ok ? `${ks.map((k,i)=>n[i]+' '+k+(k==='average'?' elevations':' points')).join(' and ')} in the question pool; ${Math.min(ROUNDS,total)} rounds per game.` : 'Not enough records for this choice. Pick another region or mode.';
-  $('start').disabled = !ok;
-  $('levelnote').textContent = levelNote();
-  $('best').textContent = g.best[bestKey()] || 0;
-  if(!$('hud').classList.contains('hidden')) return; document.body.dataset.kind = g.mode==='lowest'?'lowest':g.mode==='average'?'average':'highest';
-}
 
 // score: 1,000 for an exact answer. Beginner to advanced fall away as exp(-miss/allowance), allowance a share of the true value
 // (40, 20, 10 per cent, with a floor in metres). Extreme: only guesses within 5 per cent (at least 10 m) score, 1,000 for exact
@@ -63,24 +36,13 @@ function scoreFor(guess,truth,level){
   if(level==='extreme'||(!level&&g.level==='extreme')) return miss<=tol ? Math.round(TOP_MARKS*(1-.5*miss/tol)) : 0;
   return Math.round(TOP_MARKS*Math.exp(-miss/tol));
 }
-function ratingFor(p){ return p>=950?['Spot on',4]:p>=800?['Very close',3]:p>=550?['Close',2]:p>=250?['Off target',1]:['Way off',0]; }
-
-function buildGame(){
-  const ks=kindsFor(), pools={}; ks.forEach(k=>pools[k]=poolFor(k).slice());
-  const items=[], n=needed();
-  while(items.length<n){
-    const avail=ks.filter(k=>pools[k].length); if(!avail.length) break;
-    const k=avail[rnd(avail.length)], r=pools[k].splice(rnd(pools[k].length),1)[0]; items.push({kind:k,rec:r});
-  }
-  return items;
-}
 
 // ---- gauge ----
 const GW=340, GH=330, GT=18, GB=18, GX0=64, GX1=GW-10;
 function geom(kind){ const R=RANGE[kind], fl=f(R.lo), fh=f(R.hi), P=GH-GT-GB; const y=v=>GT+(fh-f(v))/(fh-fl)*P; return {R,fl,fh,P,y}; }
 function ticksFor(kind,G){
   // evenly spaced ticks: the smallest round step that leaves at least 26 px between labels
-  const k=IMP?FT:1, pxPerM=G.P/((G.R.hi-G.R.lo)*k), step=[10,20,50,100,200,250,500,1000,2000,2500,5000,10000].find(st=>st*pxPerM>=26)||10000, out=[];
+  const k=units.imp?FT:1, pxPerM=G.P/((G.R.hi-G.R.lo)*k), step=[10,20,50,100,200,250,500,1000,2000,2500,5000,10000].find(st=>st*pxPerM>=26)||10000, out=[];
   for(let d=Math.ceil(G.R.lo*k/step)*step; d<=G.R.hi*k+1e-9; d+=step) out.push(d/k);
   return out;
 }
@@ -119,8 +81,8 @@ function drawGauge(extra){
 // ---- input handling ----
 function setValue(v,fromNum){
   g.touched=true; $('lock').disabled=false; $('guessui').classList.remove('untouched');
-  const q=g.items[g.idx], R=RANGE[q.kind]; const stepL=IMP?.1:1; g.v=+(Math.round(clamp(v,R.lo,R.hi)/stepL)*stepL).toFixed(1);
-  $('read').textContent=fmtL(g.v); $('slider').value=f(g.v); if(!fromNum) $('num').value=Math.round(IMP?g.v*FT:g.v);
+  const q=g.items[g.idx], R=RANGE[q.kind]; const stepL=units.imp?.1:1; g.v=+(Math.round(clamp(v,R.lo,R.hi)/stepL)*stepL).toFixed(1);
+  $('read').textContent=fmtL(g.v); $('slider').value=f(g.v); if(!fromNum) $('num').value=Math.round(units.imp?g.v*FT:g.v);
   $('readsub').textContent = g.v===0?'At sea level':`${fmtL(Math.abs(g.v))} ${U()} ${g.v>0?'above':'below'} sea level`;
   drawGauge();
 }
@@ -128,15 +90,8 @@ function gaugeToValue(e){
   const svg=$('gsvg'); if(!svg) return; const r=svg.getBoundingClientRect(), q=g.items[g.idx], G=geom(q.kind);
   const yy=(e.clientY-r.top)/r.height*GH; const fv=G.fh-clamp((yy-GT)/G.P,0,1)*(G.fh-G.fl); setValue(finv(fv));
 }
-let dragging=false;
-$('gauge').addEventListener('pointerdown',e=>{ if(g.locked) return; dragging=true; $('gauge').setPointerCapture(e.pointerId); gaugeToValue(e); });
-$('gauge').addEventListener('pointermove',e=>{ if(dragging&&!g.locked) gaugeToValue(e); });
-$('gauge').addEventListener('pointerup',()=>dragging=false);
-$('slider').addEventListener('input',e=>{ if(!g.locked) setValue(finv(parseFloat(e.target.value))); });
-$('num').addEventListener('input',e=>{ if(g.locked||e.target.value===''||e.target.value==='-') return; setValue(parseFloat(e.target.value)/(IMP?FT:1),true); });
 
 // ---- flow ----
-function dots(){ $('dots').innerHTML=g.items.map((_,i)=>`<i class="${i<g.idx?'done':i===g.idx?'now':''}"></i>`).join(''); }
 function ask(){
   stopAnim(); g.locked=false;
   const q=g.items[g.idx], R=RANGE[q.kind]; document.body.dataset.kind=q.kind;
@@ -144,8 +99,8 @@ function ask(){
   $('rn').textContent=g.idx+1; $('rof').textContent='of '+g.items.length; $('total').textContent=fmt(g.total); dots();
   $('kindword').textContent = {highest:'Highest point of', lowest:'Lowest point of', average:'Average elevation of'}[q.kind];
   $('country').textContent = q.rec.name; $('point').innerHTML = q.kind==='average' ? 'The mean height of all the land, <b>not</b> the peak' : `${q.kind==='highest'?'Peak':'Spot'}: <b>${esc(q.rec.point)}</b>`;
-  const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=IMP?.1:1; sl.disabled=false;
-  const nm=$('num'); nm.min=Math.round(IMP?R.lo*FT:R.lo); nm.max=Math.round(IMP?R.hi*FT:R.hi); nm.disabled=false;
+  const sl=$('slider'); sl.min=f(R.lo); sl.max=f(R.hi); sl.step=units.imp?.1:1; sl.disabled=false;
+  const nm=$('num'); nm.min=Math.round(units.imp?R.lo*FT:R.lo); nm.max=Math.round(units.imp?R.hi*FT:R.hi); nm.disabled=false;
   $('unit').textContent=U(); $('unit2').textContent=U();
   drawMap(q,false); $('cmp').classList.add('hidden');
   $('guessui').classList.remove('hidden'); $('resui').classList.add('hidden');
@@ -155,32 +110,8 @@ function ask(){
   $('slider').focus({preventScroll:true});
 }
 
-// ---- map (Natural Earth outlines, drawn as SVG; no tiles, works offline) ----
-const WORLD = {}; MAPS.world.forEach(w=>WORLD[w[0]]=w);
-const OWNED = new Set(); Object.values(MAPS.rows).forEach(r=>r.parts.forEach(p=>OWNED.add(p[0])));
-const SVGNS='http://www.w3.org/2000/svg';
-function drawMap(q, reveal){
-  const svg=$('map'), row=MAPS.rows[String(q.rec.id)], cap=$('mapcap'); svg.innerHTML='';
-  if(!row){ cap.textContent='No map for this place.'; svg.style.visibility='hidden'; return; }
-  svg.style.visibility='visible';
-  let [x0,y0,x1,y1]=row.view.map(v=>v/1000); const hasPt=q.rec.lat!=null&&q.rec.lon!=null;
-  if(reveal&&hasPt){ const pd=Math.max(x1-x0,y1-y0)*.08; x0=Math.min(x0,q.rec.lon-pd); x1=Math.max(x1,q.rec.lon+pd); y0=Math.min(y0,q.rec.lat-pd); y1=Math.max(y1,q.rec.lat+pd); }
-  const k=Math.max(.2,Math.cos(((y0+y1)/2)*Math.PI/180));
-  svg.setAttribute('viewBox',`${(x0*k).toFixed(3)} ${(-y1).toFixed(3)} ${((x1-x0)*k).toFixed(3)} ${(y1-y0).toFixed(3)}`);
-  let nd=''; const mn=[x0*1000,y0*1000,x1*1000,y1*1000];
-  for(const id in WORLD){ if(OWNED.has(+id)&&row.parts.some(p=>p[0]===+id)) continue; const w=WORLD[id], b=w[1]; if(b[2]<mn[0]||b[0]>mn[2]||b[3]<mn[1]||b[1]>mn[3]) continue; w[2].forEach(r=>nd+=ringPath(r,k)); }
-  const n=document.createElementNS(SVGNS,'path'); n.setAttribute('d',nd); n.setAttribute('class','mp-n'); n.setAttribute('fill-rule','evenodd'); svg.appendChild(n);
-  let cd=''; row.parts.forEach(p=>p[1].forEach(r=>cd+=ringPath(r,k)));
-  const c=document.createElementNS(SVGNS,'path'); c.setAttribute('d',cd); c.setAttribute('class','mp-c'+(reveal?' shown':'')); c.setAttribute('fill-rule','evenodd'); c.setAttribute('vector-effect','non-scaling-stroke'); svg.appendChild(c);
-  if(reveal&&hasPt){
-    const gp=document.createElementNS(SVGNS,'g'); gp.setAttribute('class','mp-pin'); const cx=q.rec.lon*k, cy=-q.rec.lat, rr=Math.max(x1-x0,y1-y0)*.012;
-    gp.innerHTML=`<circle class="r" cx="${cx}" cy="${cy}" r="${rr*2.2}" vector-effect="non-scaling-stroke"/><circle class="d" cx="${cx}" cy="${cy}" r="${rr}" vector-effect="non-scaling-stroke"/>`; svg.appendChild(gp);
-  }
-  cap.textContent = q.kind==='average' ? (reveal?'Average over the whole country.':'Find your bearings: the outlined country is the one to guess for.') : !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : `${q.rec.point}.`;
-}
-function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
 function lock(){
-  if(g.locked||!g.touched) return; g.locked=true; dragging=false;
+  if(g.locked||!g.touched) return; g.locked=true; endDrag();
   const q=g.items[g.idx], truth=q.rec.m, pts=scoreFor(g.v,truth), err=Math.abs(g.v-truth);
   g.total+=pts; g.log.push({kind:q.kind,rec:q.rec,guess:g.v,pts,err});
   $('total').textContent=fmt(g.total); $('slider').disabled=true; $('num').disabled=true;
@@ -201,30 +132,31 @@ function lock(){
   g.anim=requestAnimationFrame(frame);
   $('next').focus({preventScroll:true});
 }
-function nextRound(){ if(!g.locked) return; g.idx++; if(g.idx>=g.items.length) finish(); else ask(); }
-
 function finish(){
-  stopAnim(); document.body.dataset.kind=g.mode==='lowest'?'lowest':g.mode==='average'?'average':'highest';
-  const max=g.items.length*TOP_MARKS, key=bestKey(), prev=g.best[key]||0, fresh=g.total>prev;
-  if(fresh){ g.best[key]=g.total; saveBest(); }
-  const avg=g.total/g.items.length, [word]=ratingFor(avg);
-  $('play').classList.add('hidden'); $('hud').classList.add('hidden'); $('final').classList.remove('hidden');
+  const {max,prev,fresh,word}=finishPrep();
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmt(g.total)} <small>of ${fmt(max)}</small></div>
    <p class="muted">${LEVELS[g.level].label} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmt(prev)+'.'}</p>
    <table><tr><th>Place</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${esc(r.rec.point)}</div></td><td class="n">${fmtL(r.guess)} ${U()}</td><td class="n">${fmtL(r.rec.m)} ${U()}</td><td class="n">${fmt(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
    <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="${import.meta.env.BASE_URL}higher-lower/">Try higher or lower</a></div>`;
-  $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
+  wireFinal();
 }
-function start(){ g.items=buildGame(); g.idx=0; g.total=0; g.log=[]; ask(); }
-function toMenu(){ stopAnim(); g.locked=true; ['hud','play','final'].forEach(i=>$(i).classList.add('hidden')); $('setup').classList.remove('hidden'); poolNote(); }
 
-$('start').onclick=start; $('lock').onclick=lock; $('next').onclick=nextRound; $('menu').onclick=toMenu;
-document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{g.mode=b.dataset.m;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
-document.querySelectorAll('#level button').forEach(b=>b.onclick=()=>{g.level=b.dataset.l;document.querySelectorAll('#level button').forEach(x=>x.classList.toggle('on',x===b));poolNote();});
-document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{ IMP=b.dataset.u==='imperial'; try{ localStorage.setItem('country-extremes-units',IMP?'imperial':'metric'); }catch(e){} syncUnits(); poolNote(); });
-syncUnits();
-$('region').onchange=()=>{g.region=$('region').value;poolNote();};
-document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
-  if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });
+const core = createGuess({
+  POOL,
+  kinds: KINDS,
+  startMode: 'highest',
+  bestKey: 'country-extremes-guess-best',
+  poolLabel: k => k+(k==='average'?' elevations':' points'),
+  idleTheme: mode => mode==='lowest' ? 'lowest' : mode==='average' ? 'average' : 'highest',
+  levelNote: () => levelNote(),
+  mapCaption: (q,reveal) => q.kind==='average' ? (reveal?'Average over the whole country.':'Find your bearings: the outlined country is the one to guess for.') : !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : `${q.rec.point}.`,
+  ask: () => ask(),
+  lock: () => lock(),
+  finish: () => finish(),
+  setValue: (v,fromNum) => setValue(v,fromNum),
+  gaugeToValue: e => gaugeToValue(e),
+  numToValue: x => x/(units.imp?FT:1),
+});
+const { g, buildGame, poolNote, drawMap, stopAnim, dots, endDrag, start, finishPrep, wireFinal } = core;
 poolNote();
 window.__guess={g,scoreFor,ratingFor,buildGame,RANGE,f,finv,setValue,lock,start};
