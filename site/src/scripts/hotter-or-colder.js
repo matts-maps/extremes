@@ -217,7 +217,5 @@ $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
   else if(e.key==='Enter' && !$('reveal').classList.contains('hidden') && e.target.tagName!=='BUTTON') $('next').click(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">Wikipedia, List of weather records</a> (revision 1382542755) for record highs and lows, fetched 29 October 2026, and the <a href="https://climateknowledgeportal.worldbank.org/" target="_blank" rel="noopener">World Bank Climate Change Knowledge Portal</a>, 1991 to 2020, for average daily highs, lows and temperatures, for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list and Kosovo.`;
-$('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__game={state,makePair,validPairs,poolFor,apart,POOL,CFG,chart};

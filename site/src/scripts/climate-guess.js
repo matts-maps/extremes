@@ -260,7 +260,5 @@ syncUnits();
 $('region').onchange=()=>{g.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||e.target.tagName==='SELECT'||e.target.tagName==='BUTTON') return;
   if(!$('play').classList.contains('hidden')) g.locked?nextRound():lock(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">Wikipedia, List of weather records</a> (revision 1382542755) for record highs and lows, and <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation" target="_blank" rel="noopener">Wikipedia, List of countries by average annual precipitation</a> (revision 1380108857), fetched 29 October 2026, for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list and Kosovo. Rainfall is a national average, not the wettest place in the country.`;
-$('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__guess={g,scoreFor,ratingFor,buildGame,CFG,setValue,lock,start};

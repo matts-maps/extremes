@@ -196,7 +196,5 @@ $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
   else if(e.key==='Enter' && !$('reveal').classList.contains('hidden') && e.target.tagName!=='BUTTON') $('next').click(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (<a href="https://en.wikipedia.org/w/index.php?title=List_of_elevation_extremes_by_country&oldid=1381548721" target="_blank" rel="noopener">revision 1381548721</a>, fetched 29 October 2026), for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list (<a href="https://en.wikipedia.org/w/index.php?title=ISO_3166-1&oldid=1376647436" target="_blank" rel="noopener">Wikipedia, revision 1376647436</a>) and Kosovo. Average elevation: <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_elevation" target="_blank" rel="noopener">Wikipedia, List of countries by average elevation</a> (revision 1366634239).`;
-$('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__game={state,makePair,validPairs,poolFor,apart,POOL};

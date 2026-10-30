@@ -198,7 +198,5 @@ $('region').onchange=()=>{state.region=$('region').value;poolNote();};
 document.addEventListener('keydown',e=>{ if(e.target.tagName==='SELECT') return;
   if(e.key==='1'||e.key==='ArrowLeft') answer(0); else if(e.key==='2'||e.key==='ArrowRight') answer(1);
   else if(e.key==='Enter' && !$('reveal').classList.contains('hidden') && e.target.tagName!=='BUTTON') $('next').click(); });
-$('foot').innerHTML = `Source: <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation" target="_blank" rel="noopener">Wikipedia, List of countries by average annual precipitation</a> (revision 1380108857), fetched 29 October 2026, for the countries and territories of the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list and Kosovo. Rainfall is a national average, not the wettest place in the country.`;
-$('foot').querySelectorAll('a').forEach(a=>{a.style.color='inherit';a.style.textDecoration='underline';});
 poolNote();
 window.__game={state,makePair,validPairs,poolFor,apart,POOL,CFG,chart};
