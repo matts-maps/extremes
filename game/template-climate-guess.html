@@ -23,9 +23,11 @@ body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system
 body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600' fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.4'%3E%3Cellipse cx='300' cy='300' rx='60' ry='40'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='84'/%3E%3Cellipse cx='300' cy='300' rx='190' ry='130'/%3E%3Cellipse cx='300' cy='300' rx='270' ry='185'/%3E%3Cellipse cx='300' cy='300' rx='360' ry='250'/%3E%3Cellipse cx='300' cy='300' rx='460' ry='320'/%3E%3C/svg%3E") center/760px}
 .wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px;position:relative}
-.home{margin-left:auto;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--card)}
+.home{margin-left:auto;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:0 18px;min-height:44px;display:inline-flex;align-items:center;font-size:14px;background:var(--card)}
 .home:hover,.home:focus-visible{border-color:var(--accent);outline:none}
 .credit{margin-top:6px}
+.startrow{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}.startrow .go{padding:14px 44px;font-size:18px}.startrow .muted{margin:0;flex:1;min-width:200px}
+a.ghost{display:inline-flex;align-items:center;text-decoration:none;min-height:44px}
 header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .logo{width:54px;height:54px;flex:none;filter:drop-shadow(0 4px 14px var(--glow))}
 h1{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.5px;font-weight:800}
@@ -41,12 +43,12 @@ h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-b
 .mode:hover{transform:translateY(-2px);border-color:var(--mute)}
 .mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
 .levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-.lvl{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 6px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:transform .15s,border-color .15s}
+.lvl{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 6px;min-height:44px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:transform .15s,border-color .15s}
 .lvl:hover{transform:translateY(-1px);border-color:var(--mute)}
 .lvl.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 3px var(--glow)}
 .lvl.extreme.on{border-color:#ff6b6b;box-shadow:0 0 0 3px rgba(255,107,107,.25)}
 .mode svg{width:44px;height:34px;display:block;margin:0 auto 6px}
-.mode b{display:block;font-size:15px}.mode small{color:var(--mute);font-size:12px}
+.mode b{display:block;font-size:15px}.mode small{color:var(--mute);font-size:13px}
 select,input[type=number]{background:var(--card-s);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit}
 select{min-width:170px}
 .go{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;border:0;border-radius:14px;padding:12px 26px;font:inherit;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px var(--glow);transition:transform .15s,filter .15s}
@@ -61,7 +63,7 @@ select{min-width:170px}
 .pill span{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .dots{display:flex;gap:5px}.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);display:block}
 .dots i.done{background:var(--accent)}.dots i.now{box-shadow:0 0 0 3px var(--glow);background:var(--ink)}
-button.pill{cursor:pointer}
+button.pill{cursor:pointer;min-height:44px}
 
 /* play area */
 .stage{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:20px;align-items:start}
@@ -114,7 +116,9 @@ input[type=range]{width:100%;margin:6px 0 10px;accent-color:var(--accent);height
 .rating.t4{border-color:rgba(61,220,151,.6);background:linear-gradient(90deg,rgba(61,220,151,.22),rgba(61,220,151,.04))}
 .rating.t3{border-color:rgba(53,194,201,.6);background:linear-gradient(90deg,rgba(53,194,201,.2),rgba(53,194,201,.04))}
 .rating.t2{border-color:rgba(255,179,71,.6);background:linear-gradient(90deg,rgba(255,179,71,.2),rgba(255,179,71,.04))}
-.rating.t1,.rating.t0{border-color:rgba(255,107,107,.55);background:linear-gradient(90deg,rgba(255,107,107,.2),rgba(255,107,107,.04))}
+.rating.t1{border-color:rgba(255,140,90,.6);background:linear-gradient(90deg,rgba(255,140,90,.2),rgba(255,140,90,.04))}
+.rating.t0{border-color:rgba(255,107,107,.55);background:linear-gradient(90deg,rgba(255,107,107,.2),rgba(255,107,107,.04))}
+.untouched input[type=range]{opacity:.5}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px}
 .cmp .c{background:rgba(255,255,255,.05);border:1px solid var(--line);border-top:5px solid var(--a);border-radius:14px;padding:10px 14px}
 .cmp .c.b{border-top-color:var(--b)}
@@ -126,7 +130,7 @@ table.nums td.v{text-align:right;font-variant-numeric:tabular-nums;font-weight:7
 table.nums tr.ask td{color:var(--accent);font-weight:800}
 table.nums small{display:block;color:var(--mute);font-weight:400;font-size:11px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:10px 14px;font:inherit;cursor:pointer}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:12px 14px;min-height:44px;font:inherit;cursor:pointer}
 .seg button+button{border-left:1px solid var(--line)}
 .seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
 .chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
@@ -139,7 +143,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
 th{color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .bar{height:6px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden;min-width:60px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
-footer{color:var(--mute);font-size:12px;margin-top:14px}
+footer{color:var(--mute);font-size:13px;line-height:1.6;margin-top:14px}
 @media (prefers-reduced-motion:reduce){.res>*{animation:none}}
 @media(max-width:640px){
   h1{font-size:24px}.logo{width:44px;height:44px}.stage{grid-template-columns:1fr}.q{font-size:23px}.bigread{font-size:32px}
@@ -177,10 +181,9 @@ footer{color:var(--mute);font-size:12px;margin-top:14px}
   <div class="row" style="margin-top:14px">
     <select id="region" aria-label="Region"><option value="">All regions</option></select>
     <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (°C, mm)</button><button data-u="imperial">Imperial (°F, in)</button></div>
-    <button class="go" id="start">Start</button>
-    <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
+        <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
   </div>
-  <p class="muted" id="poolnote" style="margin:12px 0 0"></p>
+  <div class="startrow"><button class="go" id="start">Start</button><p class="muted" id="poolnote"></p></div>
 </div>
 
 <div class="hud hidden" id="hud">
@@ -246,7 +249,7 @@ function syncUnits(){ document.querySelectorAll('#units button').forEach(b=>b.cl
 const TOL_REC = {beginner:10, intermediate:5, advanced:2.5, extreme:1.5};
 const TOL_AVG = {beginner:6, intermediate:3, advanced:1.5, extreme:1};
 const CFG = {
-  hottest:{unit:'°C', dec:1, lo:10, hi:60, step:.5, label:'Record high', word:'Record high in', hint:'The hottest temperature ever recorded in the country', pool:'record highs', tol:TOL_REC},
+  hottest:{unit:'°C', dec:1, lo:0, hi:60, step:.5, label:'Record high', word:'Record high in', hint:'The hottest temperature ever recorded in the country', pool:'record highs', tol:TOL_REC},
   coldest:{unit:'°C', dec:1, lo:-90, hi:25, step:.5, label:'Record low', word:'Record low in', hint:'The coldest temperature ever recorded in the country', pool:'record lows', tol:TOL_REC},
   avghigh:{unit:'°C', dec:1, lo:-20, hi:40, step:.5, label:'Average daily high', word:'Average daily high in', hint:'The typical daytime high over the whole country, 1991 to 2020', pool:'average daily highs', tol:TOL_AVG},
   avglow:{unit:'°C', dec:1, lo:-30, hi:30, step:.5, label:'Average daily low', word:'Average daily low in', hint:'The typical night-time low over the whole country, 1991 to 2020', pool:'average daily lows', tol:TOL_AVG},
@@ -309,7 +312,7 @@ function buildGame(){
 }
 
 // ---- gauge ----
-const GW=340, GH=330, GT=18, GB=18, GX0=64, GX1=GW-10;
+const GW=340, GH=372, GT=38, GB=40, GX0=64, GX1=GW-10;
 const baseOf = R => clamp(0,R.lo,R.hi);
 function geom(kind){ const R=CFG[kind], P=GH-GT-GB; const y=v=>GT+(R.hi-v)/(R.hi-R.lo)*P; return {R,P,y}; }
 function ticksFor(G,kind){
@@ -317,39 +320,61 @@ function ticksFor(G,kind){
   for(let d=Math.ceil(a/step)*step; d<=b+1e-9; d+=step) out.push([toBase(kind,d), Math.round(d*100)/100]);
   return out;
 }
+// rain gauge: a funnel with a rim over a tube, on a small stand; the water rises in the channel inside the tube. top and bot are the y of the scale's ends, yv the water level.
+const rainGauge=(x,hw,top,bot,yv,stroke,glass)=>{
+  const tt=top-8, bb=bot+6, fh=Math.round(hw*.95+6), tf=tt-fh, fb=tt+8, ft=hw*2.1, fn=hw*.55, cw=hw*.94, rh=Math.max(6,hw*.4), bw=hw*1.88, bh=Math.max(8,hw*.7), cb=bb-6, rx=cw*.2;
+  let s=`<rect x="${x-bw}" y="${bb}" width="${bw*2}" height="${bh}" rx="4" fill="#9aa6b2" opacity=".85"/><polygon points="${x-hw*.42},${bb+bh} ${x+hw*.42},${bb+bh} ${x},${bb+bh+hw*1.1}" fill="#7a8794"/>`;
+  s+=`<rect x="${x-hw}" y="${tt}" width="${hw*2}" height="${bb-tt}" rx="${hw*.35}" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`;
+  s+=`<rect x="${x-cw/2}" y="${top-4}" width="${cw}" height="${cb-top+4}" rx="${rx}" fill="rgba(255,255,255,.1)"/>`;
+  if(yv<cb) s+=`<rect x="${x-cw/2}" y="${yv}" width="${cw}" height="${cb-yv}" rx="${rx}" fill="#1f6fd1"/><rect x="${x-cw/2}" y="${yv}" width="${cw}" height="3" rx="1.5" fill="#fff" opacity=".45"/>`;
+  s+=`<rect x="${x-hw+hw*.2}" y="${top+10}" width="${Math.max(2,hw*.17)}" height="${(bot-top)*.9}" rx="1.5" fill="#fff" opacity=".25"/>`;
+  s+=`<polygon points="${x-ft},${tf} ${x+ft},${tf} ${x+fn},${fb} ${x-fn},${fb}" fill="${glass}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`;
+  s+=`<polygon points="${x-ft*.73},${tf+3} ${x+ft*.73},${tf+3} ${x+fn*.4},${fb-5} ${x-fn*.4},${fb-5}" fill="rgba(255,255,255,.1)"/>`;
+  s+=`<rect x="${x-ft*1.1}" y="${tf-rh*.9}" width="${ft*2.2}" height="${rh}" rx="${rh/2}" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`;
+  s+=`<line x1="${x-ft*.82}" y1="${tf+4}" x2="${x-hw*.9}" y2="${fb-6}" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".35"/>`;
+  return s; };
+// thermometer: a glass tube joined to a bulb; the mercury runs from the bulb up to the reading (ym is its top)
+const thermo=(x,hw,ty,cy,br,ym,col,stroke,glass)=>{ const ch=Math.max(6,Math.round(hw*.7));
+  return `<rect x="${x-hw}" y="${ty}" width="${hw*2}" height="${cy-ty}" rx="${hw}" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`
+   +`<circle cx="${x}" cy="${cy}" r="${br}" fill="${glass}" stroke="${stroke}" stroke-width="2"/>`
+   +`<rect x="${x-hw+1}" y="${cy-br-6}" width="${hw*2-2}" height="${br}" fill="${glass}"/>`
+   +`<rect x="${x-ch/2}" y="${ty+hw*.6}" width="${ch}" height="${cy-ty-hw*.6}" rx="${ch/2}" fill="rgba(255,255,255,.12)"/>`
+   +(ym<cy?`<rect x="${x-ch/2}" y="${ym}" width="${ch}" height="${cy-ym}" rx="${ch/2}" fill="${col}"/>`:'')
+   +`<circle cx="${x}" cy="${cy}" r="${br*.74}" fill="${col}"/>`
+   +`<rect x="${x-hw+4}" y="${ty+hw*.9}" width="3" height="${(cy-ty)*.7}" rx="1.5" fill="#fff" opacity=".28"/><circle cx="${x-br*.4}" cy="${cy+br*.25}" r="${br*.18}" fill="#fff" opacity=".4"/>`; };
+const mercury = v => v>=0 ? '#d6332a' : '#3b8be8';   // red above freezing, blue below
 function drawGauge(extra){
   const q=g.items[g.idx], G=geom(q.kind), C=CFG[q.kind], yb=G.y(baseOf(C)), yg=G.y(g.v), ticks=ticksFor(G,q.kind), zero=C.lo<0&&C.hi>0;
   let s=`<svg viewBox="0 0 ${GW} ${GH}" id="gsvg" role="img" aria-label="Scale; your guess is marked">`;
   s+=`<defs>
    <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--a)" stop-opacity=".5"/></linearGradient>
    <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--b)"/><stop offset="1" stop-color="var(--b)" stop-opacity=".5"/></linearGradient>
-   <clipPath id="gclip"><rect x="${GX0}" y="${GT}" width="${GX1-GX0}" height="${G.P}"/></clipPath></defs>`;
+   <clipPath id="gclip"><rect x="${GX0}" y="0" width="${GX1-GX0}" height="${GH}"/></clipPath></defs>`;
   s+=`<g clip-path="url(#gclip)">`;
   if(zero) s+=`<rect x="${GX0}" y="${yb}" width="${GX1-GX0}" height="${GT+G.P-yb}" fill="var(--sea)" fill-opacity=".12"/>`;
   ticks.forEach(([v])=>{ if(v!==0) s+=`<line x1="${GX0}" x2="${GX1}" y1="${G.y(v)}" y2="${G.y(v)}" stroke="#fff" stroke-opacity=".08"/>`; });
-  if(extra){ const x=GX0+(GX1-GX0)*.30, yt=G.y(extra.value), yb0=GT+G.P, col='var(--b)', glass='#15293b';
-    if(q.kind==='wettest'){ const hw=22;
-      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-4}" rx="8" fill="${glass}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="${Math.max(0,yb0-2-yt)}" fill="${col}" opacity=".85"/><rect x="${x-hw+2}" y="${yt}" width="${hw*2-4}" height="3" fill="#fff" opacity=".55"/>`;
-    } else { const hw=12, yt2=Math.min(yt,yb), hh=Math.abs(yt-yb);
-      s+=`<rect x="${x-hw}" y="${GT+2}" width="${hw*2}" height="${G.P-4}" rx="${hw}" fill="${glass}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`;
-      if(hh>0.5) s+=`<rect x="${x-5}" y="${yt2}" width="10" height="${hh}" rx="5" fill="${col}"/>`;
-      s+=`<line x1="${x-hw-5}" x2="${x+hw+5}" y1="${yb}" y2="${yb}" stroke="#fff" stroke-width="2" opacity=".7"/>`; }
+  { const iv=extra?extra.value:(g.touched?g.v:baseOf(C));   // the instrument follows the guess while guessing, then the answer
+    const x=GX0+(GX1-GX0)*.30, yt=G.y(iv), yb0=GT+G.P, col='var(--b)', glass='#15293b';
+    if(q.kind==='wettest'){ s+=rainGauge(x,14,GT,GT+G.P,clamp(yt,GT,GT+G.P),'rgba(255,255,255,.5)',glass);
+    } else { s+=thermo(x,9,GT-4,GT+G.P+12,16,clamp(yt,GT,GT+G.P),mercury(iv),'rgba(255,255,255,.5)',glass); }
   }
   s+=`</g>`;
-  ticks.forEach(([v,lab])=>{ const yy=G.y(v); if(v!==0&&Math.abs(yy-yb)>12) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
+  ticks.forEach(([v,lab])=>{ const yy=G.y(v); if(!zero||(v!==0&&Math.abs(yy-yb)>12)) s+=`<text class="m" x="${GX0-6}" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmtNum(lab,0)}</text>`; });
   if(zero) s+=`<line x1="${GX0}" x2="${GX1}" y1="${yb}" y2="${yb}" stroke="var(--sea)" stroke-width="2.5"/><text x="${GX0-6}" y="${yb+4}" text-anchor="end" style="fill:var(--sea);font-weight:700;font-size:10px">${isRain(q.kind)?0:IMP?32:0}</text>`;
   if(extra){ const GA=POOL.global[q.kind], yg2=G.y(GA.v);
     s+=`<line x1="${GX0}" x2="${GX1}" y1="${yg2}" y2="${yg2}" stroke="#fff" stroke-opacity=".6" stroke-dasharray="2 4"/><text x="${GX1-3}" y="${yg2-4}" text-anchor="end" style="font-size:10px;fill:#fff;opacity:.9">${GA.label}: ${fmtV(q.kind,GA.v)} ${UN(q.kind)}</text>`; }
   const gy=clamp(yg,GT,GT+G.P), left=GX0+(GX1-GX0)*.62;
   if(extra&&extra.showGap){ const ya=G.y(extra.value); s+=`<line x1="${left+34}" x2="${left+34}" y1="${gy}" y2="${ya}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/><line x1="${GX0}" x2="${GX1}" y1="${ya}" y2="${ya}" stroke="var(--b)" stroke-width="1.5" stroke-dasharray="5 4"/>`; }
-  s+=`<line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5"/>`;
-  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="84" height="26" rx="13" fill="var(--a)"/><text x="36" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:13px">${fmtV(q.kind,g.v)} ${UN(q.kind)}</text></g>`;
+  { const idle=!g.touched&&!g.locked;   // before a guess is placed the bar sits mid-scale as a faint 'drag me' handle
+  s+=`<g opacity="${idle?.6:1}"><line x1="${GX0}" x2="${GX1}" y1="${gy}" y2="${gy}" stroke="var(--a)" stroke-width="2.5"${idle?' stroke-dasharray="6 5"':''}/>`;
+  s+=`<g transform="translate(${left},${gy})"><rect x="-6" y="-13" width="84" height="26" rx="13" fill="var(--a)"/><text x="36" y="5" text-anchor="middle" style="fill:#06232a;font-weight:800;font-size:${idle?11:13}px">${idle?'Drag to guess':fmtV(q.kind,g.v)+' '+UN(q.kind)}</text></g></g>`; }
   s+=`</svg>`; $('gauge').innerHTML=s;
 }
 
 // ---- input handling ----
 function sub(kind,v){ if(kind==='wettest') return v===0?'No rain':IMP?`About ${fmtNum(v/25.4,0)} in of rain in a year`:`About ${fmtI(v/10)} cm of rain in a year`; return v===0?'Exactly freezing':`${fmtD(kind,Math.abs(v))} ${UN(kind)} ${v>0?'above':'below'} freezing`; }
 function setValue(v,fromNum){
+  g.touched=true; $('lock').disabled=false; $('guessui').classList.remove('untouched');
   const q=g.items[g.idx], C=CFG[q.kind]; const st=IMP?(isRain(q.kind)?1:.1):C.step; g.v=+(Math.round(clamp(v,C.lo,C.hi)/st)*st).toFixed(2);
   $('read').textContent=fmtV(q.kind,g.v); $('slider').value=g.v; if(!fromNum) $('num').value=+dv(q.kind,g.v).toFixed(decs(q.kind));
   $('readsub').textContent = sub(q.kind,g.v);
@@ -380,7 +405,9 @@ function ask(){
   drawMap(q,false); $('cmp').classList.add('hidden');
   $('guessui').classList.remove('hidden'); $('resui').classList.add('hidden');
   setValue((C.lo+C.hi)/2);
-  $('lock').focus({preventScroll:true});
+  // no preset guess: the scale, slider and Lock in stay idle until the player places one
+  g.touched=false; $('read').textContent='–'; $('readsub').textContent='Drag the scale, use the slider or type a figure to place your guess'; $('num').value=''; $('lock').disabled=true; $('guessui').classList.add('untouched'); drawGauge();
+  $('slider').focus({preventScroll:true});
 }
 
 // ---- map (Natural Earth outlines, drawn as SVG; no tiles, works offline) ----
@@ -404,24 +431,24 @@ function drawMap(q, reveal){
 }
 function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
 function lock(){
-  if(g.locked) return; g.locked=true; dragging=false;
+  if(g.locked||!g.touched) return; g.locked=true; dragging=false;
   const q=g.items[g.idx], C=CFG[q.kind], truth=q.rec.v, pts=scoreFor(q.kind,g.v,truth), err=Math.abs(g.v-truth);
   g.total+=pts; g.log.push({kind:q.kind,rec:q.rec,guess:g.v,pts,err});
   $('total').textContent=fmtI(g.total); $('slider').disabled=true; $('num').disabled=true;
   $('guessui').classList.add('hidden');
   drawMap(q,true);
   const [word,tier]=ratingFor(pts), tol=tolFor(q.kind,g.level,truth), eps=q.kind==='wettest'?.5:.05;
-  $('rating').className='rating t'+tier; $('rword').textContent=(g.level==='extreme'&&pts===0)?'Outside the allowance':word;
+  $('rating').className='rating'; $('rword').textContent=(g.level==='extreme'&&pts===0)?'Outside the allowance':word;
   $('rdetail').textContent = err<eps ? 'Exactly right.' : `You were ${fmtD(q.kind,err)} ${UN(q.kind)} too ${g.v>truth?'high':'low'}.`+(g.level==='extreme'&&pts===0?` Extreme needs a guess within ${fmtD(q.kind,tol)} ${UN(q.kind)}.`:'');
   $('cmp').innerHTML = `<div class="c"><div class="muted">Your guess</div><div class="big">${fmtV(q.kind,g.v)}<i>${UN(q.kind)}</i></div></div><div class="c b"><div class="muted">${(q.kind==='hottest'||q.kind==='coldest')?esc(q.rec.point):C.label}</div><div class="big">${fmtV(q.kind,truth)}<i>${UN(q.kind)}</i></div></div>${ASK[q.kind]?`<div class="c" style="grid-column:1/-1"><div class="muted">All the temperature figures for ${esc(q.rec.name)}</div>${numsTable(q.kind,q.rec)}</div>`:''}`;
   $('next').textContent = g.idx+1>=g.items.length ? 'See your score' : 'Next';
   $('resui').classList.remove('hidden'); $('cmp').classList.remove('hidden');
   // fill to your guess, pause for a second, then carry on to the true figure
-  const t0=performance.now(), A=reduce?.01:1.1, PA=reduce?0:1.0, B=reduce?.01:1.2, easeO=x=>1-Math.pow(1-x,3);
+  const t0=performance.now(), A=reduce?.01:.8, PA=reduce?0:.4, B=reduce?.01:.9, easeO=x=>1-Math.pow(1-x,3);
   const frame=now=>{ const t=(now-t0)/1000; let level, e=0;
     if(t<A) level=baseOf(C)+(g.v-baseOf(C))*easeO(t/A); else if(t<A+PA) level=g.v; else { e=easeO(Math.min(1,(t-A-PA)/B)); level=g.v+(truth-g.v)*e; }
     drawGauge({value:level, showGap:false}); $('pts').innerHTML=`${fmtI(pts*e)}<small>points</small>`;
-    if(t<A+PA+B) g.anim=requestAnimationFrame(frame); else { g.anim=0; drawGauge({value:truth,showGap:true}); $('pts').innerHTML=`${fmtI(pts)}<small>points</small>`; } };
+    if(t<A+PA+B) g.anim=requestAnimationFrame(frame); else { g.anim=0; $('rating').className='rating t'+tier; drawGauge({value:truth,showGap:true}); $('pts').innerHTML=`${fmtI(pts)}<small>points</small>`; } };
   g.anim=requestAnimationFrame(frame);
   $('next').focus({preventScroll:true});
 }
@@ -436,7 +463,7 @@ function finish(){
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmtI(g.total)} <small>of ${fmtI(max)}</small></div>
    <p class="muted">${LEVELNAMES[g.level]} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmtI(prev)+'.'}</p>
    <table><tr><th>Country</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${CFG[r.kind].label}</div></td><td class="n">${fmtV(r.kind,r.guess)} ${UN(r.kind)}</td><td class="n">${fmtV(r.kind,r.rec.v)} ${UN(r.kind)}</td><td class="n">${fmtI(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
-   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button></div>`;
+   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="../hotter-or-colder/">Try hotter or colder</a></div>`;
   $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
 }
 function start(){ g.items=buildGame(); g.idx=0; g.total=0; g.log=[]; ask(); }

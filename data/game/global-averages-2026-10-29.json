@@ -2,13 +2,13 @@
  "values": {
   "highest": {
    "v": 2334.3,
-   "label": "Average of all countries",
+   "label": "Global average",
    "n": 250,
    "method": "mean of the countries"
   },
   "lowest": {
    "v": 31.0,
-   "label": "Average of all countries",
+   "label": "Global average",
    "n": 250,
    "method": "mean of the countries"
   },
@@ -20,13 +20,13 @@
   },
   "hottest": {
    "v": 42.3,
-   "label": "Average of all countries",
+   "label": "Global average",
    "n": 178,
    "method": "mean of the countries"
   },
   "coldest": {
    "v": -22.2,
-   "label": "Average of all countries",
+   "label": "Global average",
    "n": 122,
    "method": "mean of the countries"
   },

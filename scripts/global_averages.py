@@ -67,11 +67,11 @@ def main():
         out["values"][key] = {"v": round(float((d["v"] * d["area"]).sum() / d["area"].sum()), 1), "label": label, "n": int(len(d)),
                               "method": "mean weighted by land area", "no_area": miss}
 
-    plain("highest_m", "highest", "Average of all countries")
-    plain("lowest_m", "lowest", "Average of all countries")
+    plain("highest_m", "highest", "Global average")
+    plain("lowest_m", "lowest", "Global average")
     out["values"]["average"] = {"v": WORLD_AVG_ELEVATION_M, "label": "Global average", "n": 0, "method": "Wikipedia, World row"}
-    plain("hottest_c", "hottest", "Average of all countries")
-    plain("coldest_c", "coldest", "Average of all countries")
+    plain("hottest_c", "hottest", "Global average")
+    plain("coldest_c", "coldest", "Global average")
     weighted("avg_high_c", "avghigh", "Global average")
     weighted("avg_low_c", "avglow", "Global average")
     weighted("avg_temp_c", "avgmean", "Global average")
