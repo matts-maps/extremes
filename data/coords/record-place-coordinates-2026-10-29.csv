@@ -1,0 +1,274 @@
+﻿id,country,side,place,qid,lat,lon,wd_label,wd_description,where,score,status
+0,Afghanistan,hottest,Farah,Q593156,32.3436,62.1194,Farah,"capital of Farah Province, Afghanistan",inside,7,matched
+1,Albania,hottest,Kuçovë,Q18774,40.8039,19.9144,Kuçovë,City in Albania,inside,7,matched
+2,Algeria,hottest,"Ouargla, Ouargla Province",Q852469,31.95,5.3167,Ouargla,"city and capital of Ouargla Province, Algeria",inside,8,matched
+4,Andorra,hottest,Borda Vidal,,,,,,,,no_match
+6,Anguilla,hottest,The Valley,Q30994,18.2208,-63.0517,The Valley,capital of the island of Anguilla,inside,7,matched
+7,Antarctica,hottest,"Signy Research Station, Signy Island",Q1751827,-60.7167,-45.6,Signy Research Station,"antarctic base in British Antarctic Territory, United Kingdom",near,3,weak
+8,Antigua and Barbuda,hottest,"V. C. Bird International Airport, St. John's",Q1433157,17.1367,-61.7931,V. C. Bird International Airport,airport,inside,4,matched
+9,Argentina,hottest,"Campo Gallo, Santiago del Estero Province",Q761980,-26.5833,-62.85,Campo Gallo,"town in Santiago del Estero Province, Argentina",inside,8,matched
+10,Armenia,hottest,Meghri,Q39549,38.9,46.2333,Meghri,"town in Syunik, Armenia",inside,7,matched
+11,Aruba,hottest,"Queen Beatrix International Airport, Oranjestad",Q1139661,12.5014,-70.0153,Queen Beatrix International Airport,airport,inside,4,matched
+14,Austria,hottest,Bad Deutsch-Altenburg,Q661194,48.1333,16.9,Bad Deutsch-Altenburg,"municipality in Bruck/Leitha District, Lower Austria, Austria",inside,7,matched
+16,Bahamas,hottest,Freeport,Q867573,26.52,-78.66,Freeport,"city, district and free trade zone on Grand Bahama",inside,4,matched
+17,Bahrain,hottest,Bahrain International Airport,Q637639,26.2708,50.6336,Bahrain International Airport,airport,inside,4,matched
+18,Bangladesh,hottest,Rajshahi,Q322155,24.3667,88.6,Rajshahi,metropolitan city in Western Bangladesh,inside,7,matched
+19,Barbados,hottest,Saint James,Q592141,13.2167,-59.6167,Saint James,parish of Barbados,inside,6,matched
+20,Belarus,hottest,Pinsk,Q204150,52.1153,26.1031,Pinsk,"city in Brest region, Belarus",inside,7,matched
+21,Belgium,hottest,"Begijnendijk, Flemish Brabant",Q432610,51.0186,4.785,Begijnendijk,"municipality in Flemish Brabant, Belgium",inside,8,matched
+22,Belize,hottest,Barton Creek,Q2166742,17.2144,-88.9508,Barton Creek,river and an area in Belize,inside,7,matched
+25,Bhutan,hottest,Phuentsholing,Q7188292,26.89,89.38,Phuentsholing Gewog,"gewogs in Chukha District, Bhutan",inside,5,matched
+27,Bolivia,hottest,"Villamontes, Tarija Department",Q1014504,-21.2647,-63.4586,Villamontes,city in Bolivia,inside,7,matched
+28,Bosnia and Herzegovina,hottest,Mostar,Q93347,43.3436,17.8075,Mostar,town in Bosnia and Herzegovina,inside,7,matched
+29,Botswana,hottest,Maun,Q170732,-19.9833,23.4167,Maun,town in Botswana,inside,7,matched
+31,Brazil,hottest,"Araçuaí, Minas Gerais",Q1749750,-16.85,-42.07,Araçuaí,"municipality of Minas Gerais state, Brazil",inside,8,matched
+33,Brunei,hottest,Mukim Sukang,Q1953042,4.3357,114.6668,Mukim Sukang,"mukim of Belait District, Brunei",inside,7,matched
+34,Bulgaria,hottest,"Sadovo, Plovdiv Province",Q2408574,42.1333,24.9333,Sadovo,"municipality in Plovdiv oblast, Bulgaria",inside,7,matched
+35,Burkina Faso,hottest,Dori,,,,,,,,no_match
+39,Canada,hottest,"Lytton, British Columbia",Q2957125,50.225,-121.5767,Lytton,"community at the confluence of the Fraser and Thompson Rivers in southwestern British Columbia, Canada",inside,7,matched
+40,Cape Verde,hottest,Praia,Q3751,14.9177,-23.5092,Praia,capital of Cape Verde,inside,7,matched
+41,Cayman Islands,hottest,"Owen Roberts International Airport, Grand Cayman",Q665948,19.2925,-81.3592,Owen Roberts International Airport,airport,inside,4,matched
+43,Chad,hottest,Faya-Largeau,Q516769,17.93,19.1031,Faya-Largeau,"place in Borkou, Chad",inside,6,matched
+44,Chile,hottest,"Cauquenes, Maule Region",Q3749,-35.9671,-72.3154,Cauquenes,city in Chile,inside,7,matched
+45,China,hottest,"Sanbu Township, Turpan, Xinjiang",Q10865666,33.4592,119.1454,Sanbu Township,,inside,3,matched
+48,Cocos (Keeling) Islands,hottest,Cocos (Keeling) Islands,Q36004,-12.1175,96.895,Cocos (Keeling) Islands,territory of Australia in the Indian Ocean,near,2,weak
+49,Colombia,hottest,"Jerusalen, Cundinamarca",Q953123,4.5631,-74.6953,Jerusalén,Colombian municipality of the department of Cundinamarca,inside,6,matched
+50,Comoros,hottest,Hahaya International Airport,,,,,,,,no_match
+53,Costa Rica,hottest,"Cerro Huacalito, Guanacaste Province",,,,,,,,no_match
+54,Croatia,hottest,Ploče,Q115117,43.0525,17.4367,Ploče,"town and settlement in Dubrovnik-Neretva County, Croatia",inside,7,matched
+55,Cuba,hottest,Veguitas (Granma Province),,,,,,,,no_match
+57,Cyprus,hottest,Athalassa Visitor Centre,,,,,,,,no_match
+58,Czech Republic,hottest,Doksany,Q1235033,50.455,14.1612,Doksany,village in Litoměřice District of Ústí nad Labem region,inside,4,matched
+60,Denmark,hottest,"Ødum, Favrskov Municipality Hans Christian Andersen Airport",Q2618741,56.3114,10.1322,Ødum,,inside,3,matched
+62,Dominica,hottest,Canefield Airport,Q1033097,15.3367,-61.3922,Canefield Airport,Dominica's airport,inside,7,matched
+63,Dominican Republic,hottest,Mao,,,,,,,,no_match
+65,Egypt,hottest,Aswan,Q29888,24.0889,32.8997,Aswan,Egyptian city,inside,7,matched
+69,Estonia,hottest,Võru,Q205271,57.8486,26.9928,Võru,town and administrative centre of Võru County in south-eastern Estonia,inside,7,matched
+70,Eswatini,hottest,Lavumisa,Q3312840,-27.3167,31.9,Lavumisa,"Settlement of Shiselweni, Eswatini",inside,7,matched
+71,Ethiopia,hottest,"Dallol, Afar",Q2600517,14.2333,40.3,Dallol,"place in Afar Region, Ethiopia",inside,8,matched
+73,Faroe Islands,hottest,Vágar Airport,Q371471,62.0636,-7.2772,Vágar Airport,airport in the Faroe Islands,inside,7,matched
+75,Fiji,hottest,Vatukoula,Q7917224,-17.5,177.8498,Vatukoula,gold mining settlement in Fiji,inside,7,matched
+76,Finland,hottest,"Joensuu Airport, Liperi",Q370924,62.6589,29.6244,Joensuu Airport,"airport in Liperi, Finland",inside,8,matched
+77,France,hottest,"Vérargues, Hérault",Q198784,43.7161,4.0997,Vérargues,"commune in Hérault, France",inside,8,matched
+78,French Guiana,hottest,Grand-Santi,Q948369,4.2733,-54.3817,Grand-Santi,"commune in Guyane, France",inside,4,matched
+81,Gabon,hottest,Tchibanga,Q690421,-2.9331,10.9831,Tchibanga,"city in the Nyanga Province of southern Gabon, situated on the Nyanga River",inside,7,matched
+84,Germany,hottest,"Möckern-Drewitz, Saxony-Anhalt",,,,,,,,no_match
+85,Ghana,hottest,Navrongo,Q995548,10.8917,-1.0889,Navrongo,town in the Upper East Region of Ghana,inside,7,matched
+87,Greece,hottest,"Elefsina, Attica",Q204905,38.0414,23.5453,Elefsina,"modern city in West Attica, Greece",inside,8,matched
+88,Greenland,hottest,Maniitsoq,Q847691,65.4167,-52.9,Maniitsoq,town in Greenland,near,6,matched
+92,Guatemala,hottest,"Estanzuela, Zacapa",Q1020422,14.9979,-89.5705,Estanzuela,"municipality of Zacapa Department, Guatemala",inside,8,matched
+93,Guernsey,hottest,Guernsey Airport,Q8995,49.435,-2.6019,Guernsey Airport,airport on the island of Guernsey,inside,7,matched
+94,Guinea,hottest,"Koundara, Boké Region",Q985374,12.4833,-13.3,Koundara,human settlement in Guinea,inside,7,matched
+96,Guyana,hottest,Ebini,Q17363866,5.6167,-57.7667,Ebini Airport,"airport serving Ebini, Guyana",inside,5,matched
+99,Honduras,hottest,San Pedro Sula,Q274584,15.5053,-88.0251,San Pedro Sula,city in Honduras,inside,7,matched
+100,Hong Kong,hottest,Sheung Shui,Q1754091,22.5102,114.127,Sheung Shui,area of Hong Kong,inside,7,matched
+101,Hungary,hottest,Szécsény,Q854918,48.0808,19.5194,Szécsény,town in Hungary,inside,7,matched
+102,Iceland,hottest,"Teigarhorn, Djúpivogur",,,,,,,,no_match
+103,India,hottest,"Phalodi, Rajasthan",Q2718721,27.131,72.364,Phalodi,"town in Phalodi district, Rajasthan, India",inside,8,matched
+104,Indonesia,hottest,"Jatiwangi, Java",Q887312,-6.7403,108.2608,Jatiwangi,"district in Majalengka Regency, West Java Province, Indonesia",inside,8,matched
+105,Iran,hottest,Ahvaz Airport (OIAW),Q622296,31.3374,48.7619,Ahvaz General Ghasem Soleimani International Airport,"airport In Ahvaz, Iran",inside,5,matched
+106,Iraq,hottest,Basra,Q48195,30.515,47.81,Basra,"capital of Basra Governorate, in southern Iraq",inside,7,matched
+107,Ireland,hottest,"Kilkenny Castle, County Kilkenny",Q2453267,52.6503,-7.2492,Kilkenny Castle,"castle in Kilkenny, Ireland",inside,6,matched
+108,Isle of Man,hottest,Isle of Man Airport,Q9001,54.0833,-4.6239,Isle of Man Airport,airport on the Isle of Man,inside,7,matched
+110,Italy,hottest,"Floridia, Sicily",Q30025755,37.0834,15.1533,Floridia,chief town of the homonym municipality,inside,4,matched
+111,Ivory Coast,hottest,Odienne,Q2901855,9.5,-7.567,Odienné Airport,airport in Ivory Coast,inside,5,matched
+113,Japan,hottest,"Isesaki, Gunma",Q328596,36.3114,139.1968,Isesaki,"city in Gunma Prefecture, Japan",inside,8,matched
+114,Jersey,hottest,Mason St Louis,,,,,,,,no_match
+115,Jordan,hottest,Deir Alla,Q4166525,32.1889,35.6031,Deir Alla,"city in Balqa Governorate, Jordan",inside,7,matched
+116,Kazakhstan,hottest,Turkistan,Q848638,43.3019,68.2692,Turkistan,"city in Turkistan Region, Kazakhstan",inside,7,matched
+117,Kenya,hottest,Wajir,Q730791,1.7472,40.0572,Wajir,city in Kenya,inside,7,matched
+119,Kosovo,hottest,Klina,Q4862330,42.6114,20.5683,Klina,watercourse in Kosovo,inside,6,matched
+120,Kuwait,hottest,"Mitribah, Al Jahra Governorate",Q6882358,29.6097,47.3597,Mitraba,weather station in northwest Kuwait,inside,5,matched
+121,Kyrgyzstan,hottest,Jangy-Jer,Q5319661,40.02,69.94,Jangy-Jer,"village in Batken District, Kyrgyzstan",inside,7,matched
+122,Laos,hottest,Tha Ngon,Q7708755,18.1314,102.6256,Tha Ngon,village in Laos,inside,7,matched
+123,Latvia,hottest,Ventspils,Q104036,57.3897,21.5644,Ventspils,state city in western Latvia on the Baltic Sea,inside,7,matched
+124,Lebanon,hottest,Houche Al Oumara,,,,,,,,no_match
+124,Lebanon,hottest,Zahle,Q26569,33.8439,35.9072,Zahlé,"capital and largest city of Beqaa Governorate, Lebanon",inside,5,matched
+128,Liechtenstein,hottest,Ruggell,Q49659,47.245,9.5332,Ruggell,municipality of Liechtenstein,inside,7,matched
+129,Lithuania,hottest,"Zarasai, Utena County",Q147750,55.7306,26.2472,Zarasai,city in Lithuania,inside,7,matched
+130,Luxembourg,hottest,"Remich, Remich",Q734284,49.5444,6.3667,Remich,"commune in the canton of Remich, Luxembourg",inside,8,matched
+131,Macau,hottest,Coloane,Q1022920,22.1261,113.5669,Coloane,island of Macau,inside,7,matched
+132,Madagascar,hottest,"Ejeda, Atsimo-Andrefana",Q3049550,-24.35,44.5167,Ejeda,"place in Atsimo-Andrefana, Madagascar",inside,7,matched
+134,Malaysia,hottest,Chuping,Q5116489,6.4983,100.2578,Chuping,human settlement in Malaysia,inside,7,matched
+135,Maldives,hottest,Hanimaadhoo,,,,,,,,no_match
+136,Mali,hottest,Kayes,Q325164,14.4497,-11.4367,Kayes,city in Mali,inside,7,matched
+137,Malta,hottest,Malta International Airport,Q672289,35.8575,14.4775,Malta International Airport,"international airport in Luqa, Malta",inside,7,matched
+138,Marshall Islands,hottest,Utirik Atoll,,,,,,,,no_match
+139,Martinique,hottest,Caravelle,,,,,,,,no_match
+142,Mayotte,hottest,Trevani,Q7849153,-12.7344,45.1989,Trévani,village in the French municipality of Koungou in Mayotte,inside,5,matched
+144,Moldova,hottest,Fălești,Q2078085,47.5736,27.7092,Fălești,"city in Moldova, seat of Fălești District",inside,7,matched
+145,Monaco,hottest,Monaco,Q55115,43.731,7.4248,Monaco-Ville,ward and capital city of the Principality of Monaco,near,4,matched
+146,Mongolia,hottest,"Khongor, Darkhan-Uul Province",Q3874412,49.3072,105.9364,Khongor,"Sum (district) in Darkhan-Uul Aimag (province), Mongolia",inside,7,matched
+149,Morocco,hottest,Agadir (Inezgane Airport),Q170525,30.4214,-9.5831,Agadir,city in Morocco,inside,5,matched
+151,Myanmar,hottest,Myinmu,Q10968716,21.9333,95.5833,Myinmu,human settlement in Myanmar,inside,7,matched
+153,Nauru,hottest,Nauru Arc-2,,,,,,,,no_match
+154,Nepal,hottest,Ataria,,,,,,,,no_match
+155,Netherlands,hottest,"Gilze en Rijen, North Brabant",Q9837,51.5614,4.9333,Gilze en Rijen,"municipality in North Brabant, the Netherlands",inside,8,matched
+156,New Caledonia,hottest,Boulouparis,Q9707,-21.8667,166.05,Boulouparis,"commune in New Caledonia, France",inside,7,matched
+157,New Zealand,hottest,"Rangiora, Canterbury",Q2034575,-43.3047,172.5892,Rangiora,"largest town and seat of the Waimakariri District, in Canterbury Region, New Zealand.",inside,8,matched
+158,Nicaragua,hottest,Chinandega,Q974354,12.6311,-87.1347,Chinandega,"capital of Chinandega Department, Nicaragua",inside,7,matched
+159,Niger,hottest,Bilma,Q863321,18.6867,12.9192,Bilma,urban commune in Niger,inside,7,matched
+160,Nigeria,hottest,Yola,Q994114,9.2,12.4833,Yola,City in Nigeria,inside,7,matched
+163,North Korea,hottest,Hoeryong,Q12625965,42.4449,129.7425,Hoeryong Chongnyon Station,"railway station in Hoeryong, North Korea",inside,5,matched
+164,North Macedonia,hottest,"Demir Kapija, Demir Kapija",Q1014699,41.4114,22.2422,Demir Kapija,"town and seat of Demir Kapija Municipality, North Macedonia",inside,8,matched
+166,Norway,hottest,"Nesbyen, Buskerud",Q483986,60.5583,9.1011,Nesbyen,"municipality in Buskerud, Norway",inside,8,matched
+167,Oman,hottest,Joba,,,,,,,,no_match
+169,Palau,hottest,Roman Tmetuchl International Airport,Q1147092,7.3672,134.5442,Roman Tmetuchl International Airport,airport in Palau,inside,7,matched
+170,Palestine,hottest,Kalya,Q2777789,31.7486,35.4662,Kalya,colonial kibutz in the occupied West Bank,inside,3,matched
+171,Panama,hottest,San Francisco,,,,,,,,no_match
+173,Paraguay,hottest,"Las Palmas, Boquerón",,,,,,,,no_match
+174,Peru,hottest,Tingo de Ponaza,,,,,,,,no_match
+177,Poland,hottest,Słubice,Q200709,52.35,14.5667,Słubice,city of Poland,inside,7,matched
+178,Portugal,hottest,"Amareleja, Beja",Q454971,38.2099,-7.2227,Amareleja,civil parish in Moura,inside,3,matched
+180,Qatar,hottest,Doha,Q3861,25.2861,51.5294,Doha,capital of Qatar,inside,7,matched
+181,Republic of the Congo,hottest,Impfondo,Q6007117,1.5894,18.045,Impfondo Airport,airport in Republic of the Congo,inside,5,matched
+182,Réunion,hottest,St. Paul,,,,,,,,no_match
+183,Romania,hottest,"Ion Sion, Brăila County",Q2468801,45.2833,27.5333,Râmnicelu,"commune in Brăila County, Romania",inside,6,matched
+184,Russia,hottest,"Utta, Kalmykia",,,,,,,,no_match
+185,Rwanda,hottest,Kigali,Q3859,-1.9525,30.115,Kigali,"province-level city, capital and largest city of Rwanda",inside,7,matched
+188,"Saint Helena, Ascension and Tristan da Cunha",hottest,Georgetown,,,,,,,,no_match
+194,Samoa,hottest,Asau,Q4803660,-13.5194,-172.6372,Asau,village in Samoa,inside,7,matched
+197,Saudi Arabia,hottest,Jeddah,Q374365,21.5292,39.1611,Jeddah,city in Saudi Arabia,near,6,matched
+199,Serbia,hottest,"Smederevska Palanka, Podunavlje",Q715716,44.3655,20.9587,Smederevska Palanka,town and municipality in Serbia,inside,7,matched
+204,Slovakia,hottest,Dolne Plachtince,Q678829,48.2006,19.3061,Dolné Plachtince,municipality of Slovakia,inside,5,matched
+205,Slovenia,hottest,Cerklje ob Krki,Q1963392,45.8844,15.5202,Cerklje ob Krki,"place in Lower Carniola, Slovenia",inside,6,matched
+206,Solomon Islands,hottest,"Honiara, Guadalcanal Province",Q40921,-9.4333,159.95,Honiara,"capital of Solomon Islands, on the tropical island Guadalcanal",inside,7,matched
+208,South Africa,hottest,"Vioolsdrif, Northern Cape",Q1013975,-28.775,17.625,Vioolsdrif,town in South Africa,inside,7,matched
+210,South Korea,hottest,"Yangsan, South Gyeongsang Province",Q42123,35.3386,129.0386,Yangsan,"a city in South Gyeongsang Province, South Korea",inside,8,matched
+212,Spain,hottest,"La Rambla, Cordoba (as La Rambla Privilegio)",Q1645517,37.6062,-4.7396,La Rambla,"Municipality in the province of Córdoba, Spain",inside,7,matched
+214,Sri Lanka,hottest,Vavuniya,Q527980,8.8333,80.5,Vavuniya District,district of Sri Lanka,inside,5,matched
+215,Sudan,hottest,Dongola,Q821321,19.1769,30.4839,Dongola,capital of the state of Northern in Sudan,inside,7,matched
+217,Svalbard and Jan Mayen,hottest,Longyearbyen,Q25923,78.2167,15.6333,Longyearbyen,"town and administrative centre in Svalbard, Norway",inside,4,matched
+219,Switzerland,hottest,"Grono, Moesa District",Q66181,46.2482,9.1477,Grono,"municipality in the canton of Grisons, Switzerland",inside,7,matched
+220,Syria,hottest,Al-Hasakah,Q311321,36.5117,40.7422,Hasakah,capital city of Hasakah Governorate in Syria,inside,5,matched
+221,Taiwan,hottest,Fuyuan,,,,,,,,no_match
+222,Tajikistan,hottest,Aivadj,,,,,,,,no_match
+223,Tanzania,hottest,"Abeid Amani Karume International Airport, Zanzibar City",Q1393401,-6.2222,39.225,Abeid Amani Karume International Airport,"airport in Zanzibar, Tanzania",inside,7,matched
+224,Thailand,hottest,Tak,Q275758,16.8839,99.125,Tak,province in western Thailand,inside,6,matched
+226,Togo,hottest,Mango,,,,,,,,no_match
+228,Tonga,hottest,Niuafoou,,,,,,,,no_match
+230,Tunisia,hottest,Kairouan,Q179570,35.6833,10.1,Kairouan,Tunisian town,inside,7,matched
+231,Turkey,hottest,"Silopi, Şırnak Province",Q1012881,37.2497,42.4717,Silopi,"district and town of Şırnak, Turkey",inside,7,matched
+232,Turkmenistan,hottest,"Repetek Biosphere State Reserve, Karakum Desert",Q4393351,38.34,63.11,Repetek Biosphere State Reserve,Biosphere reserve in Turkmenistan | designated in 1978,inside,6,matched
+235,Uganda,hottest,Kitgum,Q500162,3.5,33,Kitgum District,district in Northern Uganda,inside,5,matched
+236,Ukraine,hottest,Luhansk,Q134279,48.5717,39.2973,Luhansk,"city and administrative centre of Luhansk Oblast, Ukraine",inside,7,matched
+237,United Arab Emirates,hottest,"Sweihan, Al Ain",Q12691423,24.5189,54.9801,Sweihan Air Base,"airport in Abu Dhabi Northeast, United Arab Emirates",inside,5,matched
+238,United Kingdom,hottest,"Coningsby, Lincolnshire",Q2008682,53.1051,-0.1752,Coningsby,"town in East Lindsey, United Kingdom",inside,7,matched
+239,United States,hottest,"Furnace Creek, Death Valley, California",Q967966,36.4581,-116.8708,Furnace Creek,"census-designated place in Inyo County, California, United States",inside,7,matched
+243,Vanuatu,hottest,Lamap Malekula,Q6743067,-16.45,167.8167,Malekoula Airport,"airport in Lamap, Vanuatu",inside,5,matched
+244,Vatican City,hottest,Vatican City,Q87222526,41.9039,12.4531,COVID-19 pandemic in Vatican City,details of ongoing viral outbreak in Vatican City,inside,5,matched
+245,Venezuela,hottest,"Santa Ana de Coro, Falcón",Q1134454,11.395,-69.6816,Coro,"capital of Falcón State, Venezuela",inside,6,matched
+247,British Virgin Islands,hottest,Terrance B. Lettsome International Airport,Q7703252,18.4456,-64.5431,Terrance B. Lettsome International Airport,airport in British Virgin Islands,inside,7,matched
+248,United States Virgin Islands,hottest,Saint Croix,Q20852568,17.7356,-64.748,Saint Croix District,district of the United States Virgin Islands,inside,5,matched
+249,Wallis and Futuna,hottest,Futuna Airport,,,,,,,,no_match
+251,Zambia,hottest,"Mfuwe, Eastern Province",Q3566281,-13.2586,31.9364,Mfuwe Airport,airport in Zambia,inside,5,matched
+253,"Bonaire, Sint Eustatius and Saba",hottest,"Flamingo International Airport, Kralendijk",Q1430982,12.1311,-68.2686,Flamingo International Airport,airport on Bonaire Island in the Netherlands Antilles,inside,4,matched
+0,Afghanistan,coldest,Shahrak,Q2719010,34.1,64.2667,Shahrak District,"district in Ghor Province, Afghanistan",inside,5,matched
+1,Albania,coldest,Bizë,,,,,,,,no_match
+2,Algeria,coldest,Batna,Q338844,35.55,6.1667,Batna,"commune and city in Batna Province, Algeria",inside,7,matched
+7,Antarctica,coldest,Vostok Station,Q211014,-78.4642,106.8658,Vostok Station,"research station in inland Princess Elizabeth Land, Antarctica",inside,7,matched
+9,Argentina,coldest,"Alto Rio Senguer, Chubut Province",Q178740,-45.0419,-70.8234,Alto Río Senguer,"town in Chubut Province, Argentina",inside,6,matched
+10,Armenia,coldest,Paghakn,Q7124347,41.0667,43.65,Paghakn,"village in Shirak region, Armenia",inside,7,matched
+13,Australia,coldest,"Charlotte Pass, New South Wales",Q988298,-36.4167,148.333,Charlotte Pass,"ski resort in New South Wales, Australia",inside,7,matched
+14,Austria,coldest,Grünloch doline,,,,,,,,no_match
+18,Bangladesh,coldest,Dinajpur,Q4161769,25.63,88.65,Dinajpur,city in Bangladesh,inside,7,matched
+20,Belarus,coldest,"Slavnom, Vitebsk Region",,,,,,,,no_match
+21,Belgium,coldest,Valley of the Lesse in Rochefort,,,,,,,,no_match
+28,Bosnia and Herzegovina,coldest,Veliko Polje,Q2453358,45.734,16.016,Veliko Polje,"settlement in the City of Zagreb, Croatia",near,3,weak
+29,Botswana,coldest,Tsabong,Q170727,-26.02,22.4056,Tshabong,town in Botswana,inside,5,matched
+31,Brazil,coldest,"Caçador, Santa Catarina",Q986540,-26.775,-51.015,Caçador,"municipality of Santa Catarina state, Brazil",inside,8,matched
+34,Bulgaria,coldest,Tran,,,,,,,,no_match
+35,Burkina Faso,coldest,Markoye,Q10791566,14.6423,0.0349,Markoye,village in Burkina Faso,inside,7,matched
+39,Canada,coldest,"Snag, Yukon",Q3487102,62.3833,-140.3667,Snag,"human settlement in Yukon, Canada",inside,8,matched
+41,Cayman Islands,coldest,"Owen Roberts International Airport, Grand Cayman",Q665948,19.2925,-81.3592,Owen Roberts International Airport,airport,inside,4,matched
+44,Chile,coldest,"Coyhaique Alto, Aysen Region",Q28163001,-45.4667,-71.55,Coyhaique Alto,"place in Aysén, Chile",near,5,matched
+45,China,coldest,"Mohe City, Heilongjiang",Q163094,52.9688,122.531,Mohe City,"county-level city in Heilongjiang, China",inside,8,matched
+49,Colombia,coldest,"Páramo de Berlín, Tona, Santander",,,,,,,,no_match
+54,Croatia,coldest,Gračac,Q3501404,43.8471,15.8875,Gračac,"settlement in the Town of Skradin, Šibenik-Knin County, Croatia",inside,7,matched
+55,Cuba,coldest,"Indio Hatuey, Matanzas Province",,,,,,,,no_match
+56,Curaçao,coldest,Willemstad,Q132679,12.108,-68.935,Willemstad,capital city of Curaçao,inside,7,matched
+57,Cyprus,coldest,"Trikoukia, Prodromos",,,,,,,,no_match
+58,Czech Republic,coldest,Litvínovice,Q110551206,48.962,14.433,Litvínovice,"cadastral area in České Budějovice District, South Bohemian Region, Czech Republic",inside,7,matched
+60,Denmark,coldest,"Thisted Municipality, North Denmark Region",Q7715809,56.9528,8.6028,Thisted Municipality,municipality in Denmark,inside,7,matched
+63,Dominican Republic,coldest,"Valle Nuevo, La Vega Province",Q11704970,18.7068,-70.6026,Valle Nuevo National Park,national park in the Dominican Republic,inside,4,matched
+65,Egypt,coldest,Gabal Katrina,Q1140642,28.5108,33.9553,Mount Catherine,Highest mountain in Egypt,inside,5,matched
+69,Estonia,coldest,"Jõgeva, Jõgeva County",Q117513,58.7461,26.3956,Jõgeva,"town in Jõgeva County, Estonia",inside,8,matched
+70,Eswatini,coldest,Mbabane,Q3904,-26.3167,31.1333,Mbabane,capital of Eswatini,inside,7,matched
+76,Finland,coldest,"Pokka, Kittilä, Lapland",Q11888541,68.1583,25.7667,Pokka,"village in Kittilä, Finland",inside,8,matched
+77,France,coldest,"Mouthe, Doubs",Q841414,46.7106,6.1936,Mouthe,"commune in Doubs, France",inside,8,matched
+78,French Guiana,coldest,Saül,Q910382,3.6228,-53.2083,Saül,"commune in Guyane, France",inside,4,matched
+82,Gambia,coldest,Boraba,Q24849194,13.5167,-14.7333,Boraba,,inside,3,matched
+84,Germany,coldest,"Funtensee, Berchtesgadener Land, Bavaria",Q314939,47.4936,12.9392,Funtensee,lake in Germany,inside,6,matched
+85,Ghana,coldest,Bui,,,,,,,,no_match
+87,Greece,coldest,Ptolemaida,Q573182,40.5147,21.6786,Ptolemaida,"town in Macedonia, Greece",inside,7,matched
+88,Greenland,coldest,"Klinck Automated Weather Station, Greenland Ice Sheet",,,,,,,,no_match
+92,Guatemala,coldest,"Olintepeque, Quetzaltenango Department",Q2608428,14.8833,-91.5167,Olintepeque,"municipality of Quetzaltenango Department, Guatemala",inside,8,matched
+94,Guinea,coldest,"Mali, Guinea",,,,,,,,no_match
+96,Guyana,coldest,Kaieteur Falls,Q38120,5.1781,-59.4823,Kaieteur Falls,waterfall on the Potaro River in Guyana,inside,6,matched
+100,Hong Kong,coldest,Tai Mo Shan,Q1481864,22.4118,114.123,Tai Mo Shan,highest mountain of Hong Kong,inside,7,matched
+101,Hungary,coldest,Görömbölytapolca,Q1177790,48.0633,20.7472,Miskolctapolca,"suburb and resort in Miskolc, Hungary",inside,4,matched
+102,Iceland,coldest,Grímsstaðir,Q746972,65.6424,-16.1218,Grímsstaðir,human settlement,inside,4,matched
+105,Iran,coldest,Saqqez,Q348972,36.25,46.2736,Saqqez,"city in Kurdistan Province, Iran",inside,7,matched
+107,Ireland,coldest,"Markree Castle, County Sligo",Q2096149,54.1741,-8.4614,Markree Castle,"castle located in Collooney, County Sligo, Ireland",inside,7,matched
+109,Israel,coldest,"Merom Golan, Golan Heights",Q985533,33.1333,35.7758,Merom Golan,Israeli settlement in the occupied Golan Heights,inside,8,matched
+110,Italy,coldest,"Busa Riviera, Pale di San Martino",,,,,,,,no_match
+113,Japan,coldest,"Asahikawa, Hokkaidō",Q200740,43.7706,142.365,Asahikawa,"city in Hokkaido, Japan",inside,7,matched
+115,Jordan,coldest,Shoubak,Q3299624,30.52,35.5386,Shoubak,human settlement in Jordan,inside,7,matched
+116,Kazakhstan,coldest,Atbasar,Q612144,51.8167,68.3667,Atbasar,town in Aqmola Region of the northern Kazakhstan,inside,7,matched
+120,Kuwait,coldest,Salmy,,,,,,,,no_match
+121,Kyrgyzstan,coldest,Fergana Valley,Q486324,40.9008,71.7578,Ferghana Valley,valley in Central Asia,near,0,weak
+123,Latvia,coldest,Daugavpils,Q80021,55.8714,26.5161,Daugavpils,state city in south-eastern Latvia,inside,7,matched
+124,Lebanon,coldest,Yammoune,Q3571482,34.13,36.0235,Yammoune,"village in Baalbek-Hermel, Lebanon",inside,7,matched
+129,Lithuania,coldest,"Utena, Utena County",Q189157,55.5,25.6,Utena,city and administrative center of Utena district and Utena County in north-east Lithuania,inside,8,matched
+130,Luxembourg,coldest,Wiltz,Q741589,49.9661,5.9325,Wiltz,"commune in the canton of Wiltz, Luxembourg",inside,7,matched
+134,Malaysia,coldest,Mount Kinabalu,Q60967,6.075,116.5586,Mount Kinabalu,mountain in Malaysia,inside,7,matched
+135,Maldives,coldest,Hanimaadhoo,,,,,,,,no_match
+137,Malta,coldest,Ta' Qali,Q1042361,35.895,14.4197,Ta' Qali,town in Malta,inside,7,matched
+139,Martinique,coldest,Champflore,Q100360856,14.7547,-61.1145,Champflore Est,"street in Le Morne-Rouge, Martinique",inside,4,matched
+143,Mexico,coldest,Ahumada Municipality,Q2990979,30.4167,-106.3667,Ahumada Municipality,"municipality in the State of Chihuahua, Mexico",inside,7,matched
+144,Moldova,coldest,"Brătușeni, Edineț District",Q2627398,48.0772,27.3958,Brătușeni,"village in Edineț District, Moldova",inside,8,matched
+145,Monaco,coldest,Monaco,Q55115,43.731,7.4248,Monaco-Ville,ward and capital city of the Principality of Monaco,near,4,matched
+146,Mongolia,coldest,"Züüngovi, Uvs Province",Q3403984,49.9056,93.7875,Züüngovi,"Sum (district) in Uvs Aimag, Mongolia",inside,7,matched
+149,Morocco,coldest,Ifrane,Q1001887,33.5333,-5.1167,Ifrane,city in Morocco,inside,7,matched
+151,Myanmar,coldest,Hakha,Q738563,22.6428,93.6096,Hakha,Capital of the Chin State in Myanmar,inside,7,matched
+153,Nauru,coldest,Yaren District,Q31026,-0.5477,166.9209,Yaren District,District and de facto capital of Nauru,inside,7,matched
+154,Nepal,coldest,Tsho Rolpa Lake,,,,,,,,no_match
+155,Netherlands,coldest,"Winterswijk, Gelderland",Q72974,51.9667,6.7167,Winterswijk,"municipality in Gelderland, the Netherlands",inside,8,matched
+157,New Zealand,coldest,"Ranfurly, Central Otago",Q1684725,-45.1333,170.1,Ranfurly,"settlement in Central Otago District, Otago Region, New Zealand",inside,8,matched
+159,Niger,coldest,Bilma,Q863321,18.6867,12.9192,Bilma,urban commune in Niger,inside,7,matched
+163,North Korea,coldest,Sinmusong,,,,,,,,no_match
+164,North Macedonia,coldest,"Berovo, Berovo Municipality",Q827047,41.7078,22.8564,Berovo,"town and seat of Berovo Municipality, North Macedonia",inside,8,matched
+166,Norway,coldest,"Karasjok, Finnmark",Q5377085,69.4667,25.5,Karasjok,"village in Karasjok municipality, Norway",inside,7,matched
+167,Oman,coldest,Jabel Shams,,,,,,,,no_match
+171,Panama,coldest,"Bajo Grande, Chiriquí Province",,,,,,,,no_match
+173,Paraguay,coldest,"Pratts Gill, Boquerón Department",,,,,,,,no_match
+174,Peru,coldest,"Macusani, Puno Region",Q3348229,-14.0692,-70.4311,Macusani,"capital city of Carabaya, Puno, Peru",inside,7,matched
+175,Philippines,coldest,Baguio,Q53961359,7.185,125.4222,Baguio,"district of Davao City, Philippines",inside,7,matched
+177,Poland,coldest,"Litworowy Kocioł, Western Tatras",Q11762032,49.2364,19.9128,,,inside,1,weak
+179,Puerto Rico,coldest,Garza,,,,,,,,no_match
+180,Qatar,coldest,Abu Samra,Q22948973,24.7501,50.8521,Abu Samra,settlement in Qatar,inside,7,matched
+182,Réunion,coldest,Gite de Bellecombe,,,,,,,,no_match
+183,Romania,coldest,"Bod, Brașov County",Q1094553,45.7639,25.6417,Bod,"commune in Brașov County, Romania",inside,8,matched
+194,Samoa,coldest,Afiamalu,Q4689235,-13.9167,-171.7833,Afiamalu,settlement in Samoa,inside,7,matched
+197,Saudi Arabia,coldest,Turaif,Q27255,31.6668,38.664,Turaif,human settlement in Saudi Arabia,inside,7,matched
+199,Serbia,coldest,"Karajukića Bunari, Zlatibor District",Q2633516,43.0833,20.0833,Karajukića Bunari,"village in Zlatibor District, Serbia",inside,8,matched
+202,Singapore,coldest,Paya Lebar,Q7156634,1.3533,103.8937,Paya Lebar,planning area in Singapore,inside,7,matched
+204,Slovakia,coldest,Vígľaš-Pstruša,,,,,,,,no_match
+206,Solomon Islands,coldest,Honiara International Airport,Q859876,-9.428,160.0548,Honiara International Airport,"international airport in Honiara, Guadalcanal, Solomon Islands",inside,7,matched
+208,South Africa,coldest,"Buffelsfontein, near Molteno, Eastern Cape",Q16255761,-26.9131,26.8503,Buffelsfontein mine,gold Mine in South Africa,inside,5,matched
+210,South Korea,coldest,Yangpyeong,Q12606452,37.4906,127.513,Yangpyeong-eup,"town in Yangpyeong County, Gyeonggi, South Korea",inside,5,matched
+212,Spain,coldest,Estany Gento (Province of Lleida),Q5968870,42.5103,1.0034,Gento Lake,lake in the Catalan Pyrenees,inside,1,weak
+214,Sri Lanka,coldest,Nuwara Eliya,Q1583950,7,80.75,Nuwara Eliya District,district of Sri Lanka,inside,5,matched
+218,Sweden,coldest,"Vuoggatjålme, Lappland",Q3373838,66.575,16.3478,Vuoggatjålme,"settlement in Arjeplog Municipality,Sweden",inside,7,matched
+219,Switzerland,coldest,La Brévine,Q22653703,46.9806,6.6064,La Brévine,village in Switzerland,inside,7,matched
+220,Syria,coldest,Idlib,Q504657,35.9333,36.6333,Idlib,city in Syria,inside,7,matched
+221,Taiwan,coldest,Yushan,,,,,,,,no_match
+224,Thailand,coldest,Dan Sai,Q475447,17.28,101.1467,Dan Sai,"district in Loei province, Thailand",inside,7,matched
+231,Turkey,coldest,"Ağrı, Ağrı Province",Q199575,39.7225,43.0544,Ağrı,"central district and city in Ağrı Province, Turkey",inside,8,matched
+232,Turkmenistan,coldest,Daşoguz Region,Q487393,41,58.5,Daşoguz Region,region of Turkmenistan,inside,7,matched
+236,Ukraine,coldest,Luhansk,Q134279,48.5717,39.2973,Luhansk,"city and administrative centre of Luhansk Oblast, Ukraine",inside,7,matched
+237,United Arab Emirates,coldest,"Jebel Jais, Ras Al Khaimah",Q3492099,25.9531,56.1844,Jebel Jais,mountain on the Emirates,near,3,weak
+239,United States,coldest,"Prospect Creek, Alaska",Q3407723,66.8133,-150.644,Prospect Creek,"human settlement in Yukon–Koyukuk Census Area, Alaska, United States of America",inside,8,matched
+241,Uruguay,coldest,"Melo, Cerro Largo Department",Q738250,-32.3678,-54.1662,Melo,"capital city of the Cerro Largo Department, Uruguay",inside,8,matched
+246,Vietnam,coldest,"Sa Pa Ward, Lào Cai Province",Q1000140,22.3356,103.8419,Sa Pa,"ward of Lào Cai province, Vietnam",inside,5,matched
+248,United States Virgin Islands,coldest,Saint Croix,Q20852568,17.7356,-64.748,Saint Croix District,district of the United States Virgin Islands,inside,5,matched

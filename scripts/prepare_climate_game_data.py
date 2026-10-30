@@ -1,6 +1,7 @@
 r"""Build the climate game question pool from the master file.
 
 Input : data/master/country-extremes-master-2026-10-29.csv
+Input : data/coords/record-place-coordinates-2026-10-29.csv (optional, from lookup_record_places.py: pins for the record places)
 Output: data/game/climate-pool-2026-10-29.json
 
 Six measures: hottest (national record high, deg C), coldest (national record low), avghigh, avglow and avgmean (national
@@ -12,6 +13,7 @@ The scale ends use every ISO row with a figure.
 
 Run: .venv\Scripts\python.exe scripts\prepare_climate_game_data.py
 """
+import csv
 import json
 from pathlib import Path
 
@@ -62,6 +64,19 @@ def main():
                                        "al": num(r["avg_low_c"])}
         if r["avg_precip_mm_per_year"] != "":
             pool["wettest"].append(entry(r, r["avg_precip_mm_per_year"], "Average over the whole country"))
+    # pins for the record places: coordinates found by lookup_record_places.py (run it after a first build, then build again)
+    coords = ROOT / "data/coords/record-place-coordinates-2026-10-29.csv"
+    if coords.exists():
+        found = {}
+        with open(coords, encoding="utf-8-sig", newline="") as f:
+            for row in csv.DictReader(f):
+                if row["status"] == "matched":
+                    found.setdefault((int(row["id"]), row["side"]), []).append([float(row["lat"]), float(row["lon"])])
+        for side in ("hottest", "coldest"):
+            for e in pool[side]:
+                pts = found.get((e["id"], side))
+                if pts:
+                    e["lat"], e["lon"], e["pts"] = pts[0][0], pts[0][1], pts
     ext = {}
     for side, col in (("hottest", "hottest_c"), ("coldest", "coldest_c"), ("avghigh", "avg_high_c"), ("avglow", "avg_low_c"),
                       ("avgmean", "avg_temp_c"), ("wettest", "avg_precip_mm_per_year")):

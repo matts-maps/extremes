@@ -419,15 +419,21 @@ function drawMap(q, reveal){
   const svg=$('map'), row=MAPS.rows[String(q.rec.id)], cap=$('mapcap'); svg.innerHTML='';
   if(!row){ cap.textContent='No map for this place.'; svg.style.visibility='hidden'; return; }
   svg.style.visibility='visible';
-  const [x0,y0,x1,y1]=row.view.map(v=>v/1000), k=Math.max(.2,Math.cos(((y0+y1)/2)*Math.PI/180));
+  let [x0,y0,x1,y1]=row.view.map(v=>v/1000);
+  // the place of a record, when it is known, is marked once the answer is shown (the view widens to include it)
+  const pts=reveal?(q.rec.pts||(q.rec.lat!=null&&q.rec.lon!=null?[[q.rec.lat,q.rec.lon]]:[])):[];
+  if(pts.length){ const pd=Math.max(x1-x0,y1-y0)*.08; pts.forEach(([la,lo])=>{ x0=Math.min(x0,lo-pd); x1=Math.max(x1,lo+pd); y0=Math.min(y0,la-pd); y1=Math.max(y1,la+pd); }); }
+  const k=Math.max(.2,Math.cos(((y0+y1)/2)*Math.PI/180));
   svg.setAttribute('viewBox',`${(x0*k).toFixed(3)} ${(-y1).toFixed(3)} ${((x1-x0)*k).toFixed(3)} ${(y1-y0).toFixed(3)}`);
   let nd=''; const mn=[x0*1000,y0*1000,x1*1000,y1*1000];
   for(const id in WORLD){ if(OWNED.has(+id)&&row.parts.some(p=>p[0]===+id)) continue; const w=WORLD[id], b=w[1]; if(b[2]<mn[0]||b[0]>mn[2]||b[3]<mn[1]||b[1]>mn[3]) continue; w[2].forEach(r=>nd+=ringPath(r,k)); }
   const n=document.createElementNS(SVGNS,'path'); n.setAttribute('d',nd); n.setAttribute('class','mp-n'); n.setAttribute('fill-rule','evenodd'); svg.appendChild(n);
   let cd=''; row.parts.forEach(p=>p[1].forEach(r=>cd+=ringPath(r,k)));
   const c=document.createElementNS(SVGNS,'path'); c.setAttribute('d',cd); c.setAttribute('class','mp-c'+(reveal?' shown':'')); c.setAttribute('fill-rule','evenodd'); c.setAttribute('vector-effect','non-scaling-stroke'); svg.appendChild(c);
+  if(pts.length){ const rr=Math.max(x1-x0,y1-y0)*.012; pts.forEach(([la,lo])=>{ const gp=document.createElementNS(SVGNS,'g'); gp.setAttribute('class','mp-pin'); const cx=lo*k, cy=-la;
+    gp.innerHTML=`<circle class="r" cx="${cx}" cy="${cy}" r="${rr*2.2}" vector-effect="non-scaling-stroke"/><circle class="d" cx="${cx}" cy="${cy}" r="${rr}" vector-effect="non-scaling-stroke"/>`; svg.appendChild(gp); }); }
   const r=q.rec, when = r.date && r.date!=='?' && r.date!=='N/A' ? ', '+r.date : '';
-  cap.textContent = !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : (q.kind==='hottest'||q.kind==='coldest') ? `Recorded at ${r.point}${when}.` : 'Average over the whole country, so no single place is marked.';
+  cap.textContent = !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : (q.kind==='hottest'||q.kind==='coldest') ? `Recorded at ${r.point}${when}${pts.length?' (marked on the map)':''}.` : 'Average over the whole country, so no single place is marked.';
 }
 function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
 function lock(){
