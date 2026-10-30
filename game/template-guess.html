@@ -385,7 +385,7 @@ function drawMap(q, reveal){
     const gp=document.createElementNS(SVGNS,'g'); gp.setAttribute('class','mp-pin'); const cx=q.rec.lon*k, cy=-q.rec.lat, rr=Math.max(x1-x0,y1-y0)*.012;
     gp.innerHTML=`<circle class="r" cx="${cx}" cy="${cy}" r="${rr*2.2}" vector-effect="non-scaling-stroke"/><circle class="d" cx="${cx}" cy="${cy}" r="${rr}" vector-effect="non-scaling-stroke"/>`; svg.appendChild(gp);
   }
-  cap.textContent = q.kind==='average' ? (reveal?'Average over the whole country, so no single point is marked.':'Find your bearings: the outlined country is the one to guess for.') : !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : hasPt ? `${q.rec.point}: marked on the map.` : `${q.rec.point}: exact location not plotted.`;
+  cap.textContent = q.kind==='average' ? (reveal?'Average over the whole country.':'Find your bearings: the outlined country is the one to guess for.') : !reveal ? 'Find your bearings: the outlined country is the one to guess for.' : `${q.rec.point}.`;
 }
 function stopAnim(){ cancelAnimationFrame(g.anim); g.anim=0; }
 function lock(){
