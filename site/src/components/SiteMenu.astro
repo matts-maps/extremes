@@ -1,43 +1,101 @@
 ---
-// The site menu: the home symbol, one symbol per game and the about page. Icons come from the sprite in the base layout.
+// The site menu, always at the right of the page header: Home, a drop-down to pick a game, and the about page.
+// Icons come from the sprite in the base layout.
 interface Props { current?: string; }
 const { current = '' } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const items = [
-  { id: 'home', href: base, label: 'Home', icon: 'i-home', tone: 'plain' },
-  { id: 'higher-lower', href: `${base}higher-lower/`, label: 'Higher or lower', icon: 'i-mountain', badge: 'i-updown', tone: 'el' },
-  { id: 'guess', href: `${base}guess/`, label: 'Guess the height', icon: 'i-mountain', badge: 'i-target', tone: 'el' },
-  { id: 'hotter-or-colder', href: `${base}hotter-or-colder/`, label: 'Hotter or colder', icon: 'i-thermo', badge: 'i-updown', tone: 'cl' },
-  { id: 'wetter-or-drier', href: `${base}wetter-or-drier/`, label: 'Wetter or drier', icon: 'i-drop', badge: 'i-updown', tone: 'cl' },
-  { id: 'climate-guess', href: `${base}climate-guess/`, label: 'Climate: guess the figure', icon: 'i-thermo', badge: 'i-target', tone: 'cl' },
-  { id: 'about', href: `${base}about/`, label: 'About the data', icon: 'i-info', tone: 'plain' },
+const games = [
+  { id: 'higher-lower', label: 'Higher or lower', icon: 'i-mountain', badge: 'i-updown', tone: 'el' },
+  { id: 'guess', label: 'Guess the height', icon: 'i-mountain', badge: 'i-target', tone: 'el' },
+  { id: 'hotter-or-colder', label: 'Hotter or colder', icon: 'i-thermo', badge: 'i-updown', tone: 'cl' },
+  { id: 'wetter-or-drier', label: 'Wetter or drier', icon: 'i-drop', badge: 'i-updown', tone: 'cl' },
+  { id: 'climate-guess', label: 'Climate: guess the figure', icon: 'i-thermo', badge: 'i-target', tone: 'cl' },
 ];
+const cur = games.find(g => g.id === current);
 ---
 <nav class="sitemenu" aria-label="Site menu">
-  {items.map(it => (
-    <a href={it.href} class={`tone-${it.tone}`} title={it.label} aria-label={it.label} aria-current={it.id === current ? 'page' : undefined}>
-      <svg class="main" aria-hidden="true"><use href={`#${it.icon}`} /></svg>
-      {it.badge && <svg class="badge" aria-hidden="true"><use href={`#${it.badge}`} /></svg>}
-    </a>
-  ))}
+  <a class="icon" href={base} title="Home" aria-label="Home" aria-current={current === 'home' ? 'page' : undefined}>
+    <svg class="main" aria-hidden="true"><use href="#i-home" /></svg>
+  </a>
+
+  <div class="games">
+    <button type="button" class={`pick tone-${cur ? cur.tone : 'plain'}`} aria-haspopup="true" aria-expanded="false" aria-controls="game-list" title="Choose a game" aria-label={cur ? `Game: ${cur.label}. Choose a game` : 'Choose a game'}>
+      <span class="ico">
+        {cur
+          ? <><svg class="main" aria-hidden="true"><use href={`#${cur.icon}`} /></svg><svg class="badge" aria-hidden="true"><use href={`#${cur.badge}`} /></svg></>
+          : <svg class="main" aria-hidden="true"><use href="#i-games" /></svg>}
+      </span>
+      <span class="lab">{cur ? cur.label : 'Games'}</span>
+      <svg class="chev" aria-hidden="true"><use href="#i-chev" /></svg>
+    </button>
+    <ul id="game-list" hidden>
+      {games.map(g => (
+        <li>
+          <a href={`${base}${g.id}/`} class={`tone-${g.tone}`} aria-current={g.id === current ? 'page' : undefined}>
+            <span class="ico">
+              <svg class="main" aria-hidden="true"><use href={`#${g.icon}`} /></svg><svg class="badge" aria-hidden="true"><use href={`#${g.badge}`} /></svg>
+            </span>
+            <span>{g.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <a class="icon" href={`${base}about/`} title="About the data" aria-label="About the data" aria-current={current === 'about' ? 'page' : undefined}>
+    <svg class="main" aria-hidden="true"><use href="#i-info" /></svg>
+  </a>
 </nav>
 
-<style>
-  .sitemenu{display:flex;gap:6px;flex-wrap:nowrap;margin:0}
-  a{--c1:#9fb2c2;--c2:#6f87a0;position:relative;display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:14px;border:1px solid var(--line, rgba(255,255,255,.14));background:var(--card, rgba(255,255,255,.06));color:var(--c1);text-decoration:none;transition:transform .15s,border-color .15s}
-  a.tone-plain:first-child{--c1:var(--ink, #f1f5f8)}
-  a.tone-el{--c1:#ffb347;--c2:#ff6f61}
-  a.tone-cl{--c1:#5fd0d8;--c2:#7fa8ff}
-  a:hover,a:focus-visible{transform:translateY(-2px);border-color:var(--c1);outline:none}
-  a[aria-current="page"]{border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 28%,transparent)}
-  .main{width:26px;height:26px}
-  .badge{position:absolute;right:-5px;bottom:-5px;width:18px;height:18px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));color:#1b1206}
-  @media (max-width:560px){
-    .sitemenu{width:100%;gap:0;justify-content:space-between}
-    a{width:40px;height:40px;border-radius:12px}
-    .main{width:24px;height:24px}
+<script>
+  const menu = document.querySelector<HTMLElement>('.sitemenu');
+  const btn = menu?.querySelector<HTMLButtonElement>('.pick');
+  const list = menu?.querySelector<HTMLElement>('#game-list');
+  if (menu && btn && list) {
+    const setOpen = (open: boolean) => { list.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
+    btn.addEventListener('click', () => setOpen(list.hidden));
+    document.addEventListener('click', e => { if (!list.hidden && !menu.contains(e.target as Node)) setOpen(false); });
+    menu.addEventListener('keydown', e => {
+      e.stopPropagation();   // keep the games' own keys (Enter, 1, 2) from firing while the menu has focus
+      if (e.key === 'Escape' && !list.hidden) { setOpen(false); btn.focus(); }
+    });
   }
-  @media (prefers-reduced-motion:reduce){a{transition:none}}
-  :global(header) .sitemenu{margin-left:auto}
-  :global(header:has(.sitemenu)){flex-wrap:wrap}
+</script>
+
+<style>
+  .sitemenu{display:flex;align-items:center;gap:6px;flex:none;margin:0 0 0 auto}
+  .icon,.pick,li a{--c1:#9fb2c2;--c2:#6f87a0}
+  .tone-el{--c1:#ffb347;--c2:#ff6f61}
+  .tone-cl{--c1:#5fd0d8;--c2:#7fa8ff}
+  .icon,.pick{position:relative;display:flex;align-items:center;justify-content:center;height:44px;border-radius:14px;border:1px solid var(--line, rgba(255,255,255,.14));background:var(--card, rgba(255,255,255,.06));color:var(--c1);text-decoration:none;font:inherit;cursor:pointer;transition:transform .15s,border-color .15s}
+  .icon{width:44px}
+  .icon:first-child{--c1:var(--ink, #f1f5f8)}
+  .pick{gap:8px;padding:0 10px}
+  .pick .lab{color:var(--ink, #f1f5f8);font-size:14px;white-space:nowrap}
+  .chev{width:16px;height:16px;flex:none;color:var(--mute, #9fb2c2);transition:transform .15s}
+  .pick[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .icon:hover,.icon:focus-visible,.pick:hover,.pick:focus-visible{transform:translateY(-2px);border-color:var(--c1);outline:none}
+  .icon[aria-current="page"]{border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 28%,transparent)}
+  .ico{position:relative;display:grid;place-items:center;width:30px;height:30px;flex:none}
+  .main{width:26px;height:26px}
+  .icon .main{width:26px;height:26px}
+  .ico .main{width:100%;height:100%}
+  .badge{position:absolute;right:-5px;bottom:-5px;width:16px;height:16px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));color:#1b1206}
+  .games{position:relative}
+  ul{position:absolute;right:0;top:calc(100% + 8px);z-index:30;margin:0;padding:6px;list-style:none;min-width:250px;background:#182a3a;border:1px solid var(--line, rgba(255,255,255,.14));border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  ul[hidden]{display:none}
+  li a{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:12px;color:var(--ink, #f1f5f8);text-decoration:none;font-size:15px}
+  li a .ico{color:var(--c1)}
+  li a:hover,li a:focus-visible{background:rgba(255,255,255,.08);outline:none}
+  li a[aria-current="page"]{background:rgba(255,255,255,.1);box-shadow:inset 3px 0 0 var(--c1)}
+  @media (max-width:560px){
+    .sitemenu{gap:4px}
+    .icon{width:40px;height:40px;border-radius:12px}
+    .pick{height:40px;border-radius:12px;padding:0 8px;gap:4px}
+    .pick .lab{display:none}
+    ul{min-width:min(250px,calc(100vw - 32px))}
+  }
+  @media (prefers-reduced-motion:reduce){.icon,.pick,.chev{transition:none}}
+  :global(header h1){min-width:0}
+  @media (max-width:560px){ :global(header:has(.sitemenu) h1){font-size:20px} }
 </style>

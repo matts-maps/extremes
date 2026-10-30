@@ -1,12 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import SiteMenu from '../components/SiteMenu.astro';
+import Logo from '../components/Logo.astro';
+import '../styles/game-base.css';
 import '../styles/about.css';
 ---
 <Base title="About the data">
 <div class="wrap">
-<SiteMenu current="about" />
-<h1>About the data</h1>
+<header>
+  <Logo />
+  <h1>About <span>the data</span></h1>
+  <SiteMenu current="about" />
+</header>
 <p class="sub">Where the figures in the country extremes dashboard and games come from, and the licence they are shared under. Compiled 29 October 2026.</p>
 
 <section>
@@ -75,5 +80,6 @@ import '../styles/about.css';
 <li>Wikipedia is edited by volunteers and is not an authoritative source for official records.</li>
 </ul>
 </section>
+<footer><div class="credit">Created by Fantail GIS (2026)</div></footer>
 </div>
 </Base>
