@@ -181,7 +181,7 @@ function showReveal(q,ok){
   $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmtV(q.kind,r.v)}<i>${UN(q.kind)}${C.rain?' a year':''}</i></div><div>${esc(r.point)}${r.date&&r.date!=='?'&&r.date!=='N/A'?', '+esc(r.date):''}</div><div class="meter"><i style="width:${Math.max(pct(q.kind,r.v),1.5).toFixed(1)}%"></i></div><div class="muted">${share(q.kind,r.v)}.</div>${numsTable(q.kind,r)}</div>`).join('');
   animateChart(q);
   $('next').textContent = state.over ? 'Play again' : 'Next';
-  $('endnote').innerHTML = state.over ? `Run over: streak of ${state.streak}${(state.best[state.mode+'|'+state.region]||0)>state.streak?` (best ${state.best[state.mode+'|'+state.region]})`:state.streak?' - a new best':''}. Next: <a href="${import.meta.env.BASE_URL}games/climate-guess/">Guess the figure</a> or <a href="${import.meta.env.BASE_URL}">all games</a>.` : '';
+  $('endnote').innerHTML = state.over ? `Run over: streak of ${state.streak}${(state.best[state.mode+'|'+state.region]||0)>state.streak?` (best ${state.best[state.mode+'|'+state.region]})`:state.streak?' - a new best':''}. Next: <a href="${import.meta.env.BASE_URL}climate-guess/">Guess the figure</a> or <a href="${import.meta.env.BASE_URL}">all games</a>.` : '';
   $('reveal').classList.remove('hidden');
   { const d=Math.max(0,$('banner').getBoundingClientRect().bottom+34-innerHeight); if(d) scrollBy({top:d,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'}); }   // keep the question, the answer figures and Next in view; the chart sits below
 }

@@ -179,7 +179,7 @@ function showReveal(q,ok){
   $('cmp').innerHTML = q.pair.map((r,i)=>`<div class="c ${i?'b':''} ${i===q.win?'win':''}"><div class="who">${esc(r.name)}${i===q.win?'<em>answer</em>':''}</div><div class="big">${fmt(r.m)}<i>${U()}</i></div><div>${esc(r.point)}</div><div class="meter ${r.m<0?'neg':''}"><i style="width:${Math.max(pct(r.m,q.kind),1.5).toFixed(1)}%"></i></div><div class="muted">${q.kind==='average'?'Average elevation; '+share(r.m,q.kind):above(r.m)+'; '+share(r.m)}.</div></div>`).join('');
   animateChart(q);
   $('next').textContent = state.over ? 'Play again' : 'Next';
-  $('endnote').innerHTML = state.over ? `Run over: streak of ${state.streak}${(state.best[state.mode+'|'+state.region]||0)>state.streak?` (best ${state.best[state.mode+'|'+state.region]})`:state.streak?' - a new best':''}. Next: <a href="${import.meta.env.BASE_URL}games/guess-the-height/">Guess the height</a> or <a href="${import.meta.env.BASE_URL}">all games</a>.` : '';
+  $('endnote').innerHTML = state.over ? `Run over: streak of ${state.streak}${(state.best[state.mode+'|'+state.region]||0)>state.streak?` (best ${state.best[state.mode+'|'+state.region]})`:state.streak?' - a new best':''}. Next: <a href="${import.meta.env.BASE_URL}guess/">Guess the height</a> or <a href="${import.meta.env.BASE_URL}">all games</a>.` : '';
   $('reveal').classList.remove('hidden');
   { const d=Math.max(0,$('banner').getBoundingClientRect().bottom+34-innerHeight); if(d) scrollBy({top:d,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'}); }   // keep the question, the answer figures and Next in view; the chart sits below
 }

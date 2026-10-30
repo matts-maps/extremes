@@ -246,7 +246,7 @@ function finish(){
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmtI(g.total)} <small>of ${fmtI(max)}</small></div>
    <p class="muted">${LEVELNAMES[g.level]} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmtI(prev)+'.'}</p>
    <table><tr><th>Country</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${CFG[r.kind].label}</div></td><td class="n">${fmtV(r.kind,r.guess)} ${UN(r.kind)}</td><td class="n">${fmtV(r.kind,r.rec.v)} ${UN(r.kind)}</td><td class="n">${fmtI(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
-   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="${import.meta.env.BASE_URL}games/hotter-or-colder/">Try hotter or colder</a></div>`;
+   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="${import.meta.env.BASE_URL}hotter-or-colder/">Try hotter or colder</a></div>`;
   $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
 }
 function start(){ g.items=buildGame(); g.idx=0; g.total=0; g.log=[]; ask(); }

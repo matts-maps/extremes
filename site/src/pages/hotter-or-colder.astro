@@ -1,7 +1,7 @@
 ---
-import Base from '../../layouts/Base.astro';
-import '../../styles/game-base.css';
-import '../../styles/hotter-or-colder.css';
+import Base from '../layouts/Base.astro';
+import '../styles/game-base.css';
+import '../styles/hotter-or-colder.css';
 const base = import.meta.env.BASE_URL;
 ---
 <Base title="Hotter or colder" bodyAttrs={{ "data-kind": "hottest" }}>
@@ -51,5 +51,5 @@ const base = import.meta.env.BASE_URL;
 </div>
 </Base>
 <script>
-  import '../../scripts/hotter-or-colder.js';
+  import '../scripts/hotter-or-colder.js';
 </script>

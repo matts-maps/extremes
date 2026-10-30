@@ -212,7 +212,7 @@ function finish(){
   $('final').innerHTML = `<p class="place">Game over</p><h2>${word}</h2><div class="tot">${fmt(g.total)} <small>of ${fmt(max)}</small></div>
    <p class="muted">${LEVELS[g.level].label} level. ${fresh?'A new best score for this choice.':'Best for this choice: '+fmt(prev)+'.'}</p>
    <table><tr><th>Place</th><th class="n">Guess</th><th class="n">Actual</th><th class="n">Points</th><th></th></tr>${g.log.map(r=>`<tr><td>${esc(r.rec.name)}<div class="muted">${esc(r.rec.point)}</div></td><td class="n">${fmtL(r.guess)} ${U()}</td><td class="n">${fmtL(r.rec.m)} ${U()}</td><td class="n">${fmt(r.pts)}</td><td style="width:90px"><div class="bar"><i style="width:${r.pts/10}%"></i></div></td></tr>`).join('')}</table>
-   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="${import.meta.env.BASE_URL}games/higher-or-lower/">Try higher or lower</a></div>`;
+   <div class="row"><button class="go" id="again">Play again</button><button class="ghost" id="tomenu">Change mode</button><a class="ghost" href="${import.meta.env.BASE_URL}higher-lower/">Try higher or lower</a></div>`;
   $('again').onclick=start; $('tomenu').onclick=toMenu; $('again').focus({preventScroll:true});
 }
 function start(){ g.items=buildGame(); g.idx=0; g.total=0; g.log=[]; ask(); }

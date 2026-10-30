@@ -1,8 +1,10 @@
 import { defineConfig } from 'astro/config';
 
-// Static site. When it goes under a subpath (GitHub Pages project site, or inside the portfolio),
-// set `base` here, e.g. base: '/country-extremes/'. All internal links use import.meta.env.BASE_URL.
+// Static site served by GitHub Pages at https://matts-maps.github.io/extremes/ (see .github/workflows/deploy.yml).
+// All internal links use import.meta.env.BASE_URL, so changing `base` is the only edit needed to host elsewhere.
 export default defineConfig({
+  site: 'https://matts-maps.github.io',
+  base: '/extremes/',
   output: 'static',
   build: { inlineStylesheets: 'auto' },
 });

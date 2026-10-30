@@ -1,7 +1,7 @@
 ---
-import Base from '../../layouts/Base.astro';
-import '../../styles/game-base.css';
-import '../../styles/guess-the-height.css';
+import Base from '../layouts/Base.astro';
+import '../styles/game-base.css';
+import '../styles/guess-the-height.css';
 const base = import.meta.env.BASE_URL;
 ---
 <Base title="Guess the height" bodyAttrs={{ "data-kind": "highest" }}>
@@ -70,5 +70,5 @@ const base = import.meta.env.BASE_URL;
 </div>
 </Base>
 <script>
-  import '../../scripts/guess-the-height.js';
+  import '../scripts/guess-the-height.js';
 </script>
