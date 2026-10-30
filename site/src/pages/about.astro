@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/about.css';
+---
+<Base title="About the data">
+<div class="wrap">
+<h1>About the data</h1>
+<p class="sub">Where the figures in the country extremes dashboard and games come from, and the licence they are shared under. Compiled 29 October 2026.</p>
+
+<section>
+<h2>What the data is</h2>
+<p>One row per country or territory on the ISO 3166-1 list (249 codes) plus Kosovo in the games. Each row holds the highest and lowest point, average elevation, record hottest and coldest temperatures, average annual rainfall and average temperatures. Every figure carries a status tag (clean, shared, disputed, unnamed, span mismatch) so it can be used for teaching.</p>
+<p>The figures are Wikipedia's. No elevation model or other estimate has been used to fill gaps: if Wikipedia does not give a value, it is left blank.</p>
+</section>
+
+<section>
+<h2>Where the figures come from</h2>    <h3>Elevation</h3>
+    <p>Highest and lowest points come from the Wikipedia page <a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">List of elevation extremes by country</a>. Average elevations come from <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_elevation" target="_blank" rel="noopener">List of countries by average elevation</a>.</p>
+    <h3>Record temperatures</h3>
+    <p>The hottest and coldest temperatures ever recorded in each country come from <a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">List of weather records</a> on Wikipedia. Where the page lists several records for one country, such as Russia or the United States, the hottest or the coldest is used. Records at shared or disputed locations are left out of the games.</p>
+    <h3>Average temperatures</h3>
+    <p>Average daily highs, average daily lows and average yearly temperatures cover 1991 to 2020 and come from the <a href="https://climateknowledgeportal.worldbank.org/" target="_blank" rel="noopener">World Bank Climate Change Knowledge Portal</a>, which uses Climatic Research Unit gridded data (version 4.07). This is the one source that is not Wikipedia.</p>
+    <h3>Rainfall</h3>
+    <p>Rainfall comes from <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation" target="_blank" rel="noopener">List of countries by average annual precipitation</a> on Wikipedia. It is the average over the whole country, not the wettest place in it.</p>
+    <h3>Units</h3>
+    <p>Figures are shown in metric units by default: metres, degrees Celsius and millimetres. Every game has a Metric or Imperial switch on its start screen for feet, degrees Fahrenheit and inches. Your choice is remembered in your browser and applies to all the games.</p>
+    <h3>Global averages</h3>
+    <p>The dashed reference line in the answer graphics shows a global figure. Average elevation uses the world figure on Wikipedia (840 metres). Average temperatures and rainfall are the means of the country figures weighted by land area, using the land areas in Wikipedia's <a href="https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_area" target="_blank" rel="noopener">List of countries and dependencies by area</a>; they describe land only, and Antarctica has no figure. For highest points, lowest points and record temperatures the line is the plain average of all countries.</p>
+    <h3>Countries and maps</h3>
+    <p>The games cover the 249 countries and territories on the <a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">ISO 3166-1</a> list, plus Kosovo, which has no code on it. A country with no figure in a source is left out of the questions that need that figure. Map outlines come from <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a>. Wikipedia figures were fetched on 29 October 2026.</p>
+  
+</section>
+
+<section>
+<h2>Licence</h2>
+<div class="box"><strong>The data and the games are shared under
+<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</a>.</strong></div>
+<p><strong>Why this licence.</strong> Wikipedia's text is available under CC BY-SA 4.0 and the GFDL; Wikipedia's reuse terms require attribution, a notice of the licence, an indication of changes, and that adapted versions are shared under CC BY-SA 4.0 or later. CC BY-SA 4.0 satisfies all of those, so it is the right licence for a dataset built from Wikipedia's tables. Wikipedia says some text is CC BY-SA only and cannot be reused under the GFDL, so the GFDL is not used here.</p>
+<p><strong>What that means for you.</strong> You may copy, share and adapt the data and the games, including commercially, if you:</p>
+<ul>
+<li>credit the sources below (Wikipedia and its contributors, with a link to the page and revision) and this dataset;</li>
+<li>link to the licence;</li>
+<li>say what you changed (this dataset cleans units, splits multi-value rows, tags statuses, joins to map shapes and drops records not on the ISO list);</li>
+<li>share anything you make from it under CC BY-SA 4.0 or later.</li>
+</ul>
+<p><strong>Suggested credit.</strong> "Country extremes, compiled from Wikipedia (CC BY-SA 4.0) and other sources listed at [this page], adapted and licensed under CC BY-SA 4.0."</p>
+<p class="muted" style="color:var(--mute);font-size:14px">Copyright protects creative expression, not bare facts, so a single elevation figure is not itself protected. The compiled tables, selection and wording are, which is why the licence is applied to the whole. This is a practical reading of the terms, not legal advice.</p>
+</section>
+
+<section>
+<h2>Sources and their licences</h2>
+<div class="tbl"><table>
+<tr><th>Used for</th><th>Source</th><th>Licence</th></tr>
+<tr><td>Highest and lowest points, spans</td><td><a href="https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country" target="_blank" rel="noopener">Wikipedia, List of elevation extremes by country</a> (revision 1381548721)</td><td>CC BY-SA 4.0 (and GFDL)</td></tr>
+<tr><td>Country list and codes</td><td><a href="https://en.wikipedia.org/wiki/ISO_3166-1" target="_blank" rel="noopener">Wikipedia, ISO 3166-1</a> (revision 1376647436)</td><td>CC BY-SA 4.0</td></tr>
+<tr><td>Åland and Bonaire, Sint Eustatius and Saba</td><td>Wikipedia, <a href="https://en.wikipedia.org/wiki/Geography_of_%C3%85land" target="_blank" rel="noopener">Geography of Åland</a> (revision 1354505985) and <a href="https://en.wikipedia.org/wiki/Caribbean_Netherlands" target="_blank" rel="noopener">Caribbean Netherlands</a> (revision 1375847237)</td><td>CC BY-SA 4.0</td></tr>
+<tr><td>Average elevation</td><td><a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_elevation" target="_blank" rel="noopener">Wikipedia, List of countries by average elevation</a> (revision 1366634239)</td><td>CC BY-SA 4.0</td></tr>
+<tr><td>Record hottest and coldest</td><td><a href="https://en.wikipedia.org/wiki/List_of_weather_records" target="_blank" rel="noopener">Wikipedia, List of weather records</a> (revision 1382542755)</td><td>CC BY-SA 4.0</td></tr>
+<tr><td>Average annual rainfall</td><td><a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation" target="_blank" rel="noopener">Wikipedia, List of countries by average annual precipitation</a> (revision 1380108857)</td><td>CC BY-SA 4.0</td></tr>
+<tr><td>Average daily high, low and mean temperature (1991 to 2020)</td><td><a href="https://climateknowledgeportal.worldbank.org/" target="_blank" rel="noopener">World Bank Climate Change Knowledge Portal</a> (CRU TS 4.07)</td><td>Not confirmed. The World Bank's dataset terms apply and require attribution to the World Bank; I could not verify the portal's exact licence. Check the <a href="https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets" target="_blank" rel="noopener">terms of use</a> for the portal before redistributing the raw numbers.</td></tr>
+<tr><td>Point marker positions (dashboard)</td><td><a href="https://www.wikidata.org/" target="_blank" rel="noopener">Wikidata</a> coordinates, shown only where the named point matched unambiguously</td><td>CC0 (public domain)</td></tr>
+<tr><td>Country outlines</td><td><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener">Natural Earth</a>, with parts matched to countries using fieldmaps.io boundaries</td><td>Natural Earth: public domain. fieldmaps.io: check its stated licence before redistributing the shapes.</td></tr>
+</table></div>
+<p style="color:var(--mute);font-size:14px">Fetched 29 October 2026. Wikipedia figures can change; the revision numbers above link to exactly the versions used.</p>
+</section>
+
+<section>
+<h2>Caveats</h2>
+<ul>
+<li>Teaching and training use: values are as Wikipedia lists them, including its disagreements. Rows where the stated span does not equal highest minus lowest are tagged "span mismatch".</li>
+<li>Rainfall is a national average, not the wettest place in a country.</li>
+<li>Places in the Wikipedia table without an ISO code (Clipperton Island, Bir Tawil, Spratly Islands, Ashmore and Cartier Islands, Coral Sea Islands) are left out of the dashboard and games. Kosovo is included in the games.</li>
+<li>Wikipedia is edited by volunteers and is not an authoritative source for official records.</li>
+</ul>
+</section>
+</div>
+</Base>

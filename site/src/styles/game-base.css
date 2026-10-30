@@ -1,0 +1,48 @@
+:root{
+  --bg1:#0c1722;--bg2:#13283a;--card:rgba(255,255,255,.06);--card-s:#182a3a;--ink:#f1f5f8;--mute:#9fb2c2;--line:rgba(255,255,255,.14);
+  --accent:#ffb347;--accent2:#ff6f61;--a:#35c2c9;--b:#ff9f5a;--good:#3ddc97;--bad:#ff6b6b;--sea:#4aa3e8;
+  --glow:rgba(255,179,71,.35);--radius:18px;
+}
+*{box-sizing:border-box}
+html{background:var(--bg1)}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,var(--bg2),var(--bg1) 70%) fixed;transition:background .6s;position:relative;overflow-x:hidden}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px;position:relative}
+.home{margin-left:auto;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:0 18px;min-height:44px;display:inline-flex;align-items:center;font-size:14px;background:var(--card)}
+.home:hover,.home:focus-visible{border-color:var(--accent);outline:none}
+.credit{margin-top:6px}
+.startrow{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.startrow .go{padding:14px 44px;font-size:18px}
+.startrow .muted{margin:0;flex:1;min-width:200px}
+a.ghost{display:inline-flex;align-items:center;text-decoration:none;min-height:44px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.logo{width:54px;height:54px;flex:none;filter:drop-shadow(0 4px 14px var(--glow))}
+h1{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.5px;font-weight:800}
+.sub{color:var(--mute);margin:10px 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;backdrop-filter:blur(8px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.hidden{display:none!important}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.mode{background:rgba(255,255,255,.04);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:14px 8px 12px;font:inherit;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,background .15s}
+.mode:hover{transform:translateY(-2px);border-color:var(--mute)}
+.mode.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:0 0 0 4px var(--glow)}
+.mode svg{width:44px;height:34px;display:block;margin:0 auto 6px}
+.mode b{display:block;font-size:15px}
+.mode small{color:var(--mute);font-size:13px}
+.go{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;border:0;border-radius:14px;padding:12px 26px;font:inherit;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px var(--glow);transition:transform .15s,filter .15s}
+.go:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.07)}
+.go:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.muted{color:var(--mute);font-size:13px}
+.pill .ic{font-size:20px}
+.pill span{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.mp-pin circle.r{fill:none;stroke:#fff;stroke-width:2;opacity:.8}
+@media (prefers-reduced-motion:no-preference){.mp-pin circle.r{animation:mpp 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}@keyframes mpp{from{transform:scale(.4);opacity:.9}to{transform:scale(1.6);opacity:0}}}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:rgba(255,255,255,.04);color:var(--ink);border:0;padding:12px 14px;min-height:44px;font:inherit;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1b1206;font-weight:700}
+.chip{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#08210f;background:var(--good);font-weight:700;margin-top:4px}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--ink);font:12px "Segoe UI",system-ui,Arial,sans-serif}
+svg .m{fill:var(--mute)}
+footer{color:var(--mute);font-size:13px;line-height:1.6;margin-top:14px}

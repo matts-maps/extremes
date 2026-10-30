@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/game-base.css';
+import '../../styles/guess-the-height.css';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Guess the height" bodyAttrs={{ "data-kind": "highest" }}>
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <h1>Guess <span>the height</span></h1>
+  <a class="home" href={base}>Home</a>
+</header>
+<p class="sub">You get the name of a country and its highest point, lowest point or average elevation. Say how far above or below sea level it is. The closer you are, the more points you score, up to 1,000 a round. Pick a level to set how close you need to be.</p>
+
+<div class="card" id="setup">
+  <div class="modes" id="mode">
+    <button class="mode on" data-m="highest"><svg viewBox="0 0 44 34"><path d="M2 32 L16 8 L24 20 L30 12 L42 32Z" fill="#ffb347"/><path d="M13 13 L16 8 L19 13 L16 12Z" fill="#fff"/></svg><b>Highest points</b><small>How tall is the peak?</small></button>
+    <button class="mode" data-m="lowest"><svg viewBox="0 0 44 34"><path d="M2 8 H42 V10 Q32 14 22 10 Q12 6 2 10Z" fill="#4aa3e8"/><path d="M2 12 L14 12 L22 30 L30 12 L42 12 V32 H2Z" fill="#35c2c9" opacity=".85"/></svg><b>Lowest points</b><small>How deep is the dip?</small></button>
+    <button class="mode" data-m="average"><svg viewBox="0 0 44 34"><path d="M2 32 L12 16 L20 24 L28 10 L42 32Z" fill="#7bd88f" opacity=".85"/><path d="M2 20 H42" stroke="#fff" stroke-width="2" stroke-dasharray="4 3"/></svg><b>Average elevation</b><small>How high is it overall?</small></button>
+    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><path d="M2 20 L11 4 L18 14 L24 8 L32 20Z" fill="#ffb347"/><path d="M2 22 H42 V32 H2Z" fill="#4aa3e8"/><path d="M26 24 l6 6 l6 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg><b>Mixed</b><small>All three, at random</small></button>
+  </div>
+  <div class="levels" id="level" role="group" aria-label="Level">
+    <button class="lvl" data-l="beginner">Beginner</button>
+    <button class="lvl on" data-l="intermediate">Intermediate</button>
+    <button class="lvl" data-l="advanced">Advanced</button>
+    <button class="lvl extreme" data-l="extreme">Extreme</button>
+  </div>
+  <p class="muted" id="levelnote" style="margin:10px 0 0"></p>
+  <div class="row" style="margin-top:14px">
+    <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (m)</button><button data-u="imperial">Imperial (ft)</button></div>
+        <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
+  </div>
+  <div class="startrow"><button class="go" id="start">Start</button><p class="muted" id="poolnote"></p></div>
+</div>
+
+<div class="hud hidden" id="hud">
+  <div class="pill"><span class="ic">📍</span><div><b id="rn">1</b> <span id="rof">of 10</span></div></div>
+  <div class="dots" id="dots"></div>
+  <div class="pill"><span class="ic">⭐</span><div><b id="total">0</b> <span>points</span></div></div>
+  <button class="pill" id="menu">☰ <span>Menu</span></button>
+</div>
+
+<div class="card hidden" id="play">
+  <div class="stage">
+    <div class="gaugebox" id="gauge"></div>
+    <div class="info">
+      <p class="place" id="kindword"></p>
+      <p class="q" id="country"></p>
+      <p class="pt" id="point"></p>
+      <div class="mapbox"><svg id="map" role="img" aria-label="Map of the country"></svg><p class="mapcap muted" id="mapcap"></p></div>
+    </div>
+    <div id="guessui" class="gu">
+      <div class="gcard" id="gcard"><div class="muted">Your guess</div><div class="bigread"><span id="read">0</span><i id="unit">m</i></div><p class="sub2" id="readsub"></p></div>
+      <div class="gcard gin"><label class="muted" for="slider">Drag the scale, use the slider or type a figure</label><input type="range" id="slider" aria-label="Your guess"><div class="numrow"><label for="num">Or type it:</label><input type="number" id="num" step="1"><label id="unit2">m</label></div></div>
+      <div class="lockrow"><span class="muted">or press <span class="kbd">Enter</span></span><button class="go" id="lock">Lock in guess</button></div>
+    </div>
+    <div class="cmp hidden" id="cmp"></div>
+    <div id="resui" class="hidden res">
+      <div class="rating" id="rating"><div class="pts" id="pts"></div><div><h3 id="rword"></h3><p class="muted" id="rdetail"></p></div></div>
+      <div class="nextrow"><button class="go" id="next">Next</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="card final hidden" id="final"></div>
+
+<footer><div id="foot"></div><div class="credit">Created by Fantail GIS (2026)</div></footer>
+</div>
+</Base>
+<script>
+  import '../../scripts/guess-the-height.js';
+</script>

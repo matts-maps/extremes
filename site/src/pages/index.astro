@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/home.css';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Extremes" description="Five short games about the elevation and climate extremes of every country: higher or lower, hotter or colder, wetter or drier, and guess the figure.">
+<!-- symbols reused across the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-mountain" viewBox="0 0 48 48"><path d="M3 40 L19 12 L27 26 L32 19 L45 40Z" fill="currentColor"/><path d="M14.5 20 L19 12 L23.5 20 L19 18.5Z" fill="#fff"/><path d="M29 22.5 L32 19 L35 22.5 L32 21.5Z" fill="#fff" opacity=".9"/></symbol>
+    <symbol id="i-thermo" viewBox="0 0 48 48"><rect x="18" y="4" width="12" height="29" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="24" cy="37" r="8" fill="currentColor"/><rect x="22" y="14" width="4" height="22" fill="currentColor"/><path d="M36 10h6M36 17h4M36 24h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-updown" viewBox="0 0 24 24"><path d="M7 11 L12 5 L17 11 M7 14 L12 20 L17 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 11v6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="12" cy="7.2" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 48 48"><path d="M24 5 C32 16 38 23 38 30 A14 14 0 0 1 10 30 C10 23 16 16 24 5Z" fill="currentColor"/><path d="M18 31 a6 6 0 0 0 6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<main>
+<div class="top">
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <div>
+    <h1><span>Extremes</span></h1>
+    <p class="tagline">Elevation and climate games for every country</p>
+  </div>
+</div>
+<nav aria-label="Page sections"><a href="#elevation">Elevation</a><a href="#climate">Climate</a><a href={`${base}about/`}>About the data</a></nav>
+
+<div class="welcome">
+  <p>Five short games about the extremes of the world's countries and territories, made for teaching and training. Every answer comes with the figures behind it.</p>
+  <details class="how">
+    <summary>How the games work</summary>
+    <p>Each theme has a comparison game and a guessing game. In the comparison games (<b>higher or lower</b>, <b>hotter or colder</b> and <b>wetter or drier</b>) you choose between two countries and keep a streak going until you get one wrong. In the guessing games you play ten rounds, name the number, and score more points the closer you are, at one of four difficulty levels.</p>
+    <p class="key"><svg aria-hidden="true"><use href="#i-updown"/></svg> Compare two countries &nbsp;&nbsp; <svg aria-hidden="true"><use href="#i-target"/></svg> Guess the figure</p>
+  </details>
+</div>
+
+<section id="elevation" class="el">
+  <div class="head"><span class="sym"><svg aria-hidden="true"><use href="#i-mountain"/></svg></span><div><h2>Elevation</h2><p>Highest, lowest and average height above sea level</p></div></div>
+  <div class="grid">
+    <!-- Dashboard hidden for now (as on the live site): restore this card to show it, linking to the dashboard/ route
+    <a class="card" href="dashboard/">
+      <div class="tag">Dashboard</div>
+      <h3>Highest and lowest points</h3>
+      <p>Explore the map, tables and charts for 249 countries and territories, with a data status tag on every figure.</p>
+    </a>
+    -->
+    <a class="card" href={`${base}games/higher-or-lower/`}>
+      <span class="ico"><svg class="main" aria-hidden="true"><use href="#i-mountain"/></svg><svg class="badge" aria-hidden="true"><use href="#i-updown"/></svg></span>
+      <div><div class="tag">Compare two</div><h3>Higher or lower</h3><p>Which country has the highest point, the lowest point or the higher average elevation? Pick between two and see how they compare with sea level.</p></div>
+    </a>
+    <a class="card" href={`${base}games/guess-the-height/`}>
+      <span class="ico"><svg class="main" aria-hidden="true"><use href="#i-mountain"/></svg><svg class="badge" aria-hidden="true"><use href="#i-target"/></svg></span>
+      <div><div class="tag">Guess the figure</div><h3>Guess the height</h3><p>Ten rounds. Guess the height or depth of a named place, or the average elevation of a country; the closer you are, the more points.</p></div>
+    </a>
+  </div>
+</section>
+
+<section id="climate" class="cl">
+  <div class="head"><span class="sym"><svg aria-hidden="true"><use href="#i-thermo"/></svg></span><div><h2>Climate</h2><p>Temperature records, averages and rainfall</p></div></div>
+  <div class="grid">
+    <a class="card" href={`${base}games/hotter-or-colder/`}>
+      <span class="ico"><svg class="main" aria-hidden="true"><use href="#i-thermo"/></svg><svg class="badge" aria-hidden="true"><use href="#i-updown"/></svg></span>
+      <div><div class="tag">Compare two</div><h3>Hotter or colder</h3><p>Record highs and lows, average daily highs and lows, or average temperature. Pick the hotter or colder country; every temperature is shown after each answer.</p></div>
+    </a>
+    <a class="card" href={`${base}games/wetter-or-drier/`}>
+      <span class="ico"><svg class="main" aria-hidden="true"><use href="#i-drop"/></svg><svg class="badge" aria-hidden="true"><use href="#i-updown"/></svg></span>
+      <div><div class="tag">Compare two</div><h3>Wetter or drier</h3><p>Which country gets more rain in a year? Pick between two and see both averages against the wettest country in the dataset.</p></div>
+    </a>
+    <a class="card" href={`${base}games/climate-guess/`}>
+      <span class="ico"><svg class="main" aria-hidden="true"><use href="#i-thermo"/></svg><svg class="badge" aria-hidden="true"><use href="#i-target"/></svg></span>
+      <div><div class="tag">Guess the figure</div><h3>Climate: guess the figure</h3><p>Ten rounds. Guess a country's record temperature, average temperature or rainfall; the closer you are, the more points, with four difficulty levels.</p></div>
+    </a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="head"><span class="sym" style="background:linear-gradient(135deg,#9fb2c2,#6f87a0)"><svg aria-hidden="true"><use href="#i-info"/></svg></span><div><h2>About the data</h2><p>Where the figures come from</p></div></div>
+  <a class="card" href={`${base}about/`} style="--a1:#9fb2c2">
+    <div><div class="tag">Sources and licence</div><h3>About the data</h3><p>Where every figure comes from, how the games use it, the licence (CC BY-SA 4.0) and the caveats.</p></div>
+  </a>
+</section>
+
+<footer>Created by Fantail GIS (2026)</footer>
+</main>
+</Base>

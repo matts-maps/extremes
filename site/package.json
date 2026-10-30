@@ -1,0 +1,8 @@
+{
+  "name": "country-extremes-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "dev": "astro dev", "build": "astro build", "preview": "astro preview" },
+  "dependencies": { "astro": "^5.0.0", "leaflet": "1.9.4", "chart.js": "4.4.1" }
+}

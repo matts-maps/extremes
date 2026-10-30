@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/dashboard.css';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Country extremes dashboard" bodyAttrs={{ "data-m": "highest" }}>
+<div class="wrap">
+<div class="top"><h1>Country extremes: highest and lowest points</h1><a class="home" href={base}>Home</a></div>
+<p class="sub">The 249 officially assigned ISO 3166-1 codes, with highest and lowest points from the Wikipedia table, List of elevation extremes by country. Åland and Bonaire, Sint Eustatius and Saba are not in that table: their highest points come from their own Wikipedia articles and their lowest points are set to sea level. No elevation model is used. Countries made of several map pieces are drawn as one shape. Places in the table without an ISO code (Clipperton Island, Bir Tawil, Kosovo, Spratly Islands, Ashmore and Cartier Islands, Coral Sea Islands) are left out. Climate extremes are not yet included.</p>
+<div class="kpis" id="kpis"></div>
+<div class="filters">
+  <div class="seg" id="metric"><button data-m="highest" class="on">Highest point</button><button data-m="lowest">Lowest point</button><button data-m="span">Elevation span</button></div>
+  <div class="seg" id="view"><button data-v="countries" class="on">Countries</button><button data-v="points">Points only</button></div>
+  <select id="fRegion"><option value="">All regions</option></select>
+  <select id="fType"><option value="">All record types</option></select>
+  <select id="fStatus"><option value="">All statuses</option></select>
+  <input type="search" id="fSearch" placeholder="Search country or point">
+  <label class="muted"><input type="checkbox" id="fShown"> Only records with a figure</label>
+</div>
+<div class="main">
+  <div id="map"></div>
+  <div class="card" id="detail"><p class="muted">Click a country on the map or a row in the table.</p></div>
+</div>
+<div class="charts">
+  <div class="card"><h3 id="barTitle"></h3><div class="cw"><canvas id="barChart"></canvas></div></div>
+  <div class="card"><h3 id="statTitle"></h3><div class="cw"><canvas id="statChart"></canvas></div></div>
+</div>
+<div class="card"><h3>All records <span class="muted" id="tcount"></span></h3><div class="tw"><table id="tbl"><thead></thead><tbody></tbody></table></div></div>
+<footer>Sources: Wikipedia, List of elevation extremes by country (revision 1381548721, fetched 29 October 2026), for the countries and territories of the ISO 3166-1 list (Wikipedia, revision 1376647436); Åland and Bonaire, Sint Eustatius and Saba from the Wikipedia articles Geography of Åland (revision 1354505985) and Caribbean Netherlands (revision 1375847237), with their lowest points set to sea level; Wikidata coordinates for point markers; fieldmaps.io country boundaries. Status tags: clean = no issue found; unnamed = no named point; disputed = disputed territory or competing candidates; span mismatch = Wikipedia's span does not equal highest minus lowest; shared = lowest point shared with a neighbour or several coasts. Every figure is the one in the Wikipedia table; countries the table does not list are not included. Marker positions come from Wikidata and are shown only where the named point matched unambiguously.<div class="credit">Created by Fantail GIS (2026)</div></footer>
+</div>
+</Base>
+<script>
+  import '../scripts/dashboard.js';
+</script>

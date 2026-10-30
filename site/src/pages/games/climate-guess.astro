@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/game-base.css';
+import '../../styles/climate-guess.css';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Climate: guess the figure" bodyAttrs={{ "data-kind": "hottest" }}>
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <h1>Climate: guess <span>the figure</span></h1>
+  <a class="home" href={base}>Home</a>
+</header>
+<p class="sub">You get the name of a country. Guess its record high or low, its average daily high or low, its average temperature or its average rainfall. The closer you are, the more points you score, up to 1,000 a round. After each guess, every temperature figure for the country is shown. Pick a level to set how close you need to be.</p>
+
+<div class="card" id="setup">
+  <div class="modes" id="mode">
+    <button class="mode on" data-m="hottest"><svg viewBox="0 0 44 34"><rect x="19" y="3" width="6" height="20" rx="3" fill="#ffd0b8"/><rect x="20.5" y="9" width="3" height="14" fill="#ff7a45"/><circle cx="22" cy="26" r="6" fill="#ff7a45"/></svg><b>Record highs</b><small>How hot has it got?</small></button>
+    <button class="mode" data-m="coldest"><svg viewBox="0 0 44 34"><rect x="19" y="3" width="6" height="20" rx="3" fill="#cfeeff"/><rect x="20.5" y="17" width="3" height="6" fill="#7fd4ff"/><circle cx="22" cy="26" r="6" fill="#7fd4ff"/></svg><b>Record lows</b><small>How cold has it got?</small></button>
+    <button class="mode" data-m="avghigh"><svg viewBox="0 0 44 34"><circle cx="22" cy="17" r="7" fill="#ffa24a"/><path d="M22 3v5M22 26v5M8 17h5M31 17h5M12 7l3 3M29 24l3 3M32 7l-3 3M15 24l-3 3" stroke="#ffa24a" stroke-width="2" stroke-linecap="round"/></svg><b>Average high</b><small>A typical daytime peak</small></button>
+    <button class="mode" data-m="avglow"><svg viewBox="0 0 44 34"><path d="M26 4 A12 12 0 1 0 38 22 A10 10 0 0 1 26 4Z" fill="#8fb4ff"/></svg><b>Average low</b><small>A typical night</small></button>
+    <button class="mode" data-m="avgmean"><svg viewBox="0 0 44 34"><rect x="19" y="3" width="6" height="20" rx="3" fill="#e4f6c4"/><rect x="20.5" y="13" width="3" height="10" fill="#b4e36b"/><circle cx="22" cy="26" r="6" fill="#b4e36b"/></svg><b>Average temperature</b><small>The yearly mean</small></button>
+    <button class="mode" data-m="wettest"><svg viewBox="0 0 44 34"><path d="M22 3 C28 12 32 17 32 22 A10 10 0 0 1 12 22 C12 17 16 12 22 3Z" fill="#35c2c9"/></svg><b>Average rainfall</b><small>Millimetres a year</small></button>
+    <button class="mode" data-m="mixed"><svg viewBox="0 0 44 34"><circle cx="12" cy="12" r="7" fill="#ffb347"/><path d="M26 6 l4 6 h-8z M34 14 C38 20 38 26 34 28 C30 26 30 20 34 14Z" fill="#7fd4ff"/></svg><b>Mixed</b><small>Everything, at random</small></button>
+  </div>
+  <div class="levels" id="level" role="group" aria-label="Level">
+    <button class="lvl" data-l="beginner">Beginner</button>
+    <button class="lvl on" data-l="intermediate">Intermediate</button>
+    <button class="lvl" data-l="advanced">Advanced</button>
+    <button class="lvl extreme" data-l="extreme">Extreme</button>
+  </div>
+  <p class="muted" id="levelnote" style="margin:10px 0 0"></p>
+  <div class="row" style="margin-top:14px">
+    <select id="region" aria-label="Region"><option value="">All regions</option></select>
+    <div class="seg" id="units" role="group" aria-label="Units"><button data-u="metric">Metric (°C, mm)</button><button data-u="imperial">Imperial (°F, in)</button></div>
+        <div class="pill" style="margin-left:auto"><span class="ic">🏆</span><div><b id="best">0</b> <span>best score</span></div></div>
+  </div>
+  <div class="startrow"><button class="go" id="start">Start</button><p class="muted" id="poolnote"></p></div>
+</div>
+
+<div class="hud hidden" id="hud">
+  <div class="pill"><span class="ic">📍</span><div><b id="rn">1</b> <span id="rof">of 10</span></div></div>
+  <div class="dots" id="dots"></div>
+  <div class="pill"><span class="ic">⭐</span><div><b id="total">0</b> <span>points</span></div></div>
+  <button class="pill" id="menu">☰ <span>Menu</span></button>
+</div>
+
+<div class="card hidden" id="play">
+  <div class="stage">
+    <div class="gaugebox" id="gauge"></div>
+    <div class="info">
+      <p class="place" id="kindword"></p>
+      <p class="q" id="country"></p>
+      <p class="pt" id="point"></p>
+      <div class="mapbox"><svg id="map" role="img" aria-label="Map of the country"></svg><p class="mapcap muted" id="mapcap"></p></div>
+    </div>
+    <div id="guessui" class="gu">
+      <div class="gcard" id="gcard"><div class="muted">Your guess</div><div class="bigread"><span id="read">0</span><i id="unit">°C</i></div><p class="sub2" id="readsub"></p></div>
+      <div class="gcard gin"><label class="muted" for="slider">Drag the scale, use the slider or type a figure</label><input type="range" id="slider" aria-label="Your guess"><div class="numrow"><label for="num">Or type it:</label><input type="number" id="num" step="0.5"><label id="unit2">°C</label></div></div>
+      <div class="lockrow"><span class="muted">or press <span class="kbd">Enter</span></span><button class="go" id="lock">Lock in guess</button></div>
+    </div>
+    <div class="cmp hidden" id="cmp"></div>
+    <div id="resui" class="hidden res">
+      <div class="rating" id="rating"><div class="pts" id="pts"></div><div><h3 id="rword"></h3><p class="muted" id="rdetail"></p></div></div>
+      <div class="nextrow"><button class="go" id="next">Next</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="card final hidden" id="final"></div>
+
+<footer><div id="foot"></div><div class="credit">Created by Fantail GIS (2026)</div></footer>
+</div>
+</Base>
+<script>
+  import '../../scripts/climate-guess.js';
+</script>
