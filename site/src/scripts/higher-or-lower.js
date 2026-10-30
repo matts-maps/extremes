@@ -108,6 +108,6 @@ const game = createCompare({
   cardValue: (q,rec) => `${fmt(rec.m)}<i>${U()}</i>`,
   showReveal,
   stopAnim: () => anim.stop(),
-  next: {slug:'guess', label:'Guess the height'},
+  next: {slug:'elevation-guess', label:'Guess the elevation'},
 });
 window.__game={state:game.state,makePair:game.makePair,validPairs:game.validPairs,poolFor:game.poolFor,apart:game.apart,POOL};

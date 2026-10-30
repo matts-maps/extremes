@@ -1,4 +1,4 @@
-// The flow shared by the two "guess the figure" games (guess the height, climate guess): game state and best scores,
+// The flow shared by the two "guess the figure" games (guess the elevation, climate guess): game state and best scores,
 // the question pool, rounds, map, input wiring, menu and keyboard. Each game supplies its own scale, scoring, gauge,
 // wording and result screens through the options below.
 import MAPS from '../data/map-data.json';
