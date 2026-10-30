@@ -1,15 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import SiteMenu from '../components/SiteMenu.astro';
 import '../styles/game-base.css';
 import '../styles/guess-the-height.css';
-const base = import.meta.env.BASE_URL;
 ---
 <Base title="Guess the height" bodyAttrs={{ "data-kind": "highest" }}>
 <div class="wrap">
 <header>
   <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
   <h1>Guess <span>the height</span></h1>
-  <a class="home" href={base}>Home</a>
+  <SiteMenu current="guess" />
 </header>
 <p class="sub">You get the name of a country and its highest point, lowest point or average elevation. Say how far above or below sea level it is. The closer you are, the more points you score, up to 1,000 a round. Pick a level to set how close you need to be.</p>
 

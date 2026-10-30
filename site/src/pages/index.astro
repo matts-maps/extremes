@@ -1,22 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import SiteMenu from '../components/SiteMenu.astro';
 import '../styles/home.css';
 const base = import.meta.env.BASE_URL;
 ---
 <Base title="Extremes" description="Five short games about the elevation and climate extremes of every country: higher or lower, hotter or colder, wetter or drier, and guess the figure.">
-<!-- symbols reused across the page -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="i-mountain" viewBox="0 0 48 48"><path d="M3 40 L19 12 L27 26 L32 19 L45 40Z" fill="currentColor"/><path d="M14.5 20 L19 12 L23.5 20 L19 18.5Z" fill="#fff"/><path d="M29 22.5 L32 19 L35 22.5 L32 21.5Z" fill="#fff" opacity=".9"/></symbol>
-    <symbol id="i-thermo" viewBox="0 0 48 48"><rect x="18" y="4" width="12" height="29" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="24" cy="37" r="8" fill="currentColor"/><rect x="22" y="14" width="4" height="22" fill="currentColor"/><path d="M36 10h6M36 17h4M36 24h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
-    <symbol id="i-updown" viewBox="0 0 24 24"><path d="M7 11 L12 5 L17 11 M7 14 L12 20 L17 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 11v6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="12" cy="7.2" r="1.6" fill="currentColor"/></symbol>
-    <symbol id="i-drop" viewBox="0 0 48 48"><path d="M24 5 C32 16 38 23 38 30 A14 14 0 0 1 10 30 C10 23 16 16 24 5Z" fill="currentColor"/><path d="M18 31 a6 6 0 0 0 6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/></symbol>
-    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-  </defs>
-</svg>
-
 <main>
 <div class="top">
   <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4aa3e8"/><stop offset="1" stop-color="#0d2a40"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#13283a" stroke="rgba(255,255,255,.2)"/><path d="M6 36 L24 10 L34 24 L40 16 L58 36Z" fill="url(#lg1)"/><path d="M6 36 H58 V42 Q50 50 32 50 Q14 50 6 42Z" fill="url(#lg2)"/><path d="M14 46 q4 -3 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#bfe3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -25,6 +13,8 @@ const base = import.meta.env.BASE_URL;
     <p class="tagline">Elevation and climate games for every country</p>
   </div>
 </div>
+
+<SiteMenu current="home" />
 
 <div class="welcome">
   <p>Five short games about the extremes of the world's countries and territories, made for teaching and training. Every answer comes with the figures behind it.</p>

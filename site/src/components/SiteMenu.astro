@@ -1,0 +1,43 @@
+---
+// The site menu: the home symbol, one symbol per game and the about page. Icons come from the sprite in the base layout.
+interface Props { current?: string; }
+const { current = '' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const items = [
+  { id: 'home', href: base, label: 'Home', icon: 'i-home', tone: 'plain' },
+  { id: 'higher-lower', href: `${base}higher-lower/`, label: 'Higher or lower', icon: 'i-mountain', badge: 'i-updown', tone: 'el' },
+  { id: 'guess', href: `${base}guess/`, label: 'Guess the height', icon: 'i-mountain', badge: 'i-target', tone: 'el' },
+  { id: 'hotter-or-colder', href: `${base}hotter-or-colder/`, label: 'Hotter or colder', icon: 'i-thermo', badge: 'i-updown', tone: 'cl' },
+  { id: 'wetter-or-drier', href: `${base}wetter-or-drier/`, label: 'Wetter or drier', icon: 'i-drop', badge: 'i-updown', tone: 'cl' },
+  { id: 'climate-guess', href: `${base}climate-guess/`, label: 'Climate: guess the figure', icon: 'i-thermo', badge: 'i-target', tone: 'cl' },
+  { id: 'about', href: `${base}about/`, label: 'About the data', icon: 'i-info', tone: 'plain' },
+];
+---
+<nav class="sitemenu" aria-label="Site menu">
+  {items.map(it => (
+    <a href={it.href} class={`tone-${it.tone}`} title={it.label} aria-label={it.label} aria-current={it.id === current ? 'page' : undefined}>
+      <svg class="main" aria-hidden="true"><use href={`#${it.icon}`} /></svg>
+      {it.badge && <svg class="badge" aria-hidden="true"><use href={`#${it.badge}`} /></svg>}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .sitemenu{display:flex;gap:6px;flex-wrap:nowrap;margin:0}
+  a{--c1:#9fb2c2;--c2:#6f87a0;position:relative;display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:14px;border:1px solid var(--line, rgba(255,255,255,.14));background:var(--card, rgba(255,255,255,.06));color:var(--c1);text-decoration:none;transition:transform .15s,border-color .15s}
+  a.tone-plain:first-child{--c1:var(--ink, #f1f5f8)}
+  a.tone-el{--c1:#ffb347;--c2:#ff6f61}
+  a.tone-cl{--c1:#5fd0d8;--c2:#7fa8ff}
+  a:hover,a:focus-visible{transform:translateY(-2px);border-color:var(--c1);outline:none}
+  a[aria-current="page"]{border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 28%,transparent)}
+  .main{width:26px;height:26px}
+  .badge{position:absolute;right:-5px;bottom:-5px;width:18px;height:18px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));color:#1b1206}
+  @media (max-width:560px){
+    .sitemenu{width:100%;gap:0;justify-content:space-between}
+    a{width:40px;height:40px;border-radius:12px}
+    .main{width:24px;height:24px}
+  }
+  @media (prefers-reduced-motion:reduce){a{transition:none}}
+  :global(header) .sitemenu{margin-left:auto}
+  :global(header:has(.sitemenu)){flex-wrap:wrap}
+</style>
