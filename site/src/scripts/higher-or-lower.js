@@ -63,10 +63,10 @@ function chart(q, t){
   // tick labels, dataset extremes and sea level sit outside the clip so text is never cut
   for(const v of niceTicks(-dn,up,5)){ if(v===0) continue; const yy=y(v); if(Math.abs(yy-y0)<12) continue;
     s+=`<text class="m" x="36" y="${yy+4}" text-anchor="end" style="font-size:10px">${fmt(v)}</text>`; }
-  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(EH.m)} ${U()} - ${esc(EH.point)} - ${esc(EH.name)}</text>`;
+  if(yHi>=top-1) s+=`<line x1="40" x2="${W-20}" y1="${yHi}" y2="${yHi}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yHi-6}">${fmt(EH.m)} ${U()} - ${esc(EH.point)}</text>`;
   { const GA=POOL.global[q.kind], yw=y(GA.v);
     if(yw>=top && yw<=H-bot && Math.abs(yw-yHi)>14 && (avg || Math.abs(yw-yLo)>14)) s+=`<line x1="40" x2="${W-20}" y1="${yw}" y2="${yw}" stroke="#fff" stroke-opacity=".6" stroke-dasharray="2 4"/><text x="${W-22}" y="${Math.abs(yw-y0)<=14?y0+16:yw-6}" text-anchor="end" style="font-size:11px;fill:#fff;opacity:.9">${GA.label}: ${fmt(GA.v)} ${U()}</text>`; }
-  if(!avg && yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} ${U()} - ${esc(LO.point)} - ${esc(LO.name)}</text>`;
+  if(!avg && yLo<=H-bot+1) s+=`<line x1="40" x2="${W-20}" y1="${yLo}" y2="${yLo}" stroke="var(--mute)" stroke-dasharray="4 4"/><text class="m" x="44" y="${yLo+15}">${fmt(LO.m)} ${U()} - ${esc(LO.point)}</text>`;
   q.pair.forEach((r,i)=>{
     const delay = i===q.win ? 1.4 : 0.2, x=xs[i];
     const v=r.m*easeOut(clamp01((t-delay)/.9)), yv=y(v), yt=v>=0?Math.min(yv,y0):y0;
