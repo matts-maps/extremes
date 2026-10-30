@@ -11,4 +11,4 @@ th{color:var(--mute);font-weight:600}
 section h3{font-size:16px;margin:14px 0 2px}
 section h3:first-of-type{margin-top:0}
 section h2+h3{margin-top:0}
-footer{color:var(--mute);font-size:13px;line-height:1.6;margin-top:14px}
+footer{color:var(--mute);font-size:13px;line-height:1.6;padding:0 16px 40px}

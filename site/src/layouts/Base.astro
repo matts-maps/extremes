@@ -9,7 +9,9 @@ const { title, description, bodyAttrs = {} } = Astro.props;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 {description && <meta name="description" content={description}>}
-<style is:global>html{scrollbar-gutter:stable}</style>
+<style is:global>html{scrollbar-gutter:stable}
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+body>.wrap,body>main{flex:1 0 auto;width:100%}</style>
 </head>
 <body {...bodyAttrs}>
 <!-- icons used by the menu and the home page cards -->
