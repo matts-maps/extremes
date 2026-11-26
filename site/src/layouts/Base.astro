@@ -9,6 +9,9 @@ const { title, description, bodyAttrs = {} } = Astro.props;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 {description && <meta name="description" content={description}>}
+<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="16x16 32x32 48x48">
+<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml">
+<link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`}>
 <style is:global>html{scrollbar-gutter:stable}
 body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 body>.wrap,body>main{flex:1 0 auto;width:100%}</style>
